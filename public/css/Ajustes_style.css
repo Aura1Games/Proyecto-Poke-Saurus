@@ -1,0 +1,73 @@
+:root {
+  --aside-color: rgba(76, 112, 76, 0.5);
+  --main-color: rgba(196, 151, 151, 0.5);
+  --fuente-oficial: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+  --fuente-etiquetas: Verdana, Geneva, Tahoma, sans-serif;
+}
+body {
+  margin: 0;
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  background-image: url("../images/Configuracion_imagen.png");
+  background-position: top;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+aside {
+  order: 1;
+  width: 46vw;
+  background-color: var(--aside-color);
+  height: 100vh;
+}
+.cotenedor_principal {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.editable_1 {
+  color: white;
+  font-family: var(--fuente-oficial);
+  /* Fuente usada para texto de señalización*/
+  text-align: center;
+  font-size: 2.2rem;
+  font-style: italic;
+  position: relative;
+  top: 0;
+}
+main {
+  order: 0;
+  width: 54vw;
+  background-color: var(--main-color);
+  height: 100vh;
+}
+.contenedor {
+  position: absolute;
+  display: grid;
+  grid-template-rows: 1fr 1fr;
+}
+.contenedor > select {
+  font-size: 1.8rem;
+  height: auto;
+  width: 20rem;
+  padding: 0.5rem;
+  border-radius: 10px;
+}
+#cont_jugadores {
+  top: 20vh;
+  left: 71dvw;
+}
+#label-cantidad-de-jugadores {
+  order: -1;
+  position: relative;
+  top: 3vh;
+  font-size: 1.5rem;
+  font-family: var(--fuente-etiquetas);
+}
+#div_02 {
+  background-color: var(--main-color);
+  width: 31vw;
+  height: 50vh;
+  position: absolute;
+  top: 40vh;
+  border-radius: 25px;
+}
