@@ -79,3 +79,7 @@ main {
     width: 10rem;
   }
 }
+a {
+  color: inherit;
+  text-decoration: none;
+}
