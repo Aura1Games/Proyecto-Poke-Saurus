@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Ajustes de partida</title>
     <link rel="stylesheet" href="css/Ajustes_style.css" />
+    <link rel="icon" type="image/x-icon" href="images/dino_icono.webp" />
   </head>
   <body>
     <aside>
@@ -14,7 +15,6 @@
           <label id="label-cantidad-de-jugadores">Cantidad de jugadores</label>
           <select name="cantidad_jugadores" id="cant_jugadores">
             <!-- El valor que retornarán los option seran el numero de jugadores seleccionados -->
-            <option value="0">seleccionar</option>
             <option value="2" id="opt1">2 jugadores</option>
             <option value="3" id="opt2">3 jugadores</option>
             <option value="4" id="opt3">4 jugadores</option>
@@ -23,16 +23,16 @@
         </div>
         <div class="contenedor" id="div_02">
           <div class="logo" id="admin">Admin</div>
-          <div class="logo" id="p1">Player_1</div>
-          <div class="logo" id="p2">Player_2</div>
-          <div class="logo" id="p3">Player_3</div>
+          <div class="logo" id="p1">Player_2</div>
+          <div class="logo" id="p2">Player_3</div>
+          <div class="logo" id="p3">Player_4</div>
         </div>
         <button id="Iniciar_partidas">Iniciar partida</button>
       </div>
       <button class="salir"><a href="index.html"><-</a></button>
     </aside>
     <main>
-      <div class="content">
+      <div class="content" id="contenedor_01">
         <div class="_logo _verificado" id="_p1">
           <img
             class="img_icon_user"
@@ -43,8 +43,7 @@
         <input type="text" placeholder="Admin" required />
         <button class="btn_verificar">verificar</button>
       </div>
-
-      <div class="content no-verificado">
+      <div class="content" id="contenedor_02">
         <div class="_logo _no_verificado" id="_p2">
           <img
             class="img_icon_user"
@@ -55,7 +54,7 @@
         <input type="text" placeholder="Player_2" required />
         <button class="btn_verificar">verificar</button>
       </div>
-      <div class="content">
+      <div class="content" id="contenedor_03">
         <div class="_logo _no_verificado" id="_p3">
           <img
             class="img_icon_user"
@@ -66,7 +65,7 @@
         <input type="text" placeholder="Player_3" required />
         <button class="btn_verificar">verificar</button>
       </div>
-      <div class="content">
+      <div class="content" id="contenedor_04">
         <div class="_logo _no_verificado" id="_p4">
           <img
             class="img_icon_user"
@@ -78,5 +77,6 @@
         <button class="btn_verificar">verificar</button>
       </div>
     </main>
+    <script src="js/Ajustes_script.js"></script>
   </body>
 </html>

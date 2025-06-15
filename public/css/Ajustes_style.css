@@ -64,7 +64,7 @@ main {
 }
 #cont_jugadores {
   top: 20vh;
-  left: 61.5%;
+  left: 65%;
 }
 #label-cantidad-de-jugadores {
   order: -1;
@@ -95,7 +95,7 @@ main {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  display: flex;
+  display: none;
   justify-content: center;
   align-items: center;
   font-family: var(--fuente-etiquetas);
@@ -152,7 +152,7 @@ main {
 .content {
   background-color: var(--color-principal);
   outline: black solid 1px;
-  display: flex;
+  display: none;
   align-items: center;
   flex-direction: row;
   position: relative;
@@ -209,6 +209,10 @@ main {
 }
 #cant_jugadores {
   color: gray;
+  cursor: pointer;
+}
+button:hover {
+  cursor: pointer;
 }
 @media (700px <width < 1250px) {
   body {
