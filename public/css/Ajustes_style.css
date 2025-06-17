@@ -17,6 +17,7 @@ body {
   background-position: top;
   background-repeat: no-repeat;
   background-size: cover;
+  overscroll-behavior: none; /* No permite el desplazamiento vertical fuera de la pagina*/
 }
 a {
   color: inherit;
