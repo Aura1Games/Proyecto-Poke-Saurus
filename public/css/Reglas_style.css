@@ -1,0 +1,28 @@
+:root {
+  --fondo: rgb(30, 144, 106);
+  --contraste: rgb(120, 191, 49);
+  --fuente-oficial: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+  --fuente-etiquetas: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+body {
+  background-color: var(--fondo);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+h1 {
+  font-family: var(--fuente-oficial);
+  color: var(--contraste);
+}
+.contenedor {
+  background-color: var(--contraste);
+  padding: 1rem;
+  margin: 1rem;
+  width: 50dvw;
+  height: auto;
+  outline: green solid 2px;
+  font-family: var(--fuente-etiquetas);
+  border-radius: 15px;
+}

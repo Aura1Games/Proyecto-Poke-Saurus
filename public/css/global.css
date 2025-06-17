@@ -1,0 +1,34 @@
+body {
+  overscroll-behavior: none; /* No permite el desplazamiento vertical fuera de la pagina*/
+  margin: 0;
+  overflow-x: none;
+  height: auto;
+}
+.salir {
+  position: absolute;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 80rem;
+  border: none;
+  top: 91dvh;
+  left: 2dvw;
+  font-size: larger;
+  transition: 150ms ease-out;
+}
+dialog {
+  border: none;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+dialog::backdrop {
+  background: rgba(0, 0, 0, 0.5);
+}
+.salir:hover {
+  transform: scale(1.2);
+}
+a {
+  color: inherit;
+  text-decoration: none;
+}

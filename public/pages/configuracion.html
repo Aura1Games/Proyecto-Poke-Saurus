@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="../css/global.css" />
+    <link rel="icon" type="image/x-icon" href="../images/dino_icono.webp" />
+    <link rel="stylesheet" href="../css/Configuracion_style.css" />
+    <title>Configuración</title>
+  </head>
+  <body>
+    <h1>Configuración</h1>
+    <div class="contenedor">
+      <div class="content">
+        <h3>Seleccionar idioma</h3>
+        <div class="cosete">
+          <label for="idioma">Idioma</label>
+          <select name="idiomas" id="select_idioma">
+            <option value="esp">Español</option>
+            <option value="eng">Ingles</option>
+          </select>
+        </div>
+      </div>
+      <div class="content">
+        <h3>Tema</h3>
+        <div class="cosete">
+          <label for="tema">Seleccionar tema </label>
+          <select name="Colores" id="select_tema">
+            <option value="white">Claro</option>
+            <option value="black">Oscuro</option>
+          </select>
+        </div>
+      </div>
+      <button id="guardad" onclick="modal.showModal()">Guardar cambios</button>
+    </div>
+    <dialog id="modal">
+      <h2>Guardar cambios</h2>
+      <p>se guardaron los cambios correctamente</p>
+      <button onclick="modal.close()">Cerrar</button>
+    </dialog>
+    <button class="salir"><a href="../index.html"><-</a></button>
+    <script src="../js/Configuracion_script.js"></script>
+  </body>
+</html>

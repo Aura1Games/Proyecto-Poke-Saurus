@@ -1,0 +1,78 @@
+:root {
+  --fondo: rgb(95, 120, 142);
+  --fondo-alternativo: rgba(240, 248, 255, 0.41);
+  --contraste: rgb(205, 213, 50);
+  --fuente-oficial: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+  --fuente-etiquetas: Verdana, Geneva, Tahoma, sans-serif;
+}
+body {
+  background-color: var(--fondo);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+h1 {
+  font-family: var(--fuente-oficial);
+  color: var(--contraste);
+  font-size: 3rem;
+}
+.contenedor {
+  background-color: rgb(156, 131, 193);
+  padding: 1rem;
+  margin: 1rem;
+  width: 30dvw;
+  height: auto;
+  font-family: var(--fuente-etiquetas);
+  text-align: left;
+  border-radius: 15px;
+}
+.content {
+  position: relative;
+  background-color: var(--fondo-alternativo);
+  padding: 1rem;
+  margin: 0.5rem;
+  border-radius: 15px;
+}
+
+select {
+  height: auto;
+  width: auto;
+  font-family: var(--fuente-etiquetas);
+  font-size: 1rem;
+  padding: 0.3rem;
+  border-radius: 15px;
+}
+#guardad {
+  font-family: var(--fuente-etiquetas);
+  padding: 0.5rem;
+  font-size: 1.2rem;
+  background-color: var(--fondo);
+  color: white;
+  border-radius: 15px;
+  border: none;
+  outline: 1.5px green solid;
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+  margin: 1rem 0;
+}
+#guardad:hover {
+  cursor: pointer;
+}
+#guardad:active {
+  background-color: var(--contraste);
+  color: black;
+}
+label {
+  color: white;
+}
+.cosete {
+  display: flex;
+  justify-content: space-between;
+}
+@media (width < 830px) {
+  .contenedor {
+    width: 20rem;
+  }
+}

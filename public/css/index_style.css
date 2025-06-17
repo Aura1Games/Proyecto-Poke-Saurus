@@ -3,12 +3,7 @@
   --color-secundario-boton: rgb(130, 20, 20);
 }
 
-body {
-  margin: 0;
-  height: auto;
-  overflow-x: none;
-}
-main > button {
+button {
   font-size: 2.2rem;
   font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
   width: 14rem;
@@ -40,15 +35,12 @@ button:hover {
 #btn4 {
   top: 73%;
 }
-#btn5 {
-  top: 84%;
-}
 main {
-  position: relative;
   height: 100vh;
   width: 100%;
   display: flex;
   justify-content: center;
+  align-content: center;
 }
 #imagen_Draftosaurus {
   position: absolute;
@@ -74,7 +66,7 @@ main {
   #imagen_Draftosaurus {
     height: 40vh;
   }
-  main > button {
+  button {
     font-size: 1.5rem;
     width: 10rem;
   }
@@ -82,4 +74,10 @@ main {
 a {
   color: inherit;
   text-decoration: none;
+}
+.contenedor {
+  position: relative;
+  width: auto;
+  background-color: red;
+  transform: translateX(-50%);
 }
