@@ -9,6 +9,11 @@ window.addEventListener("DOMContentLoaded", () => {
   const p1 = document.getElementById("p1");
   const p2 = document.getElementById("p2");
   const p3 = document.getElementById("p3");
+  const boton = document.getElementById("btn-verificar");
+  const valor_input_admin = document.getElementById("input-admin");
+  const valor_input_p2 = document.getElementById("input-p2");
+  const valor_input_p3 = document.getElementById("input-p3");
+  const valor_input_p4 = document.getElementById("input-p4");
   bloque_1.style.display = "flex";
   bloque_2.style.display = "flex";
   admin.style.display = "flex";
@@ -40,5 +45,53 @@ window.addEventListener("DOMContentLoaded", () => {
       p2.style.display = "flex";
       p3.style.display = "flex";
     }
+  });
+  const jugadoresRegistrados = ["admin123", "player2", "player3", "player4"];
+
+  // Relación entre los inputs y los elementos visuales donde se muestra si están verificados o no
+  const jugadores = [
+    //lista con objetos input e icono asociados entre si
+    {
+      input: document.getElementById("input-admin"),
+      icono: document.getElementById("_p1"),
+    },
+    {
+      input: document.getElementById("input-p2"),
+      icono: document.getElementById("_p2"),
+    },
+    {
+      input: document.getElementById("input-p3"),
+      icono: document.getElementById("_p3"),
+    },
+    {
+      input: document.getElementById("input-p4"),
+      icono: document.getElementById("_p4"),
+    },
+  ];
+
+  // Obtenemos todos los botones de verificación de la página
+  const botonesVerificar = document.querySelectorAll(".btn_verificar");
+
+  // Asociamos cada botón a su correspondiente jugador
+  botonesVerificar.forEach((boton, indice) => {
+    boton.addEventListener("click", () => {
+      const input = jugadores[indice].input; //manejo de clases
+      const iconoJugador = jugadores[indice].icono;
+      const nombreIngresado = input.value.trim();
+
+      // Verificamos si el nombre ingresado existe en la base de datos
+      const esValido = jugadoresRegistrados.includes(nombreIngresado);
+
+      // Actualizamos la clase del ícono según el resultado
+      iconoJugador.classList.toggle("_verificado", esValido);
+      iconoJugador.classList.toggle("_no_verificado", !esValido);
+
+      // Mostramos una alerta informando el resultado
+      if (esValido) {
+        alert(`✅ Jugador "${nombreIngresado}" verificado con éxito.`);
+      } else {
+        alert(`❌ El jugador "${nombreIngresado}" no está registrado.`);
+      }
+    });
   });
 });

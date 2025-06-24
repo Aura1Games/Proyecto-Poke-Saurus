@@ -14,6 +14,7 @@
 |
 |-`pages/`
 | |- paginas_secundarias.html
+|-`index.html`
 
 ## (2) Acceder a las paginas web:
 

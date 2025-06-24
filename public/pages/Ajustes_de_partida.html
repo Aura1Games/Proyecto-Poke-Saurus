@@ -34,14 +34,14 @@
     </aside>
     <main>
       <div class="content" id="contenedor_01">
-        <div class="_logo _verificado" id="_p1">
+        <div class="_logo _no_verificado" id="_p1">
           <img
             class="img_icon_user"
             src="../images/user-icono.webp"
             alt="user_icono"
           />
         </div>
-        <input type="text" placeholder="Admin" required />
+        <input type="text" placeholder="Admin" id="input-admin" required />
         <button class="btn_verificar">verificar</button>
       </div>
       <div class="content" id="contenedor_02">
@@ -52,7 +52,7 @@
             alt="user_icono"
           />
         </div>
-        <input type="text" placeholder="Player_2" required />
+        <input type="text" placeholder="Player_2" id="input-p2" required />
         <button class="btn_verificar">verificar</button>
       </div>
       <div class="content" id="contenedor_03">
@@ -63,7 +63,7 @@
             alt="user_icono"
           />
         </div>
-        <input type="text" placeholder="Player_3" required />
+        <input type="text" placeholder="Player_3" id="input-p3" required />
         <button class="btn_verificar">verificar</button>
       </div>
       <div class="content" id="contenedor_04">
@@ -74,8 +74,10 @@
             alt="user_icono"
           />
         </div>
-        <input type="text" placeholder="Player_4" required />
-        <button class="btn_verificar">verificar</button>
+        <input type="text" placeholder="Player_4" id="input-p4" required />
+        <button type="submit" class="btn_verificar" id="btn-verificar">
+          verificar
+        </button>
       </div>
     </main>
     <script src="../js/Ajustes_script.js"></script>
