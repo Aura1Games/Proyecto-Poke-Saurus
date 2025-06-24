@@ -16,7 +16,6 @@ body {
   overscroll-behavior: none; /* No permite el desplazamiento vertical fuera de la pagina*/
 }
 
-
 aside {
   order: 1;
   width: 46vw;
@@ -199,7 +198,7 @@ main {
 button:hover {
   cursor: pointer;
 }
-@media (700px <width < 1250px) {
+@media (700px < width < 1250px) {
   body {
     display: grid;
     grid-template-rows: 1fr 1fr;
