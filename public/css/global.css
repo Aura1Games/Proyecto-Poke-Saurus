@@ -15,6 +15,19 @@ body {
   font-size: larger;
   transition: 150ms ease-out;
 }
+html {
+  scroll-behavior: smooth; /* Agrega un efecto suave al recorrido de la pagina */
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  background: rgb(100, 159, 118);
+  /* Define el tamaño y color de la barra del espacio secundario de la barra de desplazmiento  */
+}
+::-webkit-scrollbar-thumb {
+  background: rgb(60, 126, 42);
+  /* Define el color de la barra de desplazamiento principal */
+}
 dialog {
   border: none;
   border-radius: 10px;

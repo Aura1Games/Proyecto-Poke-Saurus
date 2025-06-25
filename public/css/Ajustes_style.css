@@ -14,13 +14,14 @@ body {
   grid-template-columns: 2fr 1fr;
   /* background-image: url("../images/Configuracion_imagen.png"); */
   overscroll-behavior: none; /* No permite el desplazamiento vertical fuera de la pagina*/
+  overflow-x: hidden;
 }
 
 aside {
   order: 1;
   width: 46vw;
   background-color: var(--aside-color);
-  height: 100vh;
+  min-height: 100vh;
 }
 .cotenedor_principal {
   display: flex;
@@ -41,7 +42,7 @@ main {
   order: 0;
   width: 54vw;
   background-color: var(--main-color);
-  height: 100vh;
+  min-height: 100vh;
 }
 .contenedor {
   position: absolute;
@@ -67,17 +68,7 @@ main {
   color: white;
   font-family: var(--fuente-etiquetas);
 }
-#div_02 {
-  background-color: var(--color-principal);
-  width: 22rem;
-  height: 45vh;
-  position: absolute;
-  top: 44vh;
-  border-radius: 25px;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-template-rows: 1fr 1fr;
-}
+
 .logo {
   width: 7.5rem;
   border-radius: 100px;
@@ -154,6 +145,13 @@ main {
 
   transform: translate(-19.5%);
 }
+.content_overflow {
+  height: 100vh;
+  overflow-y: auto;
+  position: relative;
+  top: 0;
+  background-color: rgba(240, 248, 255, 0.235);
+}
 
 ._logo {
   width: 7rem;
@@ -213,6 +211,7 @@ button:hover {
     top: 100vw;
     order: 0;
     width: 100dvw;
+    height: 100vh;
   }
   main {
     order: 1;
