@@ -9,25 +9,16 @@
   --color-no-verificado-claro: rgb(221, 25, 25);
   --color-no-verificado: rgb(194, 50, 50);
 }
-body {
-  display: grid;
-  grid-template-columns: 2fr 1fr;
-  /* background-image: url("../images/Configuracion_imagen.png"); */
-  overscroll-behavior: none; /* No permite el desplazamiento vertical fuera de la pagina*/
-  overflow-x: hidden;
-}
 
 aside {
   order: 1;
-  width: 46vw;
   background-color: var(--aside-color);
-  min-height: 100vh;
 }
-.cotenedor_principal {
+/* .cotenedor_principal {
   display: flex;
   justify-content: center;
   align-items: center;
-}
+} */
 .editable_1 {
   color: white;
   font-family: var(--fuente-oficial);
@@ -35,30 +26,32 @@ aside {
   text-align: center;
   font-size: 2.2rem;
   font-style: italic;
-  position: relative;
   top: 0;
 }
 main {
   order: 0;
-  width: 54vw;
   background-color: var(--main-color);
-  min-height: 100vh;
 }
-.contenedor {
-  position: absolute;
-  display: grid;
-  grid-template-rows: 1fr 1fr;
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
-.contenedor > select {
+select {
   font-size: 1.8rem;
   height: auto;
   width: 20rem;
   padding: 0.5rem;
   border-radius: 10px;
 }
-#cont_jugadores {
-  top: 20vh;
-  left: 65%;
+.elemento_caja {
+  margin: 1rem 0;
+}
+#caja_opciones {
+  width: 21rem;
+  height: cover;
 }
 #label-cantidad-de-jugadores {
   order: -1;
@@ -94,18 +87,15 @@ main {
   background-color: var(--color-no-verificado);
 }
 #Iniciar_partidas {
-  position: absolute;
   font-size: 1.1rem;
   font-family: var(--fuente-oficial);
   width: 12rem;
   height: 3.4rem;
   color: white;
-  top: 87.7vh;
   font-weight: bold;
   background-color: var(--color-no-verificado);
   border: 1px solid black;
   border-radius: 10px;
-  position: absolute;
   box-shadow: 0px 5px 12px rgba(0, 0, 0, 0.1);
   transition: 200ms ease;
 }
@@ -135,21 +125,21 @@ main {
   padding: 0.3rem 0;
   border-radius: 90px;
   width: 40rem;
-  left: 2.1rem;
   overflow-x: hidden;
 }
 .img_icon_user {
   height: 7rem;
   width: auto;
   position: relative;
-
-  transform: translate(-19.5%);
+  transform: translate(-21.5%, -3.5%) scale(0.95);
 }
 .content_overflow {
   height: 100vh;
   overflow-y: auto;
+  overflow-x: none;
   position: relative;
   top: 0;
+  padding: 0px;
   background-color: rgba(240, 248, 255, 0.235);
 }
 
@@ -195,7 +185,7 @@ main {
 }
 button:hover {
   cursor: pointer;
-}
+} /* 
 @media (700px < width < 1250px) {
   body {
     display: grid;
@@ -228,24 +218,24 @@ button:hover {
 
 @media (width < 700px) {
   body {
-    overflow-x: auto;
     grid-template-rows: 1fr 1fr;
     grid-template-columns: none;
   }
   main {
     order: 1;
-    width: 700px;
+    width: 100%;
   }
   aside {
     order: 0;
-    width: 700px;
+    width: 100%;
   }
   #cont_jugadores {
     position: absolute;
     top: 8rem;
-    left: 12rem;
+    left: 50%;
+    transform: translate(-50%);
   }
   .salir {
     left: 9px;
   }
-}
+} */

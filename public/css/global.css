@@ -5,15 +5,11 @@ body {
   height: auto;
 }
 .salir {
-  position: absolute;
   width: 3rem;
   height: 3rem;
   border-radius: 80rem;
   border: none;
-  top: 91dvh;
-  left: 2dvw;
   font-size: larger;
-  transition: 150ms ease-out;
 }
 html {
   scroll-behavior: smooth; /* Agrega un efecto suave al recorrido de la pagina */
@@ -33,10 +29,12 @@ dialog {
   border-radius: 10px;
   padding: 20px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  /* Define los parametros del modal */
 }
 
 dialog::backdrop {
   background: rgba(0, 0, 0, 0.5);
+  /* Define los parametros del fondo del modal */
 }
 .salir:hover {
   transform: scale(1.2);

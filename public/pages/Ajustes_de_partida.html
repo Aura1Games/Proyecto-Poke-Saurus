@@ -4,92 +4,157 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Ajustes de partida</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr"
+      crossorigin="anonymous"
+    />
     <link rel="stylesheet" href="../css/global.css" />
+
     <link rel="stylesheet" href="../css/Ajustes_style.css" />
+
     <link rel="icon" type="image/x-icon" href="../images/dino_icono.webp" />
   </head>
   <body>
-    <aside>
-      <div class="cotenedor_principal">
-        <span class="editable_1"><h2>Configuración de partida</h2></span>
-        <div class="contenedor" id="cont_jugadores">
-          <label id="label-cantidad-de-jugadores">Cantidad de jugadores</label>
-          <select name="cantidad_jugadores" id="cant_jugadores">
-            <!-- El valor que retornarán los option seran el numero de jugadores seleccionados -->
-            <option value="2" id="opt1">2 jugadores</option>
-            <option value="3" id="opt2">3 jugadores</option>
-            <option value="4" id="opt3">4 jugadores</option>
-            <option value="5" id="opt4">5 jugadores</option>
-          </select>
-        </div>
+    <div class="container-fluid">
+      <div class="row">
+        <aside class="col-lg-5">
+          <div class="d-flex flex-column justify-content-between vh-100 p-3">
+            <div class="row justify-content-center">
+              <span class="editable_1 align-top"
+                ><h2>Configuración de partida</h2></span
+              >
+            </div>
 
-        <button id="Iniciar_partidas">Iniciar partida</button>
+            <div class="row justify-content-center mt-4 mb-4">
+              <div class="col-auto">
+                <div class="align-middle" id="caja_opciones">
+                  <label class="elemento_caja" id="label-cantidad-de-jugadores"
+                    >Cantidad de jugadores</label
+                  >
+                  <select
+                    class="elemento_caja"
+                    name="cantidad_jugadores"
+                    id="cant_jugadores"
+                  >
+                    <option value="2" id="opt1">2 jugadores</option>
+                    <option value="3" id="opt2">3 jugadores</option>
+                    <option value="4" id="opt3">4 jugadores</option>
+                    <option value="5" id="opt4">5 jugadores</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <div class="row justify-content-center mt-4 mb-4">
+              <div class="col-auto ">
+                <button class="btn btn-primary" id="Iniciar_partidas">
+                  Iniciar partida
+                </button>
+              </div>
+            </div>
+            <div class="row justify-content-left mb-4 mt-4">
+              <div class="col-auto ">
+                <button class="salir"><a href="../index.html"><-</a></button>
+              </div>
+          </div>
+        </aside>
+        <main class="col-lg-7 px-0">
+          <div class="content_overflow 150vh d-flex flex-column align-items-center">
+            <div class="content" id="contenedor_01">
+              <div class="_logo _no_verificado" id="_p1">
+                <img
+                  class="img_icon_user"
+                  src="../images/user-icono.webp"
+                  alt="user_icono"
+                />
+              </div>
+              <input
+                type="text"
+                placeholder="Admin"
+                id="input-admin"
+                required
+              />
+              <button class="btn_verificar">verificar</button>
+            </div>
+            <div class="content" id="contenedor_02">
+              <div class="_logo _no_verificado" id="_p2">
+                <img
+                  class="img_icon_user"
+                  src="../images/user-icono.webp"
+                  alt="user_icono"
+                />
+              </div>
+              <input
+                type="text"
+                placeholder="Player_2"
+                id="input-p2"
+                required
+              />
+              <button class="btn_verificar">verificar</button>
+            </div>
+            <div class="content" id="contenedor_03">
+              <div class="_logo _no_verificado" id="_p3">
+                <img
+                  class="img_icon_user"
+                  src="../images/user-icono.webp"
+                  alt="user_icono"
+                />
+              </div>
+              <input
+                type="text"
+                placeholder="Player_3"
+                id="input-p3"
+                required
+              />
+              <button class="btn_verificar">verificar</button>
+            </div>
+            <div class="content" id="contenedor_04">
+              <div class="_logo _no_verificado" id="_p4">
+                <img
+                  class="img_icon_user"
+                  src="../images/user-icono.webp"
+                  alt="user_icono"
+                />
+              </div>
+              <input
+                type="text"
+                placeholder="Player_4"
+                id="input-p4"
+                required
+              />
+              <button type="submit" class="btn_verificar" id="btn-verificar">
+                verificar
+              </button>
+            </div>
+            <div class="content" id="contenedor_05">
+              <div class="_logo _no_verificado" id="_p5">
+                <img
+                  class="img_icon_user"
+                  src="../images/user-icono.webp"
+                  alt="user_icono"
+                />
+              </div>
+              <input
+                type="text"
+                placeholder="Player_5"
+                id="input-p5"
+                required
+              />
+              <button type="submit" class="btn_verificar" id="btn-verificar">
+                verificar
+              </button>
+            </div>
+          </div>
+        </main>
       </div>
-      <button class="salir"><a href="../index.html"><-</a></button>
-    </aside>
-    <main>
-      <div class="content_overflow">
-        <div class="content" id="contenedor_01">
-          <div class="_logo _no_verificado" id="_p1">
-            <img
-              class="img_icon_user"
-              src="../images/user-icono.webp"
-              alt="user_icono"
-            />
-          </div>
-          <input type="text" placeholder="Admin" id="input-admin" required />
-          <button class="btn_verificar">verificar</button>
-        </div>
-        <div class="content" id="contenedor_02">
-          <div class="_logo _no_verificado" id="_p2">
-            <img
-              class="img_icon_user"
-              src="../images/user-icono.webp"
-              alt="user_icono"
-            />
-          </div>
-          <input type="text" placeholder="Player_2" id="input-p2" required />
-          <button class="btn_verificar">verificar</button>
-        </div>
-        <div class="content" id="contenedor_03">
-          <div class="_logo _no_verificado" id="_p3">
-            <img
-              class="img_icon_user"
-              src="../images/user-icono.webp"
-              alt="user_icono"
-            />
-          </div>
-          <input type="text" placeholder="Player_3" id="input-p3" required />
-          <button class="btn_verificar">verificar</button>
-        </div>
-        <div class="content" id="contenedor_04">
-          <div class="_logo _no_verificado" id="_p4">
-            <img
-              class="img_icon_user"
-              src="../images/user-icono.webp"
-              alt="user_icono"
-            />
-          </div>
-          <input type="text" placeholder="Player_4" id="input-p4" required />
-          <button type="submit" class="btn_verificar" id="btn-verificar">
-            verificar
-          </button>
-        </div>
-        <div class="content" id="contenedor_05">
-          <div class="_logo _no_verificado" id="_p5">
-            <img
-              class="img_icon_user"
-              src="../images/user-icono.webp"
-              alt="user_icono"
-            />
-          </div>
-          <input type="text" placeholder="Player_5" id="input-p5" required />
-          <button type="submit" class="btn_verificar" id="btn-verificar">
-            verificar
-          </button>
-        </div>
-      </div>
-    </main>
+    </div>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q"
+      crossorigin="anonymous"
+    ></script>
     <script src="../js/Ajustes_script.js"></script>
   </body>
 </html>
