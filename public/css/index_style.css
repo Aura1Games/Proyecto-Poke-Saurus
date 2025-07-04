@@ -38,46 +38,21 @@ button:hover {
 main {
   height: 100vh;
   width: 100%;
-  display: flex;
-  justify-content: center;
-  align-content: center;
+  /* display: flex; */
+  /* justify-content: center;
+  align-content: center; */
 }
 #imagen_Draftosaurus {
-  position: absolute;
-  top: 21%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  /* position: absolute; */
+  /* top: 21%;
+  left: 50%; */
+  /* transform: translate(-50%, -50%); */
   width: auto;
-  height: 110vh;
-}
-
-/* Media Querys para adaptar el tamaño de la imagen del titulo segun el tamaño de la pantalla */
-@media (width < 710px) {
-  #imagen_Draftosaurus {
-    height: 80vh;
-  }
-}
-@media (width < 515px) {
-  #imagen_Draftosaurus {
-    height: 60vh;
-  }
-}
-@media (width < 390px) {
-  #imagen_Draftosaurus {
-    height: 40vh;
-  }
-  button {
-    font-size: 1.5rem;
-    width: 10rem;
-  }
-}
-a {
-  color: inherit;
-  text-decoration: none;
+  /* height: 110vh; */
 }
 .contenedor {
-  position: relative;
+  /* position: relative; */
   width: auto;
   background-color: red;
-  transform: translateX(-50%);
+  /* transform: translateX(-50%); */
 }
