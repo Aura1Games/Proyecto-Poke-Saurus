@@ -1,20 +1,31 @@
 :root {
-  --fondo: rgb(30, 144, 106);
+  --fondo: rgb(220, 255, 244);
   --contraste: rgb(120, 191, 49);
   --fuente-oficial: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
   --fuente-etiquetas: Verdana, Geneva, Tahoma, sans-serif;
 }
 
 body {
-  background-color: var(--fondo);
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  margin: 1rem;
 }
-h1 {
+h1,
+h2,
+h3 {
   font-family: var(--fuente-oficial);
   color: var(--contraste);
+}
+p {
+  text-align: justify;
+}
+.contenedor_verde {
+  border: 2px #38761d solid;
+  padding: 1rem;
+  background-color: #c8e7ba;
+}
+.contenedor_amarillo {
+  border: 3px #abad0a solid;
+  padding: 1rem;
+  background-color: #dad60673;
 }
 .contenedor {
   background-color: var(--contraste);
