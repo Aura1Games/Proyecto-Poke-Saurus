@@ -120,11 +120,10 @@ select {
   display: none;
   align-items: center;
   flex-direction: row;
-  position: relative;
-  margin: 0.1rem 0;
+  margin: 1rem 0;
   padding: 0.3rem 0;
   border-radius: 90px;
-  width: 40rem;
+  width: 85%;
   overflow-x: hidden;
 }
 .img_icon_user {
@@ -134,7 +133,6 @@ select {
   transform: translate(-21.5%, -3.5%) scale(0.95);
 }
 .content_overflow {
-  height: 100vh;
   overflow-y: auto;
   overflow-x: none;
   position: relative;
@@ -161,23 +159,22 @@ select {
 }
 .content > input {
   position: relative;
-  left: 30%;
+  margin: 0 0.7rem 0 2.2rem;
   font-size: 2rem;
+  width: 50%;
   font-family: var(--fuente-etiquetas);
   color: white;
   background: transparent;
-  border: none;
-  transform: translate(-35%, -10%);
+  border: dashed 1px black;
+  padding: 0px;
 }
 .btn_verificar {
   font-size: 1rem;
-  position: absolute;
+  position: relative;
   padding: 0.3rem 1rem;
   border-radius: 20px;
   border: none;
   font-family: var(--fuente-oficial);
-  left: 80%;
-  top: 70%;
 }
 #cant_jugadores {
   color: gray;
@@ -185,57 +182,32 @@ select {
 }
 button:hover {
   cursor: pointer;
-} /* 
-@media (700px < width < 1250px) {
-  body {
-    display: grid;
-    grid-template-rows: 1fr 1fr;
-    grid-template-columns: none;
-  }
-  #cont_jugadores {
-    left: 50%;
-    top: 20vh;
-    transform: translateX(-50%);
-  }
-  aside {
-    top: 100vw;
-    order: 0;
-    width: 100dvw;
-    height: 100vh;
-  }
-  main {
-    order: 1;
-    width: 100dvw;
-  }
-  .salir {
-    left: 9px;
-  }
 }
-.content {
-  left: 50%;
-  transform: translateX(-50%);
-}
-
-@media (width < 700px) {
-  body {
-    grid-template-rows: 1fr 1fr;
-    grid-template-columns: none;
-  }
-  main {
-    order: 1;
-    width: 100%;
-  }
+@media (width < 660px) {
   aside {
     order: 0;
+  }
+  .content {
+    flex-direction: column;
+    flex: 0 1 auto;
+    border-radius: 0px;
+    padding: 0px;
+    align-items: center;
+    justify-content: center;
+    width: 30rem;
+    margin: 0;
+    height: auto;
+  }
+  #caja_opciones {
     width: 100%;
+    padding: 1rem;
   }
-  #cont_jugadores {
-    position: absolute;
-    top: 8rem;
-    left: 50%;
-    transform: translate(-50%);
+  select {
+    width: 80vmin;
   }
-  .salir {
-    left: 9px;
+  .content > input {
+    border: dashed 1px black;
+    padding: 0px;
+    width: 80vw;
   }
-} */
+}
