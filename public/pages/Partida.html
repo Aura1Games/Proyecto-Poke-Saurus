@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Partida</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr"
+      crossorigin="anonymous"
+    />
+    <link rel="icon" type="image/x-icon" href="../images/dino_icono.webp" />
+    <link rel="stylesheet" href="../css/global.css" />
+    <link rel="stylesheet" href="../css/Partida_style.css" />
+  </head>
+  <body>
+    <div class="container-fluid px-0 h-100">
+      <div class="row px-0 mx-0">
+        <div class="col-md-8 col-sm-12 px-0">
+          <main
+            class="d-flex flex-column px-0 h-100"
+            style=" background-color: #aebf4f"
+          >
+            <img
+              class=" align-self-center img-thumbnail"
+              src="../images/tablero.JPG"
+              alt="tablero"
+              id="img_tablero"
+            />
+          </main>
+        </div>
+
+        <div class="col-md-4 col-sm-12 px-0">
+          <aside
+            class="d-flex flex-column mb-3 px-0 h-100"
+            
+          >
+            <div class="w-100 h-25 contenedor_aside px-2">
+              <h3 class="text-center">Información</h3>
+            </div>
+            <ul class="list-group px-2 mb-2 mt-2">
+              <li class="list-group-item">Nombre: Juancito_021</li>
+              <li class="list-group-item">Puntos: 0</li>
+              <li class="list-group-item">Cantidad de dinosaurios: 6</li>
+            </ul>
+            <div class="w-100 h-25 contenedor_aside px-2">
+              <h3 class="text-center">Partida</h3>
+            </div>
+            <ul class="list-group px-2 mb-2 mt-2">
+              <li class="list-group-item">Ronda: 1</li>
+              <li class="list-group-item">Turno: Juancito_021</li>
+              <li class="list-group-item">Dado: bosque</li>
+            </ul>
+            <div class="w-100 h-25 contenedor_aside px-2">
+              <h3 class="text-center">Interactuar</h3>
+            </div>
+
+            <div class="d-flex flex-column contenedor px-2 mb-2 mt-2">
+              <!-- Button trigger modal -->
+              <button
+                type="button"
+                class="btn btn-primary"
+                data-bs-toggle="modal"
+                data-bs-target="#exampleModal"
+              >
+                Ver dinosaurios disponibles
+              </button>
+
+              <!-- Modal -->
+              <div
+                class="modal fade "
+                id="exampleModal"
+                tabindex="-1"
+                aria-labelledby="exampleModalLabel"
+                aria-hidden="true"
+              >
+                <div class="modal-dialog modal-fullscreen-sm-down ">
+                  <div class="modal-content ">
+                    <div class="modal-header">
+                      <h1 class="modal-title fs-5" id="exampleModalLabel">
+                        Dinosaurios disponibles
+                      </h1>
+                      <button
+                        type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal"
+                        aria-label="Close"
+                      ></button>
+                    </div>
+                    <div class="modal-body">
+                        <ul class="list-group " id="lista_dinosaurios">
+  <li class="list-group-item d-inline-flex justify-content-between"><span style="color: orange;"><h3>Espinosaurios</h3> </span><h3>1</h3> </li>
+  <li class="list-group-item d-inline-flex justify-content-between"><span style="color: yellow;"><h3>Triceratops</h3> </span><h3>1</h3> </li>
+  <li class="list-group-item d-inline-flex justify-content-between"><span style="color: skyblue;"><h3>Estegosaurio</h3> </span><h3>1</h3> </li>
+  <li class="list-group-item d-inline-flex justify-content-between"><span style="color: green;"><h3>Parasaurolophus</h3> </span><h3>1</h3> </li>
+  <li class="list-group-item d-inline-flex justify-content-between"><span style="color: rgb(170, 11, 170);"><h3>Brachiosaurus</h3> </span><h3>1</h3> </li>
+  <li class="list-group-item d-inline-flex justify-content-between"><span style="color: red;"><h3>Tiranosaurio rex</h3> </span><h3>1</h3> </li>
+</ul></h1></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="d-flex flex-column contenedor px-2 mb-2 mt-2">
+              <!-- Button trigger modal -->
+              <button
+                type="button"
+                class="btn btn-primary"
+                data-bs-toggle="modal"
+                data-bs-target="#Modal2"
+              >
+                Colocar dinosaurios
+              </button>
+
+              <!-- Modal -->
+              <div
+                class="modal fade "
+                id="Modal2"
+                tabindex="-1"
+                aria-labelledby="exampleModalLabel"
+                aria-hidden="true"
+              >
+                <div class="modal-dialog modal-fullscreen-sm-down ">
+                  <div class="modal-content ">
+                    <div class="modal-header">
+                      <h1 class="modal-title fs-5" id="exampleModalLabel">
+                        Colocar dinosaurios
+                      </h1>
+                      <button
+                        type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal"
+                        aria-label="Close"
+                      ></button>
+                    </div>
+                    <div class="modal-body d-flex flex-column">
+                        
+  <select class="form-select mb-4" aria-label="Default select example">
+  <option selected>Seleccione un dinosaurio</option>
+  <option value="1"><h3>Espinosaurios</h3> </option>
+  <option value="2"><h3>Triceratops</h3> </option>
+  <option value="3"><h3>Estegosaurio</h3> </option>
+  <option value="4"><h3>Parasaurolophus</h3> </option>
+  <option value="3"><h3>Brachiosaurus</h3> </option>
+  <option value="3"><h3>Tiranosaurio Rex</h3> </option>
+</select><select class="form-select mb-4" aria-label="Default select example">
+  <option selected>Seleccione un recinto</option>
+  <option value="1"><h3>El Bosque de la Semejanza</h3> </option>
+  <option value="2"><h3>El Prado de la Diferencia</h3> </option>
+  <option value="3"><h3>La Pradera del Amor</h3> </option>
+  <option value="4"><h3>El Trío Frondoso</h3> </option>
+  <option value="5"><h3>El Rey de la Selva</h3> </option>
+  <option value="6"><h3>La Isla Solitaria</h3> </option>
+  <option value="7"><h3>El Rio</h3> </option>
+</select>
+<div class="alert alert-primary" role="alert">
+  Recuerda las restricciónes del dado para colocar tus dinosaurios
+</div>
+<button class="btn btn-primary align-self-center">Colocar dinosaurio</button>
+</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="d-flex flex-column contenedor px-2 mb-2 mt-2">
+              <!-- Button trigger modal -->
+              <button
+                type="button"
+                class="btn btn-primary"
+                data-bs-toggle="modal"
+                data-bs-target="#Modal3"
+              >
+                Terminar turno
+              </button>
+
+              <!-- Modal -->
+              <div
+                class="modal fade "
+                id="Modal3"
+                tabindex="-1"
+                aria-labelledby="exampleModalLabel"
+                aria-hidden="true"
+              >
+                <div class="modal-dialog modal-fullscreen-sm-down ">
+                  <div class="modal-content ">
+                    <div class="modal-header">
+                      <h1 class="modal-title fs-5" id="exampleModalLabel">
+                        Terminar turno
+                      </h1>
+                      <button
+                        type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal"
+                        aria-label="Close"
+                      ></button>
+                    </div>
+                    <div class="modal-body d-flex flex-column">
+                        <h6>Resumen del turno</h6>
+                        <div class="alert alert-primary" role="alert" id="alert_turno">
+                        <p>Dinosaurio <span style="color: red;"><i>Tiranosaurio rex</i> </span> colocado en el recinto <span style="color: grey;"><i>La Isala Solitaria</i></span>.</p>
+                        </div>
+                    <button class="btn btn-primary align-self-center">Continuar</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </div>
+    <!-- <button class="salir" id="btn_salir"><-</button> -->
+  </body>
+  <script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q"
+    crossorigin="anonymous"
+  ></script>
+  <script src="../js/Partida_script.js"></script>
+  <script src="../js/global_script.js"></script>
+</html>

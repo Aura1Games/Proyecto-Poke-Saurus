@@ -97,4 +97,13 @@ window.addEventListener("DOMContentLoaded", () => {
       }
     });
   });
+
+  const iniciar_partida = document.getElementById("btn_iniciar_partida");
+  iniciar_partida.addEventListener("click", () => {
+    window.location.href = "/public/pages/Partida.html";
+  });
+  const salir = document.getElementById("btn_salir");
+  salir.addEventListener("click", () => {
+    window.location.href = "/public/index.html";
+  });
 });

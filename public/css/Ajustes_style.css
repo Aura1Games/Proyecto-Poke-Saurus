@@ -11,7 +11,7 @@
 }
 
 aside {
-  order: 1;
+  order: 0;
   background-color: var(--aside-color);
 }
 /* .cotenedor_principal {
@@ -29,8 +29,19 @@ aside {
   top: 0;
 }
 main {
-  order: 0;
+  order: 1;
   background-color: var(--main-color);
+}
+#btn_iniciar_partida {
+  background-color: #f0b7b7;
+  color: #821414;
+  font-weight: bold;
+  border: 1px solid black;
+  font-size: 1.5rem;
+}
+#btn_iniciar_partida:hover {
+  background-color: #821414;
+  color: #f0b7b7;
 }
 
 html,
@@ -184,9 +195,6 @@ button:hover {
   cursor: pointer;
 }
 @media (width < 660px) {
-  aside {
-    order: 0;
-  }
   .content {
     flex-direction: column;
     flex: 0 1 auto;

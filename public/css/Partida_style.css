@@ -1,0 +1,26 @@
+:root {
+  /* Variables */
+  --verde-principal: #68815f;
+}
+.contenedor_aside {
+  background-color: aliceblue;
+}
+aside {
+  background-color: var(--verde-principal);
+}
+#lista_dinosaurios > li {
+  background-color: rgba(144, 228, 0, 0.267);
+}
+html {
+  background-color: var(--verde-principal);
+}
+#alert_turno > * {
+  font-size: 1.4rem;
+  font-family: "Courier New", Courier, monospace;
+}
+@media (width > 750px) {
+  #img_tablero {
+    width: 99.6vmin;
+    height: 100%;
+  }
+}

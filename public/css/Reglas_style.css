@@ -8,6 +8,7 @@
 body {
   margin: 1rem;
 }
+
 h1,
 h2,
 h3 {
@@ -36,4 +37,20 @@ p {
   outline: green solid 2px;
   font-family: var(--fuente-etiquetas);
   border-radius: 15px;
+}
+
+/* Media query que adapta el tamaño de letra a celulares */
+@media (width >= 420px) {
+  h1 {
+    font-size: 8vmin;
+  }
+  h2 {
+    font-size: 6vmin;
+  }
+  h3 {
+    font-size: 4vmin;
+  }
+  p {
+    font-size: 3vmin;
+  }
 }
