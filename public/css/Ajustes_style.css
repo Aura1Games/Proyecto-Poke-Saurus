@@ -14,11 +14,7 @@ aside {
   order: 0;
   background-color: var(--aside-color);
 }
-/* .cotenedor_principal {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-} */
+
 .editable_1 {
   color: white;
   font-family: var(--fuente-oficial);
@@ -33,7 +29,7 @@ main {
   background-color: var(--main-color);
 }
 #btn_iniciar_partida {
-  background-color: #f0b7b7;
+  background-color: #e9bebe;
   color: #821414;
   font-weight: bold;
   border: 1px solid black;
@@ -41,7 +37,7 @@ main {
 }
 #btn_iniciar_partida:hover {
   background-color: #821414;
-  color: #f0b7b7;
+  color: #e9bebe;
 }
 
 html,
@@ -191,9 +187,7 @@ select {
   color: gray;
   cursor: pointer;
 }
-button:hover {
-  cursor: pointer;
-}
+
 @media (width < 660px) {
   .content {
     flex-direction: column;

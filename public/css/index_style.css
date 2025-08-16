@@ -1,10 +1,10 @@
 .btn-menu {
-  background-color: #f0b7b7;
+  background-color: #e9bebe;
   color: #821414;
   font-weight: bold;
   border: 1px solid black;
 }
 .btn-menu:hover {
   background-color: #821414;
-  color: #f0b7b7;
+  color: #e9bebe;
 }
