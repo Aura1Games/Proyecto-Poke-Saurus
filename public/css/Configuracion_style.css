@@ -12,20 +12,25 @@ body {
   justify-content: center;
   align-items: center;
 }
-h1 {
+/* h1 {
   font-family: var(--fuente-oficial);
   color: var(--contraste);
-  font-size: 3rem;
-}
+  font-size: 3rem; */
+/* } */
 .contenedor {
-  background-color: rgb(156, 131, 193);
+  background-color: rgba(156, 131, 193, 0.699);
   padding: 1rem;
   margin: 1rem;
-  width: 30dvw;
+  width: 40dvw;
   height: auto;
   font-family: var(--fuente-etiquetas);
   text-align: left;
-  border-radius: 15px;
+  outline: 1px solid grey;
+  border-radius: 10px;
+}
+.form-select {
+  background: var(--fondo-alternativo);
+  border: none;
 }
 .content {
   position: relative;

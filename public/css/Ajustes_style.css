@@ -1,6 +1,6 @@
 :root {
-  --aside-color: rgb(76, 112, 76);
-  --main-color: rgb(196, 151, 151);
+  --aside-color: rgba(76, 112, 76, 0.623);
+  --main-color: rgba(196, 151, 151, 0.623);
   --fuente-oficial: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
   --fuente-etiquetas: Verdana, Geneva, Tahoma, sans-serif;
   --color-principal: rgb(194, 181, 181);
@@ -45,6 +45,10 @@ body {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  background-image: url("../images/dino_imagen.webp");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
 }
 select {
   font-size: 1.8rem;
@@ -123,13 +127,13 @@ select {
 }
 .content {
   background-color: var(--color-principal);
-  outline: black solid 1px;
+  outline: grey solid 1px;
   display: none;
   align-items: center;
   flex-direction: row;
   margin: 1rem 0;
   padding: 0.3rem 0;
-  border-radius: 90px;
+  border-radius: 20px;
   width: 85%;
   overflow-x: hidden;
 }
@@ -137,6 +141,7 @@ select {
   height: 7rem;
   width: auto;
   position: relative;
+  filter: drop-shadow(2px 4px 6px black);
   transform: translate(-21.5%, -3.5%) scale(0.95);
 }
 .content_overflow {
@@ -187,7 +192,11 @@ select {
   color: gray;
   cursor: pointer;
 }
-
+@media (width < 992px) {
+  body {
+    background-image: url(../images/dino_imagen_vertical.jpg);
+  }
+}
 @media (width < 660px) {
   .content {
     flex-direction: column;
