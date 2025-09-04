@@ -1,5 +1,5 @@
 :root {
-  --aside-color: rgba(76, 112, 76, 0.623);
+  --aside-color: rgba(76, 112, 76, 0.753);
   --main-color: rgba(196, 151, 151, 0.623);
   --fuente-oficial: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
   --fuente-etiquetas: Verdana, Geneva, Tahoma, sans-serif;
@@ -56,6 +56,9 @@ select {
   width: 20rem;
   padding: 0.5rem;
   border-radius: 10px;
+  background: transparent;
+  background-color: aliceblue;
+  outline: 1px solid white;
 }
 .elemento_caja {
   margin: 1rem 0;

@@ -1,9 +1,9 @@
 :root {
   /* Variables */
-  --verde-principal: #68815f;
+  --verde-principal: #68815f88;
 }
 .contenedor_aside {
-  background-color: aliceblue;
+  background-color: rgba(240, 248, 255, 0.753);
 }
 aside {
   background-color: var(--verde-principal);
@@ -11,9 +11,20 @@ aside {
 #lista_dinosaurios > li {
   background-color: rgba(144, 228, 0, 0.267);
 }
-html {
+html,
+body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  background-image: url("../images/dino_imagen_fondo.jpg");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+}
+main {
   background-color: var(--verde-principal);
 }
+
 #alert_turno > * {
   font-size: 1.4rem;
   font-family: "Courier New", Courier, monospace;

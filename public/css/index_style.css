@@ -8,3 +8,24 @@
   background-color: #821414;
   color: #e9bebe;
 }
+#fondo {
+  position: fixed; /* Asegura que cubra toda la pantalla */
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  background-image: url("../images/dino_fondo_index.webp");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  filter: blur(5px);
+  z-index: 0; /* Detrás del contenido */
+}
+
+body > .container {
+  position: relative;
+  z-index: 1; /* Encima del fondo */
+}
