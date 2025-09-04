@@ -1,12 +1,17 @@
 :root {
-  --fondo: rgb(95, 120, 142);
-  --fondo-alternativo: rgba(240, 248, 255, 0.41);
+  --fondo: rgba(103, 131, 153, 0.836);
+  --fondo-alternativo: rgba(242, 240, 255, 0.41);
   --contraste: rgb(205, 213, 50);
   --fuente-oficial: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
   --fuente-etiquetas: Verdana, Geneva, Tahoma, sans-serif;
 }
+
+h1 {
+  color: rgb(8, 34, 56);
+}
+
 body {
-  background-color: var(--fondo);
+  background-color: rgba(205, 213, 219, 0.795);
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -18,14 +23,15 @@ body {
   font-size: 3rem; */
 /* } */
 .contenedor {
-  background-color: rgba(156, 131, 193, 0.699);
+  background-color: var(--fondo);
   padding: 1rem;
   margin: 1rem;
-  width: 40dvw;
+  width: 50dvw;
   height: auto;
   font-family: var(--fuente-etiquetas);
   text-align: left;
-  outline: 1px solid grey;
+  outline: 2px solid rgb(54, 123, 179);
+  box-shadow: 1px 1px 7px rgba(46, 46, 46, 0.5);
   border-radius: 10px;
 }
 .form-select {
@@ -36,7 +42,7 @@ body {
   position: relative;
   background-color: var(--fondo-alternativo);
   padding: 1rem;
-  margin: 0.5rem;
+  margin: 1rem 0;
   border-radius: 15px;
 }
 

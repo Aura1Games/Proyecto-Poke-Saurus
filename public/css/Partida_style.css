@@ -11,8 +11,11 @@ aside {
 #lista_dinosaurios > li {
   background-color: rgba(144, 228, 0, 0.267);
 }
-html,
-body {
+#fondo {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: -1;
   margin: 0;
   padding: 0;
   box-sizing: border-box;
@@ -20,12 +23,22 @@ body {
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
+  overflow-y: hidden;
+  overflow-x: hidden;
+  width: 100vw;
+  height: 100vh;
+}
+/* html {
+} */
+body {
+  overflow-x: hidden;
 }
 main {
   background-color: var(--verde-principal);
 }
 
 #alert_turno > * {
+  font-size: 1.4rem;
   font-size: 1.4rem;
   font-family: "Courier New", Courier, monospace;
 }

@@ -1,9 +1,9 @@
 :root {
   --aside-color: rgba(76, 112, 76, 0.753);
-  --main-color: rgba(196, 151, 151, 0.623);
+  --main-color: rgba(96, 128, 143, 0.541);
   --fuente-oficial: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
   --fuente-etiquetas: Verdana, Geneva, Tahoma, sans-serif;
-  --color-principal: rgb(194, 181, 181);
+  --color-principal: rgba(194, 181, 181, 0.63);
   --color-verificado: rgb(33, 90, 33);
   --color-verificado-claro: rgb(39, 146, 39);
   --color-no-verificado-claro: rgb(221, 25, 25);
@@ -45,10 +45,18 @@ body {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+}
+#fondo {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
   background-image: url("../images/dino_imagen.webp");
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
+  z-index: -1;
 }
 select {
   font-size: 1.8rem;
@@ -137,7 +145,7 @@ select {
   margin: 1rem 0;
   padding: 0.3rem 0;
   border-radius: 20px;
-  width: 85%;
+  width: 85vmin;
   overflow-x: hidden;
 }
 .img_icon_user {
@@ -146,14 +154,6 @@ select {
   position: relative;
   filter: drop-shadow(2px 4px 6px black);
   transform: translate(-21.5%, -3.5%) scale(0.95);
-}
-.content_overflow {
-  overflow-y: auto;
-  overflow-x: none;
-  position: relative;
-  top: 0;
-  padding: 0px;
-  background-color: rgba(240, 248, 255, 0.235);
 }
 
 ._logo {
@@ -179,9 +179,10 @@ select {
   width: 50%;
   font-family: var(--fuente-etiquetas);
   color: white;
-  background: transparent;
-  border: dashed 1px black;
+  background: rgba(60, 109, 58, 0.253);
+  border: solid 1px black;
   padding: 0px;
+  border-radius: 10px;
 }
 .btn_verificar {
   font-size: 1rem;
@@ -196,7 +197,7 @@ select {
   cursor: pointer;
 }
 @media (width < 992px) {
-  body {
+  #fondo {
     background-image: url(../images/dino_imagen_vertical.jpg);
   }
 }
@@ -204,7 +205,7 @@ select {
   .content {
     flex-direction: column;
     flex: 0 1 auto;
-    border-radius: 0px;
+    border-radius: 20px;
     padding: 0px;
     align-items: center;
     justify-content: center;
@@ -220,7 +221,6 @@ select {
     width: 80vmin;
   }
   .content > input {
-    border: dashed 1px black;
     padding: 0px;
     width: 80vw;
   }
