@@ -27,6 +27,8 @@ aside {
 main {
   order: 1;
   background-color: var(--main-color);
+  overflow-y: auto;
+  height: 100vh;
 }
 #btn_iniciar_partida {
   background-color: #e9bebe;
@@ -142,7 +144,7 @@ select {
   display: none;
   align-items: center;
   flex-direction: row;
-  margin: 1rem 0;
+  margin: 0.3rem 0;
   padding: 0.3rem 0;
   border-radius: 20px;
   width: 85vmin;
@@ -178,8 +180,7 @@ select {
   font-size: 2rem;
   width: 50%;
   font-family: var(--fuente-etiquetas);
-  color: white;
-  background: rgba(60, 109, 58, 0.253);
+  background: rgba(153, 177, 153, 0.653);
   border: solid 1px black;
   padding: 0px;
   border-radius: 10px;
@@ -210,9 +211,10 @@ select {
     align-items: center;
     justify-content: center;
     width: 30rem;
-    margin: 0;
+    row-gap: 1rem;
     height: auto;
   }
+
   #caja_opciones {
     width: 100%;
     padding: 1rem;
