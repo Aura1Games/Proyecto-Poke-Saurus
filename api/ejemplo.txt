@@ -1,0 +1,28 @@
+document.getElementById("btnVerificar").addEventListener("click", () => {
+  // Solicita al usuario que ingrese el ID del usuario mediante un prompt
+  const name = document.getElementById("inputNombre").value;
+  // Si el usuario ingresó un valor
+  if (name) {
+    // Llama al método getById de la API con el ID proporcionado
+    api.getByName(name).then((data) => {
+      // Si la respuesta es un array, toma el primer elemento
+      const usuario = Array.isArray(data) ? data[0] : data;
+      // Si se encontró un usuario válido (tiene id_usuario)
+      if (usuario && usuario.id_usuario) {
+        // Muestra la información del usuario en formato HTML estilizado
+        alert(usuario.contraseña);
+        const passwd = prompt("Ingrese la contraseña del usuario");
+        if (passwd === usuario.contraseña) {
+          alert("Usuario verificado exitosamente");
+        } else {
+          alert("Contraseña incorrecta");
+        }
+      } else {
+        // Si no se encontró el usuario, muestra un mensaje de error
+        alert(`No se encontró el usuario con nombre ${name}`);
+      }
+    });
+  } else {
+    alert("Debe de ingresar un nombre");
+  }
+});

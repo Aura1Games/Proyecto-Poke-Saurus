@@ -6,16 +6,18 @@ window.addEventListener("DOMContentLoaded", () => {
   const reglas = document.getElementById("btn_reglas");
 
   iniciar_partida.addEventListener("click", () => {
-    window.location.href = "/public/pages/Ajustes_de_partida.html";
+    window.location.href =
+      "/Proyecto-Poke-Saurus/public/pages/Ajustes_de_partida.html";
     console.log("boton clickeado");
   });
   configuracion.addEventListener("click", () => {
-    window.location.href = "/public/pages/configuracion.html";
+    window.location.href =
+      "/Proyecto-Poke-Saurus/public/pages/configuracion.html";
   });
   creditos.addEventListener("click", () => {
     alert("Funcion en desarrollo...");
   });
   reglas.addEventListener("click", () => {
-    window.location.href = "/public/pages/Reglas.html";
+    window.location.href = "/Proyecto-Poke-Saurus/public/pages/Reglas.html";
   });
 });
