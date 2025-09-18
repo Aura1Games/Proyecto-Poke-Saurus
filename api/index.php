@@ -1,4 +1,6 @@
-<?php
+<?php   // api/index.php
+// Punto de entrada para la API RESTful
+
 // Headers CORS completos
 header("Content-Type: application/json; charset=UTF-8");
 header("Access-Control-Allow-Origin: *");

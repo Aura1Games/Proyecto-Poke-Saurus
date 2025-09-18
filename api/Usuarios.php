@@ -1,4 +1,6 @@
-<?php
+<?php // api/Usuarios.php
+// Modelo para la tabla Usuarios
+
 // Definimos la clase usuarios, que nos permitirá interactuar con la tabla 'usuarios' de la base de datos
 class Usuarios
 {

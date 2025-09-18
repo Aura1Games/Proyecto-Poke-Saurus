@@ -1,4 +1,5 @@
-<?php
+<?php // api/Partida.php
+// Modelo para la tabla Partida
 class Partida
 {
     private $conn;

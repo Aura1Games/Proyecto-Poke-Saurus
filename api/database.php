@@ -1,4 +1,5 @@
-<?php
+<?php // api/database.php
+// Configuración y conexión a la base de datos
 
 // Definimos constantes para los datos de conexión a la base de datos
 const DB_HOST = 'localhost'; // Dirección del servidor de base de datos (normalmente 'localhost')

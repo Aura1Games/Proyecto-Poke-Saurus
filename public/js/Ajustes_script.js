@@ -80,7 +80,7 @@ api.getAll().then((data) => {
     jugadoresRegistrados.push(usuarios.nombre);
   });
 });
-
+// Agregamos una escucha a window, que espera a que todos los elementos del DOM estén cargados
 window.addEventListener("DOMContentLoaded", () => {
   const selectElement = document.getElementById("cant_jugadores");
   const bloque_1 = document.getElementById("contenedor_01");
@@ -97,7 +97,7 @@ window.addEventListener("DOMContentLoaded", () => {
     // 'event.target' se refiere al elemento select
     const jugadores = event.target.value; // Obtiene el valor seleccionado
     console.log(`${jugadores}`);
-    if (jugadores == 2) {
+    if (jugadores == 2) { //manejo de estilos de los bloques de login según la cantidad de jugadores seleccionada
       bloque_1.style.display = "flex";
       bloque_2.style.display = "flex";
       bloque_3.style.display = "none";
@@ -149,13 +149,13 @@ window.addEventListener("DOMContentLoaded", () => {
     },
   ];
 
-  // Obtenemos todos los botones de verificación de la página
+  // Obtenemos todos los botones de verificación de la página 
   const botonesVerificar = document.querySelectorAll(".btn_verificar");
 
-  // Asociamos cada botón a su correspondiente jugador
+  // Asociamos cada botón a su jugador correspondiente
   botonesVerificar.forEach((boton, indice) => {
     boton.addEventListener("click", () => {
-      const input = jugadores[indice].input; //manejo de clases
+      const input = jugadores[indice].input; //manejo de clases del icono según el resultado de la verificación
 
       const iconoJugador = jugadores[indice].icono;
 

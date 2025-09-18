@@ -1,4 +1,6 @@
-<?php
+<?php // api/test.php
+// Archivo de prueba para insertar una partida directamente
+
 header("Content-Type: application/json; charset=UTF-8");
 header("Access-Control-Allow-Origin: *");
 
@@ -6,7 +8,7 @@ require_once "database.php";
 require_once "Partida.php";
 
 $database = new Database();
-$db = $database->connect();
+$db = $database->connect(); 
 $partida = new Partida($db);
 
 // Test directo
