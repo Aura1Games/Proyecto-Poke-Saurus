@@ -1,5 +1,5 @@
 <?php
-// Definimos la clase Animal, que nos permitirá interactuar con la tabla 'animales' de la base de datos
+// Definimos la clase usuarios, que nos permitirá interactuar con la tabla 'usuarios' de la base de datos
 class Usuarios
 {
     // Propiedad privada para almacenar la conexión a la base de datos
@@ -13,7 +13,7 @@ class Usuarios
         $this->conn = $db;
     }
 
-    // Método para obtener todos los registros de animales de la base de datos
+    // Método para obtener todos los registros de usuarios de la base de datos
     public function getAll()
     {
         // Creamos la consulta SQL para seleccionar los campos deseados de la tabla 'animales'
