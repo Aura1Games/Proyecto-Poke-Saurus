@@ -2,6 +2,7 @@
 class Partida
 {
     private $conn;
+    // constructor recibe la conexión a la BD
     public function __construct($db)
     {
         $this->conn = $db;

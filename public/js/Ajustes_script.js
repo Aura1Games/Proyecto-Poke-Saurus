@@ -7,19 +7,58 @@ class ApiUsuarios {
   getAll() {
     // Realiza una petición fetch a la URL base
     return (
-      fetch(this.baseUrl)
+      fetch(this.baseUrl) //tipo GET
         // cuando recibe la respuesta, la convierte a JSON
-        .then((response) => response.json())
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error("Error en la petición HTTP");
+          }
+          return response.json();
+        })
     );
+    /**/
     // Promesa de retorno a un objeto de JavaScript json
   }
   getByName(name) {
-    // Realiza una petición fetch a la URL base agregando el parámetro id
+    // Realiza una petición fetch a la URL base agregando el parámetro nombre
     return (
-      fetch(`${this.baseUrl}?nombre=${name}`)
+      fetch(`${this.baseUrl}?nombre=${name}`) // GET
         // Convierte la respuesta a JSON
-        .then((response) => response.json())
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error("Error en la petición HTTP");
+          }
+          return response.json();
+        })
     );
+  }
+
+  async obtenerJugadorDeBD(nombre) {
+    if (nombre === "" || nombre === undefined) {
+      alert("Debes ingresar un nombre para logearte");
+      return Promise.resolve([]);
+    }
+
+    return api
+      .getByName(nombre)
+      .then((data) => {
+        if (data && data.nombre && data.contraseña) {
+          console.log(`nombre: ${data.nombre} contraseña: ${data.contraseña}`);
+          return [
+            {
+              nombre: data.nombre,
+              contraseña: data.contraseña,
+            },
+          ];
+        } else {
+          console.log("Usuario no encontrado o estructura inválida");
+          return [];
+        }
+      })
+      .catch((error) => {
+        console.error("Error al obtener el jugador: " + error);
+        return [];
+      });
   }
 }
 
@@ -38,9 +77,10 @@ class ApiPartida {
     */
     // Cabecera de la petición POST
     return fetch(this.baseUrl, {
-      method: "POST",
+      // petición POST
+      method: "POST", // metodo de la petición: POST
       headers: {
-        "Content-Type": "application/json",
+        "Content-Type": "application/json", // Tipo de contenido: JSON
       },
       body: JSON.stringify({
         fecha: fecha,
@@ -51,7 +91,9 @@ class ApiPartida {
     });
   }
 }
+
 function obtenerFechaActual() {
+  // obtiene la fecha actual en DATETIME
   // padStart() agrega caracteres al inicio de una cadena hasta que alcance una longitud especifica
   let fechaActual = new Date();
 
@@ -71,15 +113,6 @@ function obtenerFechaActual() {
 }
 
 const api = new ApiUsuarios("http://localhost/Proyecto-Poke-Saurus/api/");
-const jugadoresRegistrados = [];
-api.getAll().then((data) => {
-  data.forEach((usuarios) => {
-    console.log(
-      `nombre: ${usuarios.nombre} contraseña: ${usuarios.contraseña}`
-    );
-    jugadoresRegistrados.push(usuarios.nombre);
-  });
-});
 
 window.addEventListener("DOMContentLoaded", () => {
   const selectElement = document.getElementById("cant_jugadores");
@@ -154,16 +187,18 @@ window.addEventListener("DOMContentLoaded", () => {
 
   // Asociamos cada botón a su correspondiente jugador
   botonesVerificar.forEach((boton, indice) => {
-    boton.addEventListener("click", () => {
+    boton.addEventListener("click", async () => {
       const input = jugadores[indice].input; //manejo de clases
 
       const iconoJugador = jugadores[indice].icono;
 
-      const nombreIngresado = input.value.trim();
+      const nombreIngresado = input.value.trim(); // Obtiene el valor y elimina los espacios en blanco con trim()
 
       // Verificamos si el nombre ingresado existe en la base de datos
-      const esValido = jugadoresRegistrados.includes(nombreIngresado);
-
+      // const esValido = jugadoresRegistrados.includes(nombreIngresado);
+      // nombre y contraseña
+      const usuarioLogeado = await api.obtenerJugadorDeBD(nombreIngresado);
+      const esValido = usuarioLogeado.length > 0;
       // Actualizamos la clase del ícono según el resultado
       iconoJugador.classList.toggle("_verificado", esValido);
 

@@ -113,7 +113,6 @@ function funcionPOST($partida)
     // Insertar con manejo de errores
     try {
         $result = $partida->insertarPartida($fecha, $jugadores, $puntaje, $ganador);
-        error_log("Resultado de insertarPartida: " . var_export($result, true));
         if ($result) {
             // si está todo bien ...
             http_response_code(201);
