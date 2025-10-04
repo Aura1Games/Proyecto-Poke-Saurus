@@ -33,7 +33,22 @@ class ApiUsuarios {
     );
   }
 
-  async obtenerJugadorDeBD(nombre) {
+//   static administrarModalContra() {
+//     document.body = `
+//   <div id="modal-contrasena" class="modal">
+
+//   <div class="modal-contenido">
+//     <span class="cerrar-modal">&times;</span>
+//     <h2>Ingresa tu contraseña</h2>
+//     <input type="password" id="input-contrasena" placeholder="Contraseña">
+//     <button id="btn-aceptar">Aceptar</button>
+//   </div>
+
+// </div>`;
+
+//   }
+
+  async verificarJugadorDeBD(nombre) {
     if (nombre === "" || nombre === undefined) {
       alert("Debes ingresar un nombre para logearte");
       return Promise.resolve([]);
@@ -43,15 +58,20 @@ class ApiUsuarios {
       .getByName(nombre)
       .then((data) => {
         if (data && data.nombre && data.contraseña) {
-          // console.log(`nombre: ${data.nombre} contraseña: ${data.contraseña}`);
-          return [
-            {
-              nombre: data.nombre,
-              contraseña: data.contraseña,
-            },
-          ];
+          console.log(`nombre: ${data.nombre} contraseña: ${data.contraseña}`);
+          let tempContra = prompt("Ingrese su contraseña");
+
+          if (tempContra === data.contraseña) {
+            return [
+              {
+                nombre: data.nombre,
+                contraseña: data.contraseña,
+              },
+            ];
+          } else {
+            return [];
+          }
         } else {
-          alert("Usuario no encontrado o estructura inválida");
           return [];
         }
       })
@@ -200,7 +220,7 @@ window.addEventListener("DOMContentLoaded", () => {
       // Verificamos si el nombre ingresado existe en la base de datos
       // const esValido = jugadoresRegistrados.includes(nombreIngresado);
       // nombre y contraseña
-      const usuarioLogeado = await api.obtenerJugadorDeBD(nombreIngresado);
+      const usuarioLogeado = await api.verificarJugadorDeBD(nombreIngresado);
       const esValido = usuarioLogeado.length > 0;
       // Actualizamos la clase del ícono según el resultado
 
@@ -219,7 +239,7 @@ window.addEventListener("DOMContentLoaded", () => {
           );
         }
       } else {
-        alert(`❌ El jugador "${nombreIngresado}" no está registrado.`);
+        alert(`❌ Usuario o contraseña invalidos.`);
         iconoJugador.classList.remove("_verificado");
         iconoJugador.classList.add("_no_verificado");
       }
