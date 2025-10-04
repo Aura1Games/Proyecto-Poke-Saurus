@@ -131,6 +131,7 @@ window.addEventListener("DOMContentLoaded", () => {
     const jugadores = event.target.value; // Obtiene el valor seleccionado
     console.log(`${jugadores}`);
     if (jugadores == 2) {
+      //manejo de estilos de los bloques de login según la cantidad de jugadores seleccionada
       bloque_1.style.display = "flex";
       bloque_2.style.display = "flex";
       bloque_3.style.display = "none";
@@ -185,7 +186,7 @@ window.addEventListener("DOMContentLoaded", () => {
   // Obtenemos todos los botones de verificación de la página
   const botonesVerificar = document.querySelectorAll(".btn_verificar");
 
-  // Asociamos cada botón a su correspondiente jugador
+  // Asociamos cada botón a su jugador correspondiente
   botonesVerificar.forEach((boton, indice) => {
     boton.addEventListener("click", async () => {
       const input = jugadores[indice].input; //manejo de clases
