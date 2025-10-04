@@ -43,7 +43,7 @@ class ApiUsuarios {
       .getByName(nombre)
       .then((data) => {
         if (data && data.nombre && data.contraseña) {
-          console.log(`nombre: ${data.nombre} contraseña: ${data.contraseña}`);
+          // console.log(`nombre: ${data.nombre} contraseña: ${data.contraseña}`);
           return [
             {
               nombre: data.nombre,
@@ -51,11 +51,12 @@ class ApiUsuarios {
             },
           ];
         } else {
-          console.log("Usuario no encontrado o estructura inválida");
+          alert("Usuario no encontrado o estructura inválida");
           return [];
         }
       })
       .catch((error) => {
+        alert("Error al obtener el usuario");
         console.error("Error al obtener el jugador: " + error);
         return [];
       });
@@ -182,6 +183,7 @@ window.addEventListener("DOMContentLoaded", () => {
       icono: document.getElementById("_p5"),
     },
   ];
+  const jugadoresVerificados = [];
 
   // Obtenemos todos los botones de verificación de la página
   const botonesVerificar = document.querySelectorAll(".btn_verificar");
@@ -201,15 +203,25 @@ window.addEventListener("DOMContentLoaded", () => {
       const usuarioLogeado = await api.obtenerJugadorDeBD(nombreIngresado);
       const esValido = usuarioLogeado.length > 0;
       // Actualizamos la clase del ícono según el resultado
-      iconoJugador.classList.toggle("_verificado", esValido);
-
-      iconoJugador.classList.toggle("_no_verificado", !esValido);
 
       // Mostramos una alerta informando el resultado
       if (esValido) {
-        alert(`✅ Jugador "${nombreIngresado}" verificado con éxito.`);
+        if (jugadoresVerificados.includes(nombreIngresado.toLowerCase())) {
+          return alert(`❌ El jugador "${nombreIngresado}" ya está logeado.`);
+        } else {
+          iconoJugador.classList.add("_verificado");
+          iconoJugador.classList.remove("_no_verificado");
+          jugadoresVerificados.push(nombreIngresado.toLowerCase());
+          alert(`✅ Jugador "${nombreIngresado}" verificado con éxito.`);
+          console.log(
+            jugadoresVerificados[jugadoresVerificados.length - 1],
+            jugadoresVerificados.length
+          );
+        }
       } else {
         alert(`❌ El jugador "${nombreIngresado}" no está registrado.`);
+        iconoJugador.classList.remove("_verificado");
+        iconoJugador.classList.add("_no_verificado");
       }
     });
   });
@@ -223,38 +235,42 @@ window.addEventListener("DOMContentLoaded", () => {
     // Cantidad de jugadores
     const cant_jugadores = selectElement.value;
     // Fecha actual tipo datetime
-    const fecha = obtenerFechaActual();
-    apiPartida
-      .postPartida(fecha, cant_jugadores, 40, 2)
-      .then((response) => {
-        // El primer .then recibe la respuesta HTTP.
-        // response.json() es un método que lee el cuerpo de la respuesta y lo convierte a un objeto JavaScript.
-        // Esto también devuelve una promesa.
-        if (!response.ok) {
-          // Si la respuesta no es exitosa (ej. error 500), lanzamos un error.
-          throw new Error(`Error del servidor: ${response.status}`);
-        }
-        return response.json();
-      })
-      .then((data) => {
-        // Este .then recibe el objeto JavaScript 'data' que el servidor envió.
-        // Ahora podemos acceder a sus propiedades: data.mensaje y data.id.
+    if (cant_jugadores == jugadoresVerificados.length) {
+      const fecha = obtenerFechaActual();
+      apiPartida
+        .postPartida(fecha, cant_jugadores, 40, 2)
+        .then((response) => {
+          // El primer .then recibe la respuesta HTTP.
+          // response.json() es un método que lee el cuerpo de la respuesta y lo convierte a un objeto JavaScript.
+          // Esto también devuelve una promesa.
+          if (!response.ok) {
+            // Si la respuesta no es exitosa (ej. error 500), lanzamos un error.
+            throw new Error(`Error del servidor: ${response.status}`);
+          }
+          return response.json();
+        })
+        .then((data) => {
+          // Este .then recibe el objeto JavaScript 'data' que el servidor envió.
+          // Ahora podemos acceder a sus propiedades: data.mensaje y data.id.
 
-        // Mostramos el mensaje y el ID en el contenedor del HTML.
-        alert(
-          "Mensaje:" +
-            data.mensaje +
-            "\nID de la partida: " +
-            data.id +
-            " data retornada"
-        );
-        window.location.href =
-          "/Proyecto-Poke-Saurus/public/pages/Partida.html";
-      })
-      .catch((error) => {
-        // El .catch manejará errores de red o el error que lanzamos arriba.
-        console.error("Error en la solicitud:", error);
-        alert(`<p style="color: red;">${error.message}</p>`);
-      });
+          // Mostramos el mensaje y el ID en el contenedor del HTML.
+          alert(
+            "Mensaje:" +
+              data.mensaje +
+              "\nID de la partida: " +
+              data.id +
+              " data retornada"
+          );
+          window.location.href =
+            "/Proyecto-Poke-Saurus/public/pages/Partida.html";
+        })
+        .catch((error) => {
+          // El .catch manejará errores de red o el error que lanzamos arriba.
+          console.error("Error en la solicitud:", error);
+          alert(`<p style="color: red;">${error.message}</p>`);
+        });
+    } else {
+      alert("❌ Todos los usuarios deben estar logeados");
+    }
   });
 });
