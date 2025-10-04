@@ -33,22 +33,22 @@ class ApiUsuarios {
     );
   }
 
-//   static administrarModalContra() {
-//     document.body = `
-//   <div id="modal-contrasena" class="modal">
+  //   static administrarModalContra() {
+  //     document.body = `
+  //   <div id="modal-contrasena" class="modal">
 
-//   <div class="modal-contenido">
-//     <span class="cerrar-modal">&times;</span>
-//     <h2>Ingresa tu contraseña</h2>
-//     <input type="password" id="input-contrasena" placeholder="Contraseña">
-//     <button id="btn-aceptar">Aceptar</button>
-//   </div>
+  //   <div class="modal-contenido">
+  //     <span class="cerrar-modal">&times;</span>
+  //     <h2>Ingresa tu contraseña</h2>
+  //     <input type="password" id="input-contrasena" placeholder="Contraseña">
+  //     <button id="btn-aceptar">Aceptar</button>
+  //   </div>
 
-// </div>`;
+  // </div>`;
 
-//   }
+  //   }
 
-  async verificarJugadorDeBD(nombre) {
+  async obtenerJugadorDeBD(nombre) {
     if (nombre === "" || nombre === undefined) {
       alert("Debes ingresar un nombre para logearte");
       return Promise.resolve([]);
@@ -58,19 +58,13 @@ class ApiUsuarios {
       .getByName(nombre)
       .then((data) => {
         if (data && data.nombre && data.contraseña) {
-          console.log(`nombre: ${data.nombre} contraseña: ${data.contraseña}`);
-          let tempContra = prompt("Ingrese su contraseña");
-
-          if (tempContra === data.contraseña) {
-            return [
-              {
-                nombre: data.nombre,
-                contraseña: data.contraseña,
-              },
-            ];
-          } else {
-            return [];
-          }
+          // console.log(`nombre: ${data.nombre} contraseña: ${data.contraseña}`);
+          return [
+            {
+              nombre: data.nombre,
+              contraseña: data.contraseña,
+            },
+          ];
         } else {
           return [];
         }
@@ -211,26 +205,37 @@ window.addEventListener("DOMContentLoaded", () => {
   // Asociamos cada botón a su jugador correspondiente
   botonesVerificar.forEach((boton, indice) => {
     boton.addEventListener("click", async () => {
-      const input = jugadores[indice].input; //manejo de clases
+      const input = jugadores[indice].input; //obtenemos el valor del input en el contenedor del botón
 
-      const iconoJugador = jugadores[indice].icono;
+      const iconoJugador = jugadores[indice].icono; // obtenemos el valor del icono en el contenedor del botón
 
       const nombreIngresado = input.value.trim(); // Obtiene el valor y elimina los espacios en blanco con trim()
 
-      // Verificamos si el nombre ingresado existe en la base de datos
-      // const esValido = jugadoresRegistrados.includes(nombreIngresado);
-      // nombre y contraseña
-      const usuarioLogeado = await api.verificarJugadorDeBD(nombreIngresado);
+      const usuarioLogeado = await api.obtenerJugadorDeBD(nombreIngresado);
+      /* usando un metodo de la clase api para obtener un jugador de la BD 
+        la cual retorna un arreglo de objetos con clave nombre y contraseña
+      */
       const esValido = usuarioLogeado.length > 0;
-      // Actualizamos la clase del ícono según el resultado
+      // evalúa si el tamaño del retorno de datos es mayor a cero = true
 
-      // Mostramos una alerta informando el resultado
       if (esValido) {
         if (jugadoresVerificados.includes(nombreIngresado.toLowerCase())) {
-          return alert(`❌ El jugador "${nombreIngresado}" ya está logeado.`);
+          // si el nombre ingresado está en la lista de jugadores ya verificados ...
+          return alert(`⚠️ El jugador "${nombreIngresado}" ya está logeado.`);
         } else {
+          // console.log(
+          //   `nombre: ${usuarioLogeado[0].nombre}, contraseña: ${usuarioLogeado[0].contraseña}`
+          // );
+
+          let tmpContra = prompt("Ingrese su contraseña");
+          // pide y evalúa si la contraseña ingresada por el usuario es la misma que la obtenida de la BD
+          if (tmpContra !== usuarioLogeado[0].contraseña) {
+            return alert("❌ Contraseña incorrecta");
+          }
+          // procedimiento para la verificación visual
           iconoJugador.classList.add("_verificado");
           iconoJugador.classList.remove("_no_verificado");
+          // agrega el nombre del usuario a un arreglo de registro de usuarios logeados
           jugadoresVerificados.push(nombreIngresado.toLowerCase());
           alert(`✅ Jugador "${nombreIngresado}" verificado con éxito.`);
           console.log(
@@ -239,7 +244,7 @@ window.addEventListener("DOMContentLoaded", () => {
           );
         }
       } else {
-        alert(`❌ Usuario o contraseña invalidos.`);
+        alert(`❌ Usuario invalido.`);
         iconoJugador.classList.remove("_verificado");
         iconoJugador.classList.add("_no_verificado");
       }
@@ -289,6 +294,9 @@ window.addEventListener("DOMContentLoaded", () => {
           console.error("Error en la solicitud:", error);
           alert(`<p style="color: red;">${error.message}</p>`);
         });
+    } else if (cant_jugadores < jugadoresVerificados.length) {
+      alert("⚠️ Hay mas jugadores logeados que jugadores detallados... ");
+      location.reload();
     } else {
       alert("❌ Todos los usuarios deben estar logeados");
     }
