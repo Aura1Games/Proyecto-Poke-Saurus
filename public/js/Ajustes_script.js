@@ -279,13 +279,7 @@ window.addEventListener("DOMContentLoaded", () => {
           // Ahora podemos acceder a sus propiedades: data.mensaje y data.id.
 
           // Mostramos el mensaje y el ID en el contenedor del HTML.
-          alert(
-            "Mensaje:" +
-              data.mensaje +
-              "\nID de la partida: " +
-              data.id +
-              " data retornada"
-          );
+          alert("✅ " + data.mensaje);
           window.location.href =
             "/Proyecto-Poke-Saurus/public/pages/Partida.html";
         })
@@ -298,7 +292,7 @@ window.addEventListener("DOMContentLoaded", () => {
       alert("⚠️ Hay mas jugadores logeados que jugadores detallados... ");
       location.reload();
     } else {
-      alert("❌ Todos los usuarios deben estar logeados");
+      alert("⚠️ Todos los usuarios deben estar logeados");
     }
   });
 });
