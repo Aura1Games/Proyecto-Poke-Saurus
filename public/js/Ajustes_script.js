@@ -1,4 +1,5 @@
 //Agregamos una escucha a window, que espera a que todos los elementos del DOM estén cargados
+
 class ApiUsuarios {
   constructor(baseUrl) {
     this.baseUrl = baseUrl;
@@ -53,8 +54,7 @@ class ApiUsuarios {
       alert("Debes ingresar un nombre para logearte");
       return Promise.resolve([]);
     }
-
-    return api
+    return await api
       .getByName(nombre)
       .then((data) => {
         if (data && data.nombre && data.contraseña) {
@@ -78,6 +78,9 @@ class ApiUsuarios {
 }
 
 class ApiPartida {
+  // exporta la clase ApiPartida
+  jugadoresVerificados = [];
+
   constructor(baseUrl) {
     this.baseUrl = baseUrl;
   }
@@ -105,26 +108,30 @@ class ApiPartida {
       }),
     });
   }
-}
 
-function obtenerFechaActual() {
-  // obtiene la fecha actual en DATETIME
-  // padStart() agrega caracteres al inicio de una cadena hasta que alcance una longitud especifica
-  let fechaActual = new Date();
+  obtenerFechaActual() {
+    // obtiene la fecha actual en DATETIME
+    // padStart() agrega caracteres al inicio de una cadena hasta que alcance una longitud especifica
+    let fechaActual = new Date();
 
-  let año = fechaActual.getFullYear();
+    let año = fechaActual.getFullYear();
 
-  let mes = (fechaActual.getMonth() + 1).toString().padStart(2, "0");
+    let mes = (fechaActual.getMonth() + 1).toString().padStart(2, "0");
 
-  let dia = fechaActual.getDate().toString().padStart(2, "0");
+    let dia = fechaActual.getDate().toString().padStart(2, "0");
 
-  let hora = fechaActual.getHours().toString().padStart(2, "0");
+    let hora = fechaActual.getHours().toString().padStart(2, "0");
 
-  let minutos = fechaActual.getMinutes().toString().padStart(2, "0");
+    let minutos = fechaActual.getMinutes().toString().padStart(2, "0");
 
-  let segundos = fechaActual.getSeconds().toString().padStart(2, "0");
+    let segundos = fechaActual.getSeconds().toString().padStart(2, "0");
 
-  return `${año}-${mes}-${dia} ${hora}:${minutos}:${segundos}`;
+    return `${año}-${mes}-${dia} ${hora}:${minutos}:${segundos}`;
+  }
+
+  guardarUsuariosEnLocalStorage() {
+    localStorage.setItem("usuarios", JSON.stringify(this.jugadoresVerificados));
+  }
 }
 
 const api = new ApiUsuarios("http://localhost/Proyecto-Poke-Saurus/api/");
@@ -199,7 +206,6 @@ window.addEventListener("DOMContentLoaded", () => {
       icono: document.getElementById("_p5"),
     },
   ];
-  const jugadoresVerificados = [];
 
   // Obtenemos todos los botones de verificación de la página
   const botonesVerificar = document.querySelectorAll(".btn_verificar");
@@ -221,7 +227,11 @@ window.addEventListener("DOMContentLoaded", () => {
       // evalúa si el tamaño del retorno de datos es mayor a cero = true
 
       if (esValido) {
-        if (jugadoresVerificados.includes(nombreIngresado.toLowerCase())) {
+        if (
+          apiPartida.jugadoresVerificados.includes(
+            nombreIngresado.toLowerCase()
+          )
+        ) {
           // si el nombre ingresado está en la lista de jugadores ya verificados ...
           return alert(`⚠️ El jugador "${nombreIngresado}" ya está logeado.`);
         } else {
@@ -238,15 +248,18 @@ window.addEventListener("DOMContentLoaded", () => {
           iconoJugador.classList.add("_verificado");
           iconoJugador.classList.remove("_no_verificado");
           // agrega el nombre del usuario a un arreglo de registro de usuarios logeados
-          jugadoresVerificados.push(nombreIngresado.toLowerCase());
+          apiPartida.jugadoresVerificados.push(nombreIngresado.toLowerCase());
           alert(`✅ Jugador "${nombreIngresado}" verificado con éxito.`);
           console.log(
-            jugadoresVerificados[jugadoresVerificados.length - 1],
-            jugadoresVerificados.length
+            apiPartida.jugadoresVerificados[
+              apiPartida.jugadoresVerificados.length - 1
+            ],
+            apiPartida.jugadoresVerificados.length
           );
         }
       } else {
         alert(`❌ Usuario invalido.`);
+        // Manejo de estilos del icono de verificación
         iconoJugador.classList.remove("_verificado");
         iconoJugador.classList.add("_no_verificado");
       }
@@ -262,8 +275,8 @@ window.addEventListener("DOMContentLoaded", () => {
     // Cantidad de jugadores
     const cant_jugadores = selectElement.value;
     // Fecha actual tipo datetime
-    if (cant_jugadores == jugadoresVerificados.length) {
-      const fecha = obtenerFechaActual();
+    if (cant_jugadores == apiPartida.jugadoresVerificados.length) {
+      const fecha = apiPartida.obtenerFechaActual();
       apiPartida
         .postPartida(fecha, cant_jugadores, 40, 2)
         .then((response) => {
@@ -282,6 +295,10 @@ window.addEventListener("DOMContentLoaded", () => {
 
           // Mostramos el mensaje y el ID en el contenedor del HTML.
           alert("✅ " + data.mensaje);
+
+          apiPartida.guardarUsuariosEnLocalStorage();
+
+          // Redirigimos a la página de la partida
           window.location.href =
             "/Proyecto-Poke-Saurus/public/pages/Partida.html";
         })
@@ -290,7 +307,7 @@ window.addEventListener("DOMContentLoaded", () => {
           console.error("Error en la solicitud:", error);
           alert(`<p style="color: red;">${error.message}</p>`);
         });
-    } else if (cant_jugadores < jugadoresVerificados.length) {
+    } else if (cant_jugadores < apiPartida.jugadoresVerificados.length) {
       alert("⚠️ Hay mas jugadores logeados que jugadores detallados... ");
       location.reload();
     } else {
