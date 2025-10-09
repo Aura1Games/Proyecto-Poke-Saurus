@@ -1,0 +1,10 @@
+.cosete {
+  position: absolute;
+  top: 45%;
+  transform: translateY(-50%);
+}
+.salir {
+  position: absolute;
+  top: 90%;
+  left: 10px;
+}

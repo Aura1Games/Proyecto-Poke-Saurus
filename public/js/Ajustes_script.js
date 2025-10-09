@@ -129,6 +129,7 @@ function obtenerFechaActual() {
 
 const api = new ApiUsuarios("http://localhost/Proyecto-Poke-Saurus/api/");
 
+// Función de escucha esperando a que cargue todo el contenido del DOM
 window.addEventListener("DOMContentLoaded", () => {
   const selectElement = document.getElementById("cant_jugadores");
   const bloque_1 = document.getElementById("contenedor_01");
@@ -136,6 +137,7 @@ window.addEventListener("DOMContentLoaded", () => {
   const bloque_3 = document.getElementById("contenedor_03");
   const bloque_4 = document.getElementById("contenedor_04");
   const bloque_5 = document.getElementById("contenedor_05");
+  const registrarse = document.getElementById("aRegistro");
   bloque_1.style.display = "flex";
   bloque_2.style.display = "flex";
 
@@ -294,5 +296,9 @@ window.addEventListener("DOMContentLoaded", () => {
     } else {
       alert("⚠️ Todos los usuarios deben estar logeados");
     }
+  });
+
+  registrarse.addEventListener("click", () => {
+    window.location.href = "/Proyecto-Poke-Saurus/public/pages/Registro.html";
   });
 });

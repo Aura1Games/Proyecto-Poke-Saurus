@@ -40,9 +40,6 @@ dialog::backdrop {
   /* Define los parametros del fondo del modal */
 }
 
-.salir:hover {
-  transform: scale(1.2);
-}
 a {
   color: inherit;
   text-decoration: none;
