@@ -1,3 +1,48 @@
+class Registro {
+  constructor(nombre, correo, contra, repetirContra, edad, zonaErrores) {
+    this.nombre = nombre;
+    this.correo = correo;
+    this.contra = contra;
+    this.repetirContra = repetirContra;
+    this.edad = edad;
+    this.zonaErrores = zonaErrores;
+  }
+
+  validarEmail() {
+    // Expresión regular para validar un formato de email básico pero efectivo.
+    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    // El método 'test()' de la expresión regular devuelve true o false.
+    return regex.test(this.correo);
+  }
+
+  verificarCampos() {
+    return !this.nombre || !this.correo || !this.contra || !this.edad;
+  }
+
+  contraseñasCoinciden() {
+    return this.contra === this.repetirContra;
+  }
+
+  esContraseñaValida() {
+    return this.contra.length >= 8;
+  }
+
+  contieneCaracteresInvalidos() {
+    const caracteresInvalidos = ["ñ", "´", ".", "_"];
+    return caracteresInvalidos.some((caracter) =>
+      this.contra.toLowerCase().includes(caracter)
+    );
+  }
+
+  lanzarError(error) {
+    this.zonaErrores.innerText = "";
+    const elemento = document.createElement("div");
+    elemento.innerHTML = error;
+    this.zonaErrores.appendChild(elemento);
+    return elemento;
+  }
+}
+
 window.addEventListener("DOMContentLoaded", () => {
   const btnSalir = document.getElementById("btn_salir");
   const nombre = document.getElementById("inputNombre");
@@ -12,13 +57,15 @@ window.addEventListener("DOMContentLoaded", () => {
     // Evita que el formulario se envíe si hay errores
     e.preventDefault();
 
-    function lanzarError(error) {
-      zonaErrores.innerText = "";
-      const elemento = document.createElement("div");
-      elemento.innerHTML = error;
-      zonaErrores.appendChild(elemento);
-      return elemento;
-    }
+    // Declaramos la clase Registro
+    const registro = new Registro(
+      nombre.value,
+      correo.value,
+      contra.value,
+      repetirContra.value,
+      edad.value,
+      zonaErrores
+    );
 
     const informacionUsuario = [
       {
@@ -29,24 +76,6 @@ window.addEventListener("DOMContentLoaded", () => {
         edad: edad.value,
       },
     ];
-
-    function verificarCampos() {
-      console.log("Usando función verificarCampos()");
-
-      // para evaluar arreglo mejor usar el metodo some, en el se ejecuta como un forEach solo que no espera un retorno directo
-
-      const algunCampoVacio = informacionUsuario.some((elemento) => {
-        return (
-          !elemento.nombre ||
-          !elemento.correo ||
-          !elemento.contra ||
-          !elemento.edad
-        );
-      });
-      console.log("Hay algún campo faltante");
-      return algunCampoVacio; // retorna true si hay campos vacios y false si no
-    }
-
     function usuarioSucces() {
       zonaErrores.innerText = "";
       const elemento = document.createElement("div");
@@ -56,17 +85,17 @@ window.addEventListener("DOMContentLoaded", () => {
       return elemento;
     }
 
-    if (verificarCampos()) {
+    if (registro.verificarCampos()) {
       console.error("error: campos vacíos");
       zonaErrores.appendChild(
-        lanzarError(`<div class="alert alert-danger mt-3" role="alert">
+      registro.lanzarError(`<div class="alert alert-danger mt-3" role="alert">
   Error: Debes de completar todos los campos</div>`)
       );
       return;
     }
     if (informacionUsuario[0].contra !== informacionUsuario[0].repetirContra) {
       zonaErrores.appendChild(
-        lanzarError(`<div class="alert alert-danger mt-3" role="alert">
+        registro.lanzarError(`<div class="alert alert-danger mt-3" role="alert">
   Error: Contraseña distintas en los campos <b>Contraseña</b> y <b>Repetir contraseña</b>
 </div>`)
       );
@@ -76,7 +105,7 @@ window.addEventListener("DOMContentLoaded", () => {
     if (informacionUsuario[0].contra.length < 8) {
       console.error("error: contraseña menor a 8 caracteres");
       zonaErrores.appendChild(
-        lanzarError(`<div class="alert alert-danger mt-3" role="alert">
+        registro.lanzarError(`<div class="alert alert-danger mt-3" role="alert">
   Error: La contraseña debe de tener al menos <b>8</b> caracteres</div>`)
       );
       return;
@@ -89,16 +118,21 @@ window.addEventListener("DOMContentLoaded", () => {
     ) {
       console.error("error: caracteres invalidos");
       zonaErrores.appendChild(
-        lanzarError(`<div class="alert alert-danger mt-3" role="alert">
+        registro.lanzarError(`<div class="alert alert-danger mt-3" role="alert">
   Error: La contraseña solo puede contener caracteres <b>#</b>, <b>!</b>, <b>-</b>, <b>/</b>, tampoco puede contener <b>ñ</b> </div>`)
       );
       return;
     }
-    if (!informacionUsuario[0].correo.includes("@")) {
+
+    // Verificar la sintaxis del correo
+    if (
+      !correo.checkValidity() ||
+      !registro.validarEmail(informacionUsuario[0].correo)
+    ) {
       console.error("error: correo invalido");
       zonaErrores.appendChild(
-        lanzarError(`<div class="alert alert-danger mt-3" role="alert">
-  Error: Correo electrónico invalido, asegurate de tener un <b>@</b> en tu correo </div>`)
+        registro.lanzarError(`<div class="alert alert-danger mt-3" role="alert">
+  Error: Correo electrónico invalido, asegurate de tener un <b>@</b> en tu correo y un <b>dominio</b></div>`)
       );
       return;
     }

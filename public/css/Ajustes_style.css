@@ -15,11 +15,13 @@ aside {
   background-color: var(--aside-color);
 }
 
+#aRegistro {
+  color: white;
+}
+
 #aRegistro:hover {
   /* Al pasar por arriba del hipervinculo */
-  color: var(--color-principal);
   background-color: var(--color-verificado);
-  transition: ease-in 100ms; /* pequeño efecto de transición */
   font-weight: 500;
 }
 

@@ -40,4 +40,29 @@ class Usuarios
         // Obtenemos el resultado como un array asociativo (solo un registro) y lo devolvemos
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
+
+    public function registerNewUser($nombre, $contraseña, $edad, $correo)
+    {
+
+        #INSERT INTO Usuario(nombre, contraseña, edad, correo) VALUES ("Emiliano", "contra123", 18, "emi@gmail.com");
+
+        $query = "INSERT INTO {$this->table}(nombre, contraseña, edad, correo) VALUES (:nombre, :contra,:edad, :correo)";
+        // Preparamos la consulta usando la conexión a la base de datos para evitar inyecciones SQL
+        $stmt = $this->conn->prepare($query);
+        // Reemplazamos las etiquetas por los parametros de la función
+        $stmt->bindParam(":nombre", $nombre, PDO::PARAM_STR);
+        // Reemplazar etiqueta :contra con la variable $contra
+        $stmt->bindParam(":contra", $contraseña, PDO::PARAM_STR);
+        // Reemplazar etiqueta :edad con la variable $edad
+        $stmt->bindParam(":edad", $edad, PDO::PARAM_STR);
+        // Reemplazar etiqueta :correo con la variable $correo
+        $stmt->bindParam(":correo", $correo, PDO::PARAM_STR);
+
+        // Ejecutamos la consulta preparada
+        if ($stmt->execute()) {
+            return $this->conn->lastInsertId();
+        }
+        // Obtenemos todos los resultados como un array asociativo y lo devolvemos
+        return false;
+    }
 }
