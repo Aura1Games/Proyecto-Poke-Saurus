@@ -105,6 +105,7 @@ class ApiPartida {
         jugadores: cant_jugadores,
         puntaje: puntaje_final,
         ganador: ganador,
+        tipo: "ingresar_partida",
       }),
     });
   }

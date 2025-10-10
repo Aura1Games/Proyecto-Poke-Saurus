@@ -27,19 +27,41 @@ class Registro {
     return this.contra.length >= 8;
   }
 
-  contieneCaracteresInvalidos() {
-    const caracteresInvalidos = ["ñ", "´", ".", "_"];
-    return caracteresInvalidos.some((caracter) =>
-      this.contra.toLowerCase().includes(caracter)
-    );
-  }
-
   lanzarError(error) {
     this.zonaErrores.innerText = "";
     const elemento = document.createElement("div");
     elemento.innerHTML = error;
     this.zonaErrores.appendChild(elemento);
     return elemento;
+  }
+}
+
+class Usuario {
+  constructor(url) {
+    this.baseUrl = url;
+  }
+
+  postRegistrarUsuario(nombre, correo, contra, edad) {
+    // Cabecera de la petición POST
+    return fetch(this.baseUrl, {
+      // petición POST
+      method: "POST", // metodo de la petición: POST
+      headers: {
+        "Content-Type": "application/json", // Tipo de contenido: JSON
+      },
+      body: JSON.stringify({
+        nombre: nombre,
+        contraseña: contra,
+        edad: edad,
+        correo: correo,
+        tipo: "registrar_usuario",
+      }),
+    }).then((response) => {
+      if (!response.ok) {
+        throw new Error("Error en la solicitud: " + response.status);
+      }
+      return response.json(); // Parsear la respuesta JSON
+    });
   }
 }
 
@@ -67,20 +89,18 @@ window.addEventListener("DOMContentLoaded", () => {
       zonaErrores
     );
 
-    const informacionUsuario = [
-      {
-        nombre: nombre.value,
-        correo: correo.value,
-        contra: contra.value,
-        repetirContra: repetirContra.value,
-        edad: edad.value,
-      },
-    ];
+    const informacionUsuario = {
+      nombre: nombre.value,
+      correo: correo.value,
+      contra: contra.value,
+      repetirContra: repetirContra.value,
+      edad: edad.value,
+    };
     function usuarioSucces() {
       zonaErrores.innerText = "";
       const elemento = document.createElement("div");
       elemento.innerHTML = `<div class="alert alert-success mt-3" role="alert">
-  Usuario ${informacionUsuario[0].nombre} agregado correctamente
+  Usuario ${informacionUsuario.nombre} agregado correctamente
 </div>`;
       return elemento;
     }
@@ -88,12 +108,12 @@ window.addEventListener("DOMContentLoaded", () => {
     if (registro.verificarCampos()) {
       console.error("error: campos vacíos");
       zonaErrores.appendChild(
-      registro.lanzarError(`<div class="alert alert-danger mt-3" role="alert">
+        registro.lanzarError(`<div class="alert alert-danger mt-3" role="alert">
   Error: Debes de completar todos los campos</div>`)
       );
       return;
     }
-    if (informacionUsuario[0].contra !== informacionUsuario[0].repetirContra) {
+    if (informacionUsuario.contra !== informacionUsuario.repetirContra) {
       zonaErrores.appendChild(
         registro.lanzarError(`<div class="alert alert-danger mt-3" role="alert">
   Error: Contraseña distintas en los campos <b>Contraseña</b> y <b>Repetir contraseña</b>
@@ -102,24 +122,11 @@ window.addEventListener("DOMContentLoaded", () => {
       console.error("error: contraseña desigual");
       return;
     }
-    if (informacionUsuario[0].contra.length < 8) {
+    if (informacionUsuario.contra.length < 8) {
       console.error("error: contraseña menor a 8 caracteres");
       zonaErrores.appendChild(
         registro.lanzarError(`<div class="alert alert-danger mt-3" role="alert">
-  Error: La contraseña debe de tener al menos <b>8</b> caracteres</div>`)
-      );
-      return;
-    }
-    if (
-      informacionUsuario[0].contra.toLowerCase().includes("ñ") ||
-      informacionUsuario[0].contra.toLowerCase().includes("´") ||
-      informacionUsuario[0].contra.toLowerCase().includes(".") ||
-      informacionUsuario[0].contra.toLowerCase().includes("_")
-    ) {
-      console.error("error: caracteres invalidos");
-      zonaErrores.appendChild(
-        registro.lanzarError(`<div class="alert alert-danger mt-3" role="alert">
-  Error: La contraseña solo puede contener caracteres <b>#</b>, <b>!</b>, <b>-</b>, <b>/</b>, tampoco puede contener <b>ñ</b> </div>`)
+      Error: La contraseña debe de tener al menos <b>8</b> caracteres</div>`)
       );
       return;
     }
@@ -127,17 +134,40 @@ window.addEventListener("DOMContentLoaded", () => {
     // Verificar la sintaxis del correo
     if (
       !correo.checkValidity() ||
-      !registro.validarEmail(informacionUsuario[0].correo)
+      !registro.validarEmail(informacionUsuario.correo)
     ) {
       console.error("error: correo invalido");
       zonaErrores.appendChild(
         registro.lanzarError(`<div class="alert alert-danger mt-3" role="alert">
-  Error: Correo electrónico invalido, asegurate de tener un <b>@</b> en tu correo y un <b>dominio</b></div>`)
+        Error: Correo electrónico invalido, asegurate de tener un <b>@</b> en tu correo y un <b>dominio</b></div>`)
       );
       return;
     }
 
-    zonaErrores.appendChild(usuarioSucces());
+    const apiUsuario = new Usuario(
+      "http://localhost/Proyecto-Poke-Saurus/api/"
+    );
+    apiUsuario
+      .postRegistrarUsuario(
+        informacionUsuario.nombre,
+        informacionUsuario.correo,
+        informacionUsuario.contra,
+        informacionUsuario.edad
+      )
+      .then((data) => {
+        if (data != null && !data.error) {
+          console.log("Usuario registrado:", data);
+          document.getElementById("formRegistro").reset();
+          zonaErrores.appendChild(usuarioSucces());
+        }
+      })
+      .catch((error) => {
+        console.error("Error al registrar el usuario:", error);
+        zonaErrores.appendChild(
+          registro.lanzarError(`<div class="alert alert-danger mt-3" role="alert">
+            Error: No se pudo registrar el usuario. Inténtalo de nuevo más tarde.</div>`)
+        );
+      });
   });
 
   btnSalir.addEventListener("click", () => {

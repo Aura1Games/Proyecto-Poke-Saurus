@@ -36,7 +36,63 @@ switch ($method) {
         break;
 
     case 'POST':
-        funcionPOST($partida);
+        // Lee todo del JSON
+        $json = file_get_contents('php://input');
+        $data = json_decode($json, true);
+
+        $tipo = $data['tipo'] ?? '';
+
+        switch ($tipo) {
+            case "ingresar_partida":
+                funcionPartidaPOST($partida);
+                break;
+            case "registrar_usuario":
+                // Validar campos necesarios
+                $requiredFields = ['nombre', 'contraseña', 'edad', 'correo'];
+                foreach ($requiredFields as $field) {
+                    if (empty($data[$field])) {
+                        http_response_code(400);
+                        echo json_encode(["mensaje" => "Campo '$field' es requerido"]);
+                        exit();
+                    }
+                }
+
+                // Sanitizar y asignar variables
+                $nombre = htmlspecialchars($data['nombre'], ENT_QUOTES, 'UTF-8');
+                $contraseña = htmlspecialchars($data['contraseña'], ENT_QUOTES, 'UTF-8');
+                $edad = intval($data['edad']);
+                $correo = filter_var($data['correo'], FILTER_SANITIZE_EMAIL);
+
+                // Validar correo
+                if (!filter_var($correo, FILTER_VALIDATE_EMAIL)) {
+                    http_response_code(400);
+                    echo json_encode(["mensaje" => "Correo inválido"]);
+                    exit();
+                }
+
+                // Intentar registrar el usuario
+                try {
+                    $result = $usuarios->registerNewUser($nombre, $contraseña, $edad, $correo);
+                    if ($result) {
+                        http_response_code(201);
+                        echo json_encode(["mensaje" => "Usuario registrado exitosamente"]);
+                    } else {
+                        http_response_code(500);
+                        echo json_encode(["mensaje" => "Error al registrar usuario"]);
+                    }
+                } catch (Exception $e) {
+                    http_response_code(500);
+                    echo json_encode([
+                        "mensaje" => "Error interno del servidor",
+                        "error" => $e->getMessage() // Solo en desarrollo, quitar en producción
+                    ]);
+                }
+                break;
+            default:
+                http_response_code(400);
+                echo json_encode(["mensaje" => "Tipo de acción no especificado o inválido"]);
+                break;
+        }
         break;
 
     default:
@@ -66,7 +122,7 @@ function funcionGet($usuarios)
 }
 
 // Función para manejar POST
-function funcionPOST($partida)
+function funcionPartidaPOST($partida)
 {
     // Lee el cuerpo de la solicitud POST, que se espera que sea un JSON
     $json = file_get_contents('php://input');
