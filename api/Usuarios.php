@@ -65,4 +65,17 @@ class Usuarios
         // Obtenemos todos los resultados como un array asociativo y lo devolvemos
         return false;
     }
+
+    public function obtenerHash($nombre) {
+        $query = "SELECT contraseña FROM {$this->table} WHERE nombre = :nombre";
+        // Preparamos la consulta usando la conexión a la base de datos
+        $stmt = $this->conn->prepare($query);
+        // Asociamos el valor recibido en $nombre al marcador ':nombre' en la consulta, asegurando que sea un string
+        $stmt->bindParam(":nombre", $nombre, PDO::PARAM_STR);
+        // Ejecutamos la consulta preparada
+        $stmt->execute();
+        // Obtenemos el resultado como un array asociativo (solo un registro) y lo devolvemos
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
 }

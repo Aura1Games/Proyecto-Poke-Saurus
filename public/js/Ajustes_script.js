@@ -75,6 +75,19 @@ class ApiUsuarios {
         return [];
       });
   }
+
+  async obtenerHashDeBD(nombre) {
+    return fetch(`${this.baseUrl}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        nombre: nombre,
+        tipo: "obtener_hash",
+      }),
+    });
+  }
 }
 
 class ApiPartida {

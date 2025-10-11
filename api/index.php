@@ -12,7 +12,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
     http_response_code(200);
     exit();
 }
-
 // Incluir archivos necesarios
 require_once "database.php";
 require_once "Usuarios.php";
@@ -40,53 +39,15 @@ switch ($method) {
         $json = file_get_contents('php://input');
         $data = json_decode($json, true);
 
-        $tipo = $data['tipo'] ?? '';
+        $tipo = $data['tipo'] ?? ''; // operador ternario para evitar undefined, null
 
         switch ($tipo) {
             case "ingresar_partida":
-                funcionPartidaPOST($partida);
+                funcionPartidaPOST($partida, $data);
                 break;
             case "registrar_usuario":
                 // Validar campos necesarios
-                $requiredFields = ['nombre', 'contraseña', 'edad', 'correo'];
-                foreach ($requiredFields as $field) {
-                    if (empty($data[$field])) {
-                        http_response_code(400);
-                        echo json_encode(["mensaje" => "Campo '$field' es requerido"]);
-                        exit();
-                    }
-                }
-
-                // Sanitizar y asignar variables
-                $nombre = htmlspecialchars($data['nombre'], ENT_QUOTES, 'UTF-8');
-                $contraseña = htmlspecialchars($data['contraseña'], ENT_QUOTES, 'UTF-8');
-                $edad = intval($data['edad']);
-                $correo = filter_var($data['correo'], FILTER_SANITIZE_EMAIL);
-
-                // Validar correo
-                if (!filter_var($correo, FILTER_VALIDATE_EMAIL)) {
-                    http_response_code(400);
-                    echo json_encode(["mensaje" => "Correo inválido"]);
-                    exit();
-                }
-
-                // Intentar registrar el usuario
-                try {
-                    $result = $usuarios->registerNewUser($nombre, $contraseña, $edad, $correo);
-                    if ($result) {
-                        http_response_code(201);
-                        echo json_encode(["mensaje" => "Usuario registrado exitosamente"]);
-                    } else {
-                        http_response_code(500);
-                        echo json_encode(["mensaje" => "Error al registrar usuario"]);
-                    }
-                } catch (Exception $e) {
-                    http_response_code(500);
-                    echo json_encode([
-                        "mensaje" => "Error interno del servidor",
-                        "error" => $e->getMessage() // Solo en desarrollo, quitar en producción
-                    ]);
-                }
+                funcionRegistrarUsuarioPOST($usuarios, $data);
                 break;
             default:
                 http_response_code(400);
@@ -99,6 +60,12 @@ switch ($method) {
         http_response_code(405);
         echo json_encode(["mensaje" => "Método no permitido"]);
         break;
+}
+# función para hashear contraseñas
+function prepararContraseña($contraseña)
+{
+    // Aquí puedes agregar lógica para hashear la contraseña, por ejemplo usando password_hash
+    return password_hash($contraseña, PASSWORD_BCRYPT);
 }
 
 // Función para manejar GET
@@ -122,12 +89,12 @@ function funcionGet($usuarios)
 }
 
 // Función para manejar POST
-function funcionPartidaPOST($partida)
+function funcionPartidaPOST($partida, $data)
 {
-    // Lee el cuerpo de la solicitud POST, que se espera que sea un JSON
-    $json = file_get_contents('php://input');
-    // Decodifica el JSON en un array asociativo de PHP (el 'true' es para que sea asociativo)
-    $data = json_decode($json, true);
+    // // Lee el cuerpo de la solicitud POST, que se espera que sea un JSON
+    // $json = file_get_contents('php://input');
+    // // Decodifica el JSON en un array asociativo de PHP (el 'true' es para que sea asociativo)
+    // $data = json_decode($json, true);
 
     // Validaciones exhaustivas
     if ($data === null) {
@@ -179,6 +146,66 @@ function funcionPartidaPOST($partida)
         } else {
             http_response_code(500);
             echo json_encode(["mensaje" => "Error al ingresar partida"]);
+        }
+    } catch (Exception $e) {
+        http_response_code(500);
+        echo json_encode([
+            "mensaje" => "Error interno del servidor",
+            "error" => $e->getMessage() // Solo en desarrollo, quitar en producción
+        ]);
+    }
+}
+
+function funcionRegistrarUsuarioPOST($usuarios, $data)
+{
+
+    if ($data === null) {
+        http_response_code(400);
+        echo json_encode(["mensaje" => "JSON inválido"]);
+        return;
+    }
+
+    # validar campos requeridos
+    $requiredFields = ['nombre', 'contraseña', 'edad', 'correo'];
+    foreach ($requiredFields as $field) {
+        if (empty($data[$field])) {
+            http_response_code(400);
+            echo json_encode(["mensaje" => "Campo '$field' es requerido"]);
+            exit();
+        }
+    }
+
+    // Validar tipo de datos
+    if (!is_numeric($data["edad"])) {
+        http_response_code(400);
+        echo json_encode(["mensaje" => "Campo 'edad' debe ser numérico"]);
+        return;
+    }
+
+    // Sanitizar y asignar variables
+    $nombre = htmlspecialchars($data['nombre'], ENT_QUOTES, 'UTF-8');
+    $contra_no_preparada = htmlspecialchars($data['contraseña'], ENT_QUOTES, 'UTF-8');
+    $edad = intval($data['edad']);
+    $correo = filter_var($data['correo'], FILTER_SANITIZE_EMAIL);
+    $contraseña = prepararContraseña($contra_no_preparada);
+
+
+    // Validar correo
+    if (!filter_var($correo, FILTER_VALIDATE_EMAIL)) {
+        http_response_code(400);
+        echo json_encode(["mensaje" => "Correo inválido"]);
+        exit();
+    }
+
+    // Intentar registrar el usuario
+    try {
+        $result = $usuarios->registerNewUser($nombre, $contraseña, $edad, $correo);
+        if ($result) {
+            http_response_code(201);
+            echo json_encode(["mensaje" => "Usuario registrado exitosamente"]);
+        } else {
+            http_response_code(500);
+            echo json_encode(["mensaje" => "Error al registrar usuario"]);
         }
     } catch (Exception $e) {
         http_response_code(500);
