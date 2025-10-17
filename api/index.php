@@ -12,6 +12,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
     http_response_code(200);
     exit();
 }
+
 // Incluir archivos necesarios
 require_once "database.php";
 require_once "Usuarios.php";
@@ -26,8 +27,6 @@ $partida = new Partida($db);
 // Obtener método HTTP
 $method = $_SERVER['REQUEST_METHOD'];
 
-
-
 // Manejar diferentes métodos
 switch ($method) {
     case 'GET':
@@ -35,19 +34,19 @@ switch ($method) {
         break;
 
     case 'POST':
-        // Lee todo del JSON
         $json = file_get_contents('php://input');
         $data = json_decode($json, true);
-
-        $tipo = $data['tipo'] ?? ''; // operador ternario para evitar undefined, null
+        $tipo = $data['tipo'] ?? '';
 
         switch ($tipo) {
             case "ingresar_partida":
                 funcionPartidaPOST($partida, $data);
                 break;
             case "registrar_usuario":
-                // Validar campos necesarios
                 funcionRegistrarUsuarioPOST($usuarios, $data);
+                break;
+            case "verificar_login":
+                funcionVerificarLoginPOST($usuarios, $db, $data);
                 break;
             default:
                 http_response_code(400);
@@ -61,18 +60,63 @@ switch ($method) {
         echo json_encode(["mensaje" => "Método no permitido"]);
         break;
 }
-# función para hashear contraseñas
+
+// ============= FUNCIONES AUXILIARES =============
+
+/**
+ * Hashea una contraseña usando bcrypt
+ */
 function prepararContraseña($contraseña)
 {
-    // Aquí puedes agregar lógica para hashear la contraseña, por ejemplo usando password_hash
     return password_hash($contraseña, PASSWORD_BCRYPT);
 }
 
-// Función para manejar GET
+/**
+ * Verifica contraseña contra hash o texto plano (legacy)
+ * @param string $contraseñaIngresada - Contraseña en texto plano del usuario
+ * @param string $contraseñaAlmacenada - Hash o texto plano de la BD
+ * @return bool
+ */
+function verificarContraseña($contraseñaIngresada, $contraseñaAlmacenada)
+{
+    // Detectar si es hash bcrypt (comienza con $2y$, $2a$ o $2b$)
+    if (preg_match('/^\$2[ayb]\$/', $contraseñaAlmacenada)) {
+        // Usar password_verify para hashes
+        return password_verify($contraseñaIngresada, $contraseñaAlmacenada);
+    } else {
+        // Comparación directa para contraseñas sin hashear (legacy)
+        return $contraseñaIngresada === $contraseñaAlmacenada;
+    }
+}
+
+/**
+ * Detecta si una contraseña está hasheada
+ */
+function esContraseñaHasheada($contraseña)
+{
+    return preg_match('/^\$2[ayb]\$/', $contraseña);
+}
+
+/**
+ * Actualiza la contraseña en la base de datos
+ */
+function actualizarHashContraseña($db, $nombre, $nuevaContraseñaHash)
+{
+    try {
+        $stmt = $db->prepare("UPDATE Usuario SET contraseña = ? WHERE nombre = ?");
+        $stmt->execute([$nuevaContraseñaHash, $nombre]);
+        return $stmt->rowCount() > 0;
+    } catch (Exception $e) {
+        error_log("Error actualizando contraseña: " . $e->getMessage());
+        return false;
+    }
+}
+
+// ============= FUNCIONES DE ENDPOINTS =============
+
 function funcionGet($usuarios)
 {
     if (isset($_GET['nombre'])) {
-        // Sanitiza el input para prevenir ataques XSS. La protección contra SQLi ya está en la consulta preparada.
         $nombre = htmlspecialchars($_GET['nombre'] ?? '', ENT_QUOTES, 'UTF-8');
         if (empty($nombre)) {
             http_response_code(400);
@@ -88,22 +132,14 @@ function funcionGet($usuarios)
     }
 }
 
-// Función para manejar POST
 function funcionPartidaPOST($partida, $data)
 {
-    // // Lee el cuerpo de la solicitud POST, que se espera que sea un JSON
-    // $json = file_get_contents('php://input');
-    // // Decodifica el JSON en un array asociativo de PHP (el 'true' es para que sea asociativo)
-    // $data = json_decode($json, true);
-
-    // Validaciones exhaustivas
     if ($data === null) {
         http_response_code(400);
         echo json_encode(["mensaje" => "JSON inválido"]);
         return;
     }
 
-    // Campos requeridos
     $requiredFields = ["fecha", "jugadores", "puntaje", "ganador"];
     foreach ($requiredFields as $field) {
         if (!isset($data[$field])) {
@@ -113,35 +149,30 @@ function funcionPartidaPOST($partida, $data)
         }
     }
 
-    // Validar tipos de datos
     if (!is_numeric($data["jugadores"]) || !is_numeric($data["puntaje"]) || !is_numeric($data["ganador"])) {
         http_response_code(400);
         echo json_encode(["mensaje" => "Campos numéricos inválidos"]);
         return;
     }
 
-    // Sanitizar datos
     $fecha = $data["fecha"];
     $jugadores = intval($data["jugadores"]);
     $puntaje = intval($data["puntaje"]);
     $ganador = intval($data["ganador"]);
 
-    // Validar fecha
     if (!DateTime::createFromFormat('Y-m-d H:i:s', $fecha)) {
         http_response_code(400);
         echo json_encode(["mensaje" => "Formato de fecha inválido. Use Y-m-d H:i:s"]);
         return;
     }
 
-    // Insertar con manejo de errores
     try {
         $result = $partida->insertarPartida($fecha, $jugadores, $puntaje, $ganador);
         if ($result) {
-            // si está todo bien ...
             http_response_code(201);
             echo json_encode([
                 "mensaje" => "Partida ingresada exitosamente",
-                "id" => $result // Asumiendo que retorna el ID insertado
+                "id" => $result
             ]);
         } else {
             http_response_code(500);
@@ -151,21 +182,19 @@ function funcionPartidaPOST($partida, $data)
         http_response_code(500);
         echo json_encode([
             "mensaje" => "Error interno del servidor",
-            "error" => $e->getMessage() // Solo en desarrollo, quitar en producción
+            "error" => $e->getMessage()
         ]);
     }
 }
 
 function funcionRegistrarUsuarioPOST($usuarios, $data)
 {
-
     if ($data === null) {
         http_response_code(400);
         echo json_encode(["mensaje" => "JSON inválido"]);
         return;
     }
 
-    # validar campos requeridos
     $requiredFields = ['nombre', 'contraseña', 'edad', 'correo'];
     foreach ($requiredFields as $field) {
         if (empty($data[$field])) {
@@ -175,29 +204,24 @@ function funcionRegistrarUsuarioPOST($usuarios, $data)
         }
     }
 
-    // Validar tipo de datos
     if (!is_numeric($data["edad"])) {
         http_response_code(400);
         echo json_encode(["mensaje" => "Campo 'edad' debe ser numérico"]);
         return;
     }
 
-    // Sanitizar y asignar variables
     $nombre = htmlspecialchars($data['nombre'], ENT_QUOTES, 'UTF-8');
     $contra_no_preparada = htmlspecialchars($data['contraseña'], ENT_QUOTES, 'UTF-8');
     $edad = intval($data['edad']);
     $correo = filter_var($data['correo'], FILTER_SANITIZE_EMAIL);
     $contraseña = prepararContraseña($contra_no_preparada);
 
-
-    // Validar correo
     if (!filter_var($correo, FILTER_VALIDATE_EMAIL)) {
         http_response_code(400);
         echo json_encode(["mensaje" => "Correo inválido"]);
         exit();
     }
 
-    // Intentar registrar el usuario
     try {
         $result = $usuarios->registerNewUser($nombre, $contraseña, $edad, $correo);
         if ($result) {
@@ -211,7 +235,86 @@ function funcionRegistrarUsuarioPOST($usuarios, $data)
         http_response_code(500);
         echo json_encode([
             "mensaje" => "Error interno del servidor",
-            "error" => $e->getMessage() // Solo en desarrollo, quitar en producción
+            "error" => $e->getMessage()
+        ]);
+    }
+}
+
+/**
+ * ========== NUEVA API: VERIFICAR LOGIN ==========
+ * Valida credenciales y migra contraseñas antiguas automáticamente
+ */
+function funcionVerificarLoginPOST($usuarios, $db, $data)
+{
+    // Validar JSON
+    if ($data === null) {
+        http_response_code(400);
+        echo json_encode(["mensaje" => "JSON inválido", "exito" => false]);
+        return;
+    }
+
+    // Validar campos requeridos
+    if (empty($data['nombre']) || empty($data['contraseña'])) {
+        http_response_code(400);
+        echo json_encode(["mensaje" => "Nombre y contraseña son requeridos", "exito" => false]);
+        return;
+    }
+
+    // Sanitizar inputs
+    $nombre = htmlspecialchars($data['nombre'], ENT_QUOTES, 'UTF-8');
+    $contraseñaIngresada = $data['contraseña']; // No sanitizar contraseña para mantener integridad
+
+    try {
+        // Obtener usuario de la base de datos
+        $usuario = $usuarios->getByName($nombre);
+
+        if (!$usuario || !isset($usuario['contraseña'])) {
+            http_response_code(401);
+            echo json_encode(["mensaje" => "Usuario no encontrado", "exito" => false]);
+            return;
+        }
+
+        $contraseñaAlmacenada = $usuario['contraseña'];
+
+        // Verificar contraseña (hasheada o sin hashear)
+        $esValida = verificarContraseña($contraseñaIngresada, $contraseñaAlmacenada);
+
+        if (!$esValida) {
+            http_response_code(401);
+            echo json_encode(["mensaje" => "Contraseña incorrecta", "exito" => false]);
+            return;
+        }
+
+        // Login exitoso
+        $respuesta = [
+            "mensaje" => "Login exitoso",
+            "exito" => true,
+            "usuario" => [
+                "nombre" => $usuario['nombre'],
+                "correo" => $usuario['correo'] ?? null,
+                "edad" => $usuario['edad'] ?? null
+            ]
+        ];
+
+        // Si la contraseña NO está hasheada, migrarla automáticamente
+        if (!esContraseñaHasheada($contraseñaAlmacenada)) {
+            $nuevoHash = prepararContraseña($contraseñaIngresada);
+            $actualizado = actualizarHashContraseña($db, $nombre, $nuevoHash);
+
+            if ($actualizado) {
+                $respuesta["mensaje"] .= " (Seguridad mejorada)";
+                $respuesta["migracion"] = true;
+            }
+        }
+
+        http_response_code(200);
+        echo json_encode($respuesta);
+    } catch (Exception $e) {
+        http_response_code(500);
+        echo json_encode([
+            "mensaje" => "Error interno del servidor",
+            "exito" => false,
+            "error" => $e->getMessage()
         ]);
     }
 }
