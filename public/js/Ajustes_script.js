@@ -313,8 +313,7 @@ window.addEventListener("DOMContentLoaded", () => {
           apiPartida.guardarUsuariosEnLocalStorage();
 
           // Redirigimos a la página de la partida
-          window.location.href =
-            "/Proyecto-Poke-Saurus/public/pages/Partida.html";
+          window.location.href = "./Partida.html";
         })
         .catch((error) => {
           // El .catch manejará errores de red o el error que lanzamos arriba.
@@ -330,6 +329,6 @@ window.addEventListener("DOMContentLoaded", () => {
   });
 
   registrarse.addEventListener("click", () => {
-    window.location.href = "/Proyecto-Poke-Saurus/public/pages/Registro.html";
+    window.location.href = "./Registro.html";
   });
 });

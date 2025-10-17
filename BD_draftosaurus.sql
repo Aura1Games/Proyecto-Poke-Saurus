@@ -2,20 +2,6 @@ use BDDS;
 # La siguiente línea de código establece que la BD soporte caracteres utf-8
  ALTER DATABASE BDDS CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
-show tables;
-select * from Partida;
-describe colocacion;
-describe dinosaurio;
-describe juega;
-describe recinto;
-describe tablero;
-
-
-
-select * from usuario;
-
-describe usuario;
-alter table usuario change contraseña contraseña varchar(255) not null;
 # ================================
 # Tabla de usuarios: Usuario(id_usuario, nombre, contraseña, edad, correo)
 # ================================
@@ -30,8 +16,6 @@ alter table Usuario change nombre nombre varchar(40) not null unique;
 
 # Consultar la tabla Usuario
 SELECT * FROM Usuario;
-
-select contraseña from Usuario where nombre like "elian";
 
 # Ingresar datos a la tabla Usuario
 INSERT INTO Usuario(nombre, contraseña, edad, correo) 
@@ -105,12 +89,6 @@ SELECT * FROM Dinosaurio;
 
 # Ingresar datos a la tabla Dinosaurio
 INSERT INTO Dinosaurio(color) VALUES ("verde");
-
-UPDATE Dinosaurio
-SET color = ''
-WHERE id_dinosaurio = 2;
-
-
 
 # ================================
 # Relación Usuario- Partida: Juega(id_usuario, id_partida)

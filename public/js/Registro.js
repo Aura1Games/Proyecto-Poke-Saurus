@@ -171,7 +171,6 @@ window.addEventListener("DOMContentLoaded", () => {
   });
 
   btnSalir.addEventListener("click", () => {
-    window.location.href =
-      "/Proyecto-Poke-Saurus/public/pages/Ajustes_de_partida.html";
+    window.location.href = "./Ajustes_de_partida.html";
   });
 });
