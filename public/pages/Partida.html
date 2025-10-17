@@ -13,21 +13,42 @@
     <link rel="icon" type="image/x-icon" href="../images/dino_icono.webp" />
     <link rel="stylesheet" href="../css/global.css" />
     <link rel="stylesheet" href="../css/Partida_style.css" />
+    <link rel="stylesheet" href="../css/tablero_style.css">
+
   </head>
   <body>
     <div id="fondo"></div>
     <div class="container-fluid px-0 h-100">
       <div class="row px-0 mx-0">
         <div class="col-md-8 col-sm-12 px-0">
+
+          <!-- dentro del main está toda la estructura de el tablero -->
           <main
             class="d-flex flex-column px-0 h-100"
           >
-            <img
-              class=" align-self-center img-thumbnail"
-              src="../images/tablero.JPG"
-              alt="tablero"
-              id="img_tablero"
-            />
+          <!-- tablero -->
+            
+            <div class=" align-self-center img-thumbnail" id="tablero">
+            
+              <!-- Bosque de la semejanza -->
+              <div class="recinto recintoLaterales admite6" title="Bosque de la semejanza" id="bosqueDeLaSemejanza"></div>
+              <!-- "Rio" -->
+              <div class="recinto recintoCentro" title="Rio"></div>
+              <!-- Rey de la selva -->
+              <div class="recinto recintoLaterales" title="Rey de la selva" id="reyDeLaSelva"></div>
+              <!-- Trio frondoso -->
+              <div class="recinto recintoLaterales " title="Trio frondoso" id="trioFrondoso"></div>
+              <!-- Rio -->
+              <div class="recinto recintoCentro" title="Rio"></div>
+              <!-- Prado de la diferencia -->
+              <div class="recinto recintoLaterales " title="Prado de la diferencia" id="pradoDeLaDiferencia"></div>
+              <!-- Pradera del amor -->
+              <div class="recinto recintoLaterales " title="Pradera del amor" id="praderaDelAmor"></div>
+              <!-- Rio -->
+              <div class="recinto recintoCentro" title="Rio"></div>
+              <!-- Isla solitaria -->
+              <div class="recinto recintoLaterales " title="Isla solitaria" id="islaSolitaria"></div>
+            </div>
           </main>
         </div>
 
@@ -69,23 +90,24 @@
 
               <!-- Modal -->
               <div
-                class="modal fade "
+                class="modal fade"
                 id="exampleModal"
                 tabindex="-1"
-                aria-labelledby="exampleModalLabel"
-                aria-hidden="true"
+                role="dialog"
+                aria-labelledby="modalDinosauriosDisponibles"
               >
-                <div class="modal-dialog modal-fullscreen-sm-down ">
-                  <div class="modal-content ">
+                <div class="modal-dialog modal-fullscreen-sm-down" role="document">
+                  <div class="modal-content">
                     <div class="modal-header">
-                      <h1 class="modal-title fs-5" id="exampleModalLabel">
+                      <h1 class="modal-title fs-5" id="modalDinosauriosDisponibles">
                         Dinosaurios disponibles
                       </h1>
                       <button
                         type="button"
                         class="btn-close"
                         data-bs-dismiss="modal"
-                        aria-label="Close"
+                        aria-label="Cerrar"
+                        data-bs-target="#exampleModal"
                       ></button>
                     </div>
                     <div class="modal-body">
@@ -114,49 +136,49 @@
 
               <!-- Modal -->
               <div
-                class="modal fade "
+                class="modal fade"
                 id="Modal2"
                 tabindex="-1"
-                aria-labelledby="exampleModalLabel"
-                aria-hidden="true"
+                role="dialog"
+                aria-labelledby="modalColocarDinosaurios"
               >
-                <div class="modal-dialog modal-fullscreen-sm-down ">
-                  <div class="modal-content ">
+                <div class="modal-dialog modal-fullscreen-sm-down" role="document">
+                  <div class="modal-content">
                     <div class="modal-header">
-                      <h1 class="modal-title fs-5" id="exampleModalLabel">
+                      <h1 class="modal-title fs-5" id="modalColocarDinosaurios">
                         Colocar dinosaurios
                       </h1>
                       <button
                         type="button"
                         class="btn-close"
                         data-bs-dismiss="modal"
-                        aria-label="Close"
+                        aria-label="Cerrar"
                       ></button>
                     </div>
                     <div class="modal-body d-flex flex-column">
                         
-  <select class="form-select mb-4" aria-label="Default select example">
-  <option selected>Seleccione un dinosaurio</option>
-  <option value="1"><h3>Espinosaurios</h3> </option>
-  <option value="2"><h3>Triceratops</h3> </option>
-  <option value="3"><h3>Estegosaurio</h3> </option>
-  <option value="4"><h3>Parasaurolophus</h3> </option>
-  <option value="3"><h3>Brachiosaurus</h3> </option>
-  <option value="3"><h3>Tiranosaurio Rex</h3> </option>
-</select><select class="form-select mb-4" aria-label="Default select example">
-  <option selected>Seleccione un recinto</option>
-  <option value="1"><h3>El Bosque de la Semejanza</h3> </option>
-  <option value="2"><h3>El Prado de la Diferencia</h3> </option>
-  <option value="3"><h3>La Pradera del Amor</h3> </option>
-  <option value="4"><h3>El Trío Frondoso</h3> </option>
-  <option value="5"><h3>El Rey de la Selva</h3> </option>
-  <option value="6"><h3>La Isla Solitaria</h3> </option>
-  <option value="7"><h3>El Rio</h3> </option>
+  <select class="form-select mb-4" aria-label="Default select example" id="select-dinosaurios">
+  <option selected value="">Seleccione un dinosaurio</option>
+  <option value="1">Espinosaurios</option>
+  <option value="2">Triceratops</option>
+  <option value="3">Estegosaurio</option>
+  <option value="4">Parasaurolophus</option>
+  <option value="5">Brachiosaurus</option>
+  <option value="6">Tiranosaurio Rex</option>
+</select><select class="form-select mb-4" aria-label="Default select example" id="select-recintos">
+  <option selected value="">Seleccione un recinto</option>
+  <option value="bosqueDeLaSemejanza">El Bosque de la Semejanza</option>
+  <option value="pradoDeLaDiferencia">El Prado de la Diferencia</option>
+  <option value="praderaDelAmor">La Pradera del Amor</option>
+  <option value="trioFrondoso">El Trío Frondoso</option>
+  <option value="reyDeLaSelva">El Rey de la Selva</option>
+  <option value="islaSolitaria">La Isla Solitaria</option>
+  <option value="rio">El Rio</option>
 </select>
 <div class="alert alert-primary" role="alert">
   Recuerda las restricciónes del dado para colocar tus dinosaurios
 </div>
-<button class="btn btn-primary align-self-center">Colocar dinosaurio</button>
+<button class="btn btn-primary align-self-center" id="btnColocarDinosaurios">Colocar dinosaurio</button>
 </div>
                   </div>
                 </div>
@@ -175,31 +197,37 @@
 
               <!-- Modal -->
               <div
-                class="modal fade "
+                class="modal fade"
                 id="Modal3"
                 tabindex="-1"
-                aria-labelledby="exampleModalLabel"
-                aria-hidden="true"
+                role="dialog"
+                aria-labelledby="modalTerminarTurno"
               >
-                <div class="modal-dialog modal-fullscreen-sm-down ">
-                  <div class="modal-content ">
+                <div class="modal-dialog modal-fullscreen-sm-down" role="document">
+                  <div class="modal-content">
                     <div class="modal-header">
-                      <h1 class="modal-title fs-5" id="exampleModalLabel">
+                      <h1 class="modal-title fs-5" id="modalTerminarTurno">
                         Terminar turno
                       </h1>
                       <button
                         type="button"
                         class="btn-close"
                         data-bs-dismiss="modal"
-                        aria-label="Close"
+                        aria-label="Cerrar"
+                        data-bs-target="#Modal3"
                       ></button>
                     </div>
                     <div class="modal-body d-flex flex-column">
-                        <h6>Resumen del turno</h6>
+                        <h2 class="h6">Resumen del turno</h2>
                         <div class="alert alert-primary" role="alert" id="alert_turno">
-                        <p>Dinosaurio <span style="color: red;"><i>Tiranosaurio rex</i> </span> colocado en el recinto <span style="color: grey;"><i>La Isala Solitaria</i></span>.</p>
+                        <p>Dinosaurio <span style="color: red;"><i>Tiranosaurio rex</i> </span> colocado en el recinto <span style="color: grey;"><i>La Isla Solitaria</i></span>.</p>
                         </div>
-                    <button class="btn btn-primary align-self-center">Continuar</button>
+                    <button 
+                        class="btn btn-primary align-self-center"
+                        aria-label="Continuar al siguiente turno"
+                    >
+                        Continuar
+                    </button>
                     </div>
                   </div>
                 </div>

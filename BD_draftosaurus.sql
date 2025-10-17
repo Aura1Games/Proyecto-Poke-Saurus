@@ -12,7 +12,6 @@ CREATE TABLE Usuario(
     edad INT NOT NULL,
     correo VARCHAR(50) NOT NULL UNIQUE
 );
-alter table Usuario change nombre nombre varchar(40) not null unique;
 
 # Consultar la tabla Usuario
 SELECT * FROM Usuario;
@@ -34,10 +33,9 @@ CREATE TABLE Partida(
 # Consultar la tabla Partida
 SELECT * FROM Partida;
 
-#INSERT INTO Partida(fecha, cant_jugadores, puntaje_final, ganador) VALUES (curdate(), 3, 30, 1);
 
 # Ingresar datos a la tabla Partida
-#INSERT INTO Partida(fecha, cant_jugadores, puntaje_final, ganador) VALUES ("2025-09-05 15:30:00", 4, 40, 2);
+#INSERT INTO Partida(fecha, cant_jugadores, puntaje_final, ganador) VALUES (curdate(), 3, 30, 1);
 
 
 # ================================

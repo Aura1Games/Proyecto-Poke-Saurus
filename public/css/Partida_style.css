@@ -48,3 +48,41 @@ main {
     height: 100%;
   }
 }
+#tablero {
+  width: 932.875px;
+  height: 854.875px;
+  background-color: rgba(9, 95, 35, 0.541);
+  padding: 4px;
+  border: 1.333px solid black;
+  display: grid;
+  grid-template-columns: 2fr 1fr 2fr;
+  grid-template-rows: 1fr 1fr 1fr;
+}
+.recinto {
+  width: 50px;
+  height: 50px;
+  background-color: rgba(144, 228, 0, 0.267);
+  display: flex;
+  justify-self: center;
+  align-self: center;
+}
+.recintoLaterales {
+  border: 1px solid black;
+  border-radius: 15px;
+  width: 260px;
+  height: 280px;
+}
+.recintoCentro {
+  width: calc(100% - 50px);
+  height: 100%;
+}
+.admite6 {
+  flex-direction: row;
+  flex-grow: 6;
+}
+.objeto {
+  width: 30px;
+  height: 30px;
+  margin: 2px;
+  background-color: red;
+}

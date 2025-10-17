@@ -1,0 +1,374 @@
+:root {
+  /* Variables */
+  --verde-principal: rgba(70, 191, 70, 0.62);
+  --verde-secundario: #056309;
+  --naranja-secundario: #f57c00;
+  --naranja-principal: #ffecb3;
+}
+
+/* Tablero principal con textura de fondo */
+#tablero {
+  width: 932.875px;
+  height: 854.875px;
+  background: #3d7a1fb5;
+  padding: 15px;
+  border: 1.333px solid #1fa445;
+  border-radius: 20px;
+  display: grid;
+  grid-template-columns: 2fr 1fr 2fr;
+  grid-template-rows: 1fr 1fr 1fr;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3),
+    inset 0 2px 5px rgba(255, 255, 255, 0.2);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Textura de fondo del tablero */
+#tablero::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: radial-gradient(
+      circle at 20% 30%,
+      rgba(255, 255, 255, 0.1) 0%,
+      transparent 50%
+    ),
+    radial-gradient(circle at 80% 70%, rgba(0, 0, 0, 0.05) 0%, transparent 50%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Recintos base */
+.recinto {
+  position: relative;
+  background-color: rgba(255, 255, 255, 0.9);
+  display: flex;
+  justify-self: center;
+  align-self: center;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+  border: 3px solid transparent;
+}
+
+/* Recintos laterales con bordes más gruesos */
+.recintoLaterales {
+  border-radius: 20px;
+  width: calc(100% - 20px);
+  height: calc(100% - 20px);
+  max-width: 300px;
+  max-height: 280px;
+  padding: 10px;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  align-content: space-evenly;
+  gap: 8px;
+}
+
+/* Estilos específicos por recinto */
+
+/* 1. Bosque de la semejanza (Superior Izquierda) - VERDE */
+.recinto[title="Bosque de la semejanza"] {
+  background-color: var(--verde-principal);
+  border-color: var(--verde-secundario);
+  grid-column: 1;
+  grid-row: 1;
+}
+
+.recinto[title="Bosque de la semejanza"]::before {
+  content: "🟰";
+  position: absolute;
+  top: 5px;
+  left: 10px;
+  font-size: 24px;
+  opacity: 0.9;
+}
+
+.recinto[title="Rey de la selva"] {
+  background-color: var(--verde-principal);
+  border-color: var(--verde-secundario);
+  grid-column: 3;
+  grid-row: 1;
+}
+
+.recinto[title="Rey de la selva"]::before {
+  content: "👑";
+  position: absolute;
+  top: 5px;
+  left: 10px;
+  font-size: 24px;
+  opacity: 0.9;
+}
+
+.recinto[title="Trio frondoso"] {
+  background-color: var(--verde-principal);
+  border-color: var(--verde-secundario);
+  grid-column: 1;
+  grid-row: 2;
+}
+
+.recinto[title="Trio frondoso"]::before {
+  content: "3️⃣";
+  position: absolute;
+  top: 5px;
+  left: 10px;
+  font-size: 24px;
+  opacity: 0.9;
+}
+
+.recinto[title="Prado de la diferencia"] {
+  background-color: var(--naranja-principal);
+  border-color: var(--naranja-secundario);
+  grid-column: 3;
+  grid-row: 2;
+}
+
+.recinto[title="Prado de la diferencia"]::before {
+  content: "≠";
+  position: absolute;
+  top: 5px;
+  left: 10px;
+  font-size: 30px;
+  opacity: 1;
+}
+
+/* 5. Pradera del amor (Inferior Izquierda) - ROSA/NARANJA */
+.recinto[title="Pradera del amor"] {
+  background-color: var(--naranja-principal);
+  border-color: var(--naranja-secundario);
+  grid-column: 1;
+  grid-row: 3;
+}
+
+.recinto[title="Pradera del amor"]::before {
+  content: "❤️";
+  position: absolute;
+  top: 5px;
+  left: 10px;
+  font-size: 24px;
+  opacity: 0.9;
+}
+
+/* 6. Isla solitaria (Inferior Derecha) - BEIGE/TIERRA */
+.recinto[title="Isla solitaria"] {
+  background-color: var(--naranja-principal);
+  border-color: var(--naranja-secundario);
+  grid-column: 3;
+  grid-row: 3;
+}
+
+.recinto[title="Isla solitaria"]::before {
+  content: "1️⃣";
+  position: absolute;
+  top: 5px;
+  left: 10px;
+  font-size: 24px;
+  opacity: 0.9;
+}
+
+/* RÍO CENTRAL - Todas las secciones del río */
+.recintoCentro {
+  width: 100%;
+  height: 100%;
+  background: #0288d1;
+
+  border-left: 5px solid #01579b;
+  border-right: 5px solid #01579b;
+
+  overflow: hidden;
+}
+
+/* Posicionamiento específico de cada sección del río */
+.recintoCentro:nth-of-type(2) {
+  grid-column: 2;
+  grid-row: 1;
+}
+
+.recintoCentro:nth-of-type(5) {
+  grid-column: 2;
+  grid-row: 2;
+}
+
+.recintoCentro:nth-of-type(8) {
+  grid-column: 2;
+  grid-row: 3;
+}
+
+/* Efecto de agua en movimiento */
+.recintoCentro::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(
+      circle at 30% 20%,
+      rgba(255, 255, 255, 0.4) 0%,
+      transparent 50%
+    ),
+    radial-gradient(
+      circle at 70% 60%,
+      rgba(255, 255, 255, 0.3) 0%,
+      transparent 50%
+    ),
+    radial-gradient(
+      circle at 50% 80%,
+      rgba(255, 255, 255, 0.2) 0%,
+      transparent 40%
+    );
+  animation: ondas 3s ease-in-out infinite;
+}
+
+/* Burbujas decorativas en el río */
+.recintoCentro::after {
+  content: "";
+  position: absolute;
+  width: 15px;
+  height: 15px;
+  background: rgba(255, 255, 255, 0.5);
+  border-radius: 50%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  box-shadow: -20px -30px 0 -5px rgba(255, 255, 255, 0.4),
+    20px 30px 0 -3px rgba(255, 255, 255, 0.3),
+    -15px 40px 0 -4px rgba(255, 255, 255, 0.35);
+  animation: burbujas 4s ease-in-out infinite;
+}
+
+/* Objetos/Espacios dentro de los recintos */
+.admite6 {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  align-content: space-evenly;
+  padding: 15px;
+}
+
+.objeto {
+  width: 70px;
+  height: 70px;
+  margin: 5px;
+  background: blueviolet;
+  border: 1px solid #1a676e;
+  border-radius: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2),
+    inset 0 1px 2px rgba(255, 255, 255, 0.5);
+  font-size: 36px;
+  position: relative;
+}
+
+/* Responsive */
+/* @media (max-width: 1024px) {
+  #tablero {
+    width: 90vw;
+    height: 85vh;
+    padding: 10px;
+    gap: 8px;
+  }
+
+  .recintoLaterales {
+    max-width: 100%;
+    max-height: 100%;
+    padding: 8px;
+  }
+
+  .objeto {
+    width: 55px;
+    height: 55px;
+    font-size: 28px;
+  }
+}
+
+@media (max-width: 768px) {
+  #tablero {
+    width: 95vw;
+    height: 90vh;
+    padding: 8px;
+    gap: 6px;
+    grid-template-columns: 1fr;
+    grid-template-rows: repeat(9, 1fr);
+  }
+
+  .recinto {
+    grid-column: 1 !important;
+  }
+
+  .recintoCentro {
+    height: 100%;
+    border-radius: 20px;
+  }
+
+  .objeto {
+    width: 45px;
+    height: 45px;
+    font-size: 24px;
+    margin: 3px;
+  }
+} */
+
+/* Títulos y etiquetas de recintos */
+.recinto::after {
+  position: absolute;
+  bottom: 5px;
+  right: 10px;
+  font-size: 12px;
+  font-weight: bold;
+  color: rgba(0, 0, 0, 0.5);
+  padding: 3px 8px;
+  background: rgba(255, 255, 255, 0.7);
+  border-radius: 10px;
+  pointer-events: none;
+}
+
+.recinto[title="Bosque de la semejanza"]::after {
+  content: "|  2pt  |  4pt  |  8pt  |  12pt  |  18pt  |  24pt  |";
+}
+
+.recinto[title="Rey de la selva"]::after {
+  content: "👑 = 7pts";
+}
+
+.recinto[title="Trio frondoso"]::after {
+  content: "🦖🦖🦖 = 7pt";
+}
+
+.recinto[title="Prado de la diferencia"]::after {
+  content: "|  1pt  |  3pt  |  6pt  |  10pt  |  15pt  |  21pt  | ";
+}
+
+.recinto[title="Pradera del amor"]::after {
+  content: "💜💜 = 5pt";
+}
+
+.recinto[title="Isla solitaria"]::after {
+  content: "💔 = 7pt";
+}
+
+/* Clase para imagen del tablero de fondo (opcional) */
+.img-thumbnail {
+  background-clip: padding-box;
+  position: relative;
+}
+
+/* Sombra interna para dar profundidad */
+.recintoLaterales::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: 15px;
+  box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.1);
+  pointer-events: none;
+}

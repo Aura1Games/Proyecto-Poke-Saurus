@@ -1,5 +1,3 @@
-// ========== CLASES API ==========
-
 class ApiUsuarios {
   constructor(baseUrl) {
     this.baseUrl = baseUrl;
@@ -112,11 +110,10 @@ class ApiPartida {
   }
 }
 
-// ========== INSTANCIAS GLOBALES ==========
+// Instancias de clases API
 const api = new ApiUsuarios("http://localhost/Proyecto-Poke-Saurus/api/");
 const apiPartida = new ApiPartida("http://localhost/Proyecto-Poke-Saurus/api/");
 
-// ========== LÓGICA PRINCIPAL ==========
 window.addEventListener("DOMContentLoaded", () => {
   const selectElement = document.getElementById("cant_jugadores");
   const bloque_1 = document.getElementById("contenedor_01");
@@ -164,9 +161,10 @@ window.addEventListener("DOMContentLoaded", () => {
     },
   ];
 
-  // ========== LÓGICA DE VERIFICACIÓN MEJORADA ==========
+  // Lógica de verificación de usuarios
   const botonesVerificar = document.querySelectorAll(".btn_verificar");
 
+  // Login de los jugadores
   botonesVerificar.forEach((boton, indice) => {
     boton.addEventListener("click", async () => {
       const input = jugadores[indice].input;
@@ -208,7 +206,7 @@ window.addEventListener("DOMContentLoaded", () => {
           return;
         }
 
-        // ========== VERIFICAR LOGIN EN EL SERVIDOR ==========
+        // Verificar contraseña en el servidor
         const resultado = await api.verificarLogin(
           nombreIngresado,
           contraseñaIngresada
@@ -248,11 +246,12 @@ window.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  // ========== INICIAR PARTIDA ==========
+  // == Iniciar partida ==
   const iniciar_partida = document.getElementById("btn_iniciar_partida");
   iniciar_partida.addEventListener("click", () => {
     const cant_jugadores = selectElement.value;
 
+    // Verificaciónes de cantidad de jugadores
     if (cant_jugadores == apiPartida.jugadoresVerificados.length) {
       const fecha = apiPartida.obtenerFechaActual();
 

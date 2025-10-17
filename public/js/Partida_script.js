@@ -21,11 +21,25 @@ class Partida {
   }
 }
 
+class ManipularDOM {
+  constructor() {}
+
+  manipularDinosaurios() {
+    const btn = document.getElementById("btnColocarDinosaurios");
+    btn.addEventListener("click", () => {
+      alert("botón clickeado");
+    });
+  }
+}
+
 const partida = new Partida();
+const manipular = new ManipularDOM();
 
 window.addEventListener("DOMContentLoaded", () => {
   const elementoNombreJugador = document.getElementById("campoNombreJugador");
   //   Asignamos el nombre del jugador al elemento del DOM
   partida.obtenerJugadoresLocaStorage();
   elementoNombreJugador.innerText = `Nombre: ${partida.jugadores[0]}`;
+
+  manipular.manipularDinosaurios();
 });
