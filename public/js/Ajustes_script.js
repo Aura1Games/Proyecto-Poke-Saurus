@@ -3,7 +3,7 @@ class ApiUsuarios {
     this.baseUrl = baseUrl;
   }
 
-  getAll() {
+  async getAll() {
     return fetch(this.baseUrl).then((response) => {
       if (!response.ok) {
         throw new Error("Error en la petición HTTP");
@@ -12,7 +12,7 @@ class ApiUsuarios {
     });
   }
 
-  getByName(name) {
+  async getByName(name) {
     return fetch(`${this.baseUrl}?nombre=${name}`).then((response) => {
       if (!response.ok) {
         throw new Error("Error en la petición HTTP");
@@ -92,6 +92,36 @@ class ApiPartida {
         tipo: "ingresar_partida",
       }),
     });
+  }
+
+  async postTablero(idPartida) {
+    if (idPartida === null || idPartida === undefined) {
+      alert("❌ Error: ID de partida inválido para crear tablero");
+      return;
+    }
+    return await fetch(this.baseUrl, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        tipo: "crear_tablero",
+        id: idPartida,
+      }),
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Error en la petición http");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        alert("✅ " + data.mensaje);
+      })
+      .catch((error) => {
+        console.error("error: " + error);
+        alert("❌ Error: " + error.message);
+      });
   }
 
   obtenerFechaActual() {
@@ -263,8 +293,11 @@ window.addEventListener("DOMContentLoaded", () => {
           }
           return response.json();
         })
-        .then((data) => {
+        .then(async (data) => {
           alert("✅ " + data.mensaje);
+          // api ingresar tablero aquí <= data.id
+          console.log("debbugging del id de partida: " + data.id);
+          await apiPartida.postTablero(data.id);
           apiPartida.guardarUsuariosEnLocalStorage();
           window.location.href = "./Partida.html";
         })

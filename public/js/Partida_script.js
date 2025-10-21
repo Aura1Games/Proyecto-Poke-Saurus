@@ -1,5 +1,8 @@
 // ⚠️ ❌ ✅
 
+// Guardar en localStorage:
+// localStorage.setItem("usuarios", JSON.stringify([algo]));
+
 class Partida {
   constructor() {
     this.jugadores = [];
@@ -15,7 +18,7 @@ class Partida {
   }
 }
 
-class ManipularDOM {
+class Tablero {
   /**
  * 
  * @param {array} array - (Arreglo que almacena en el siguiente orden los elementos DOM)
@@ -49,10 +52,33 @@ class ManipularDOM {
 
   /**
    *
+   * @param {object} movimiento - Objeto que contiene el dinosaurio y el recinto
+   * {dino:T-Rex,recinto: bosqueFrondoso}
+   */
+
+  #guardar_movimiento_localStorage(movimiento) {
+    if (
+      typeof movimiento === "object" &&
+      movimiento !== null &&
+      "dino" in movimiento &&
+      "recinto" in movimiento
+    ) {
+      localStorage.setItem("movimiento", JSON.stringify(movimiento));
+      console.log("Movimiento guardado en localStorage:", movimiento);
+    } else {
+      console.error(
+        "El parámetro movimiento debe ser un objeto con las propiedades 'dino' y 'recinto'."
+      );
+      alert("⚠️ Error al intentar cargar el movimiento en localStorage");
+    }
+  }
+
+  /**
+   *
    * @param {array} paqueteSelects - Arreglo con objetos DOM select de dinosaurios y select recintos
    */
 
-  manipularDinoRecintos(paqueteSelects) {
+  colocar_dinosaurio(paqueteSelects) {
     /*
     orden de paqueteSelects:
     paqueteSelects[0] : selectDinosaurios 
@@ -73,11 +99,23 @@ class ManipularDOM {
         );
       } else {
         console.log("Dinosaurio colocado correctamente");
+        const movimiento = {
+          dino: paqueteSelects[0].value,
+          recinto: paqueteSelects[1].value,
+        };
+        this.#guardar_movimiento_localStorage(movimiento);
         alert(
           `✅ Dinosaurio ${paqueteSelects[0].value} colocado en el recinto ${paqueteSelects[1].value} 🦖`
         );
       }
     });
+  }
+}
+
+class Dinosaurio {
+  constructor(color, recinto) {
+    this.color = color;
+    this.recinto = recinto;
   }
 }
 
@@ -113,7 +151,8 @@ const btn = document.getElementById("btnColocarDinosaurios");
 const paqueteSelects = [selectDinosaurios, selectRecintos, btn];
 
 const partida = new Partida();
-const manipular = new ManipularDOM(paqueteTablero);
+const manipular = new Tablero(paqueteTablero);
+const dinosaurios = new Dinosaurio();
 
 window.addEventListener("DOMContentLoaded", () => {
   const elementoNombreJugador = document.getElementById("campoNombreJugador");
@@ -121,5 +160,5 @@ window.addEventListener("DOMContentLoaded", () => {
   partida.obtenerJugadoresLocaStorage();
   elementoNombreJugador.innerText = `Nombre: ${partida.jugadores[0]}`;
 
-  manipular.manipularDinoRecintos(paqueteSelects);
+  manipular.colocar_dinosaurio(paqueteSelects);
 });

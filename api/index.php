@@ -1,4 +1,44 @@
 <?php
+
+/**
+ * API Endpoints Documentation
+ * 
+ * GET /
+ * - Sin parámetros: Lista todos los usuarios
+ * - Con ?nombre=X: Obtiene usuario específico
+ * 
+ * POST / (verificar_login)
+ * {
+ *   "tipo": "verificar_login",
+ *   "nombre": string,
+ *   "contraseña": string
+ * }
+ * 
+ * POST / (registrar_usuario)
+ * {
+ *   "tipo": "registrar_usuario",
+ *   "nombre": string,
+ *   "contraseña": string,
+ *   "edad": number,
+ *   "correo": string
+ * }
+ * 
+ * POST / (ingresar_partida)
+ * {
+ *   "tipo": "ingresar_partida",
+ *   "fecha": "YYYY-MM-DD HH:mm:ss",
+ *   "jugadores": number,
+ *   "puntaje": number,
+ *   "ganador": number
+ * }
+ * 
+ * POST / (crear_tablero)
+ * {
+ *   "tipo": "crear_tablero",
+ *   "id": number
+ * }
+ */
+
 // Headers CORS completos
 header("Content-Type: application/json; charset=UTF-8");
 header("Access-Control-Allow-Origin: *");
@@ -48,6 +88,9 @@ switch ($method) {
             case "verificar_login":
                 funcionVerificarLoginPOST($usuarios, $db, $data);
                 break;
+            case "crear_tablero":
+                funcionCrearTablero($partida, $data);
+                break;
             default:
                 http_response_code(400);
                 echo json_encode(["mensaje" => "Tipo de acción no especificado o inválido"]);
@@ -61,7 +104,6 @@ switch ($method) {
         break;
 }
 
-// ============= FUNCIONES AUXILIARES =============
 
 /**
  * Hashea una contraseña usando bcrypt
@@ -72,7 +114,7 @@ function prepararContraseña($contraseña)
 }
 
 /**
- * Verifica contraseña contra hash o texto plano (legacy)
+ * Verifica contraseña contra hash o texto plano
  * @param string $contraseñaIngresada - Contraseña en texto plano del usuario
  * @param string $contraseñaAlmacenada - Hash o texto plano de la BD
  * @return bool
@@ -112,8 +154,6 @@ function actualizarHashContraseña($db, $nombre, $nuevaContraseñaHash)
     }
 }
 
-// ============= FUNCIONES DE ENDPOINTS =============
-
 function funcionGet($usuarios)
 {
     if (isset($_GET['nombre'])) {
@@ -132,118 +172,8 @@ function funcionGet($usuarios)
     }
 }
 
-function funcionPartidaPOST($partida, $data)
-{
-    if ($data === null) {
-        http_response_code(400);
-        echo json_encode(["mensaje" => "JSON inválido"]);
-        return;
-    }
 
-    $requiredFields = ["fecha", "jugadores", "puntaje", "ganador"];
-    foreach ($requiredFields as $field) {
-        if (!isset($data[$field])) {
-            http_response_code(400);
-            echo json_encode(["mensaje" => "Campo '$field' es requerido"]);
-            return;
-        }
-    }
 
-    if (!is_numeric($data["jugadores"]) || !is_numeric($data["puntaje"]) || !is_numeric($data["ganador"])) {
-        http_response_code(400);
-        echo json_encode(["mensaje" => "Campos numéricos inválidos"]);
-        return;
-    }
-
-    $fecha = $data["fecha"];
-    $jugadores = intval($data["jugadores"]);
-    $puntaje = intval($data["puntaje"]);
-    $ganador = intval($data["ganador"]);
-
-    if (!DateTime::createFromFormat('Y-m-d H:i:s', $fecha)) {
-        http_response_code(400);
-        echo json_encode(["mensaje" => "Formato de fecha inválido. Use Y-m-d H:i:s"]);
-        return;
-    }
-
-    try {
-        $result = $partida->insertarPartida($fecha, $jugadores, $puntaje, $ganador);
-        if ($result) {
-            http_response_code(201);
-            echo json_encode([
-                "mensaje" => "Partida ingresada exitosamente",
-                "id" => $result
-            ]);
-        } else {
-            http_response_code(500);
-            echo json_encode(["mensaje" => "Error al ingresar partida"]);
-        }
-    } catch (Exception $e) {
-        http_response_code(500);
-        echo json_encode([
-            "mensaje" => "Error interno del servidor",
-            "error" => $e->getMessage()
-        ]);
-    }
-}
-
-function funcionRegistrarUsuarioPOST($usuarios, $data)
-{
-    if ($data === null) {
-        http_response_code(400);
-        echo json_encode(["mensaje" => "JSON inválido"]);
-        return;
-    }
-
-    $requiredFields = ['nombre', 'contraseña', 'edad', 'correo'];
-    foreach ($requiredFields as $field) {
-        if (empty($data[$field])) {
-            http_response_code(400);
-            echo json_encode(["mensaje" => "Campo '$field' es requerido"]);
-            exit();
-        }
-    }
-
-    if (!is_numeric($data["edad"])) {
-        http_response_code(400);
-        echo json_encode(["mensaje" => "Campo 'edad' debe ser numérico"]);
-        return;
-    }
-
-    $nombre = htmlspecialchars($data['nombre'], ENT_QUOTES, 'UTF-8');
-    $contra_no_preparada = htmlspecialchars($data['contraseña'], ENT_QUOTES, 'UTF-8');
-    $edad = intval($data['edad']);
-    $correo = filter_var($data['correo'], FILTER_SANITIZE_EMAIL);
-    $contraseña = prepararContraseña($contra_no_preparada);
-
-    if (!filter_var($correo, FILTER_VALIDATE_EMAIL)) {
-        http_response_code(400);
-        echo json_encode(["mensaje" => "Correo inválido"]);
-        exit();
-    }
-
-    try {
-        $result = $usuarios->registerNewUser($nombre, $contraseña, $edad, $correo);
-        if ($result) {
-            http_response_code(201);
-            echo json_encode(["mensaje" => "Usuario registrado exitosamente"]);
-        } else {
-            http_response_code(500);
-            echo json_encode(["mensaje" => "Error al registrar usuario"]);
-        }
-    } catch (Exception $e) {
-        http_response_code(500);
-        echo json_encode([
-            "mensaje" => "Error interno del servidor",
-            "error" => $e->getMessage()
-        ]);
-    }
-}
-
-/**
- * ========== NUEVA API: VERIFICAR LOGIN ==========
- * Valida credenciales y migra contraseñas antiguas automáticamente
- */
 function funcionVerificarLoginPOST($usuarios, $db, $data)
 {
     // Validar JSON
@@ -314,6 +244,158 @@ function funcionVerificarLoginPOST($usuarios, $db, $data)
         echo json_encode([
             "mensaje" => "Error interno del servidor",
             "exito" => false,
+            "error" => $e->getMessage()
+        ]);
+    }
+}
+
+function funcionRegistrarUsuarioPOST($usuarios, $data)
+{
+    if ($data === null) {
+        http_response_code(400);
+        echo json_encode(["mensaje" => "JSON inválido"]);
+        return;
+    }
+
+    $requiredFields = ['nombre', 'contraseña', 'edad', 'correo'];
+    foreach ($requiredFields as $field) {
+        if (empty($data[$field])) {
+            http_response_code(400);
+            echo json_encode(["mensaje" => "Campo '$field' es requerido"]);
+            exit();
+        }
+    }
+
+    // Validar tipos de datos
+    if (!is_numeric($data["jugadores"]) || !is_numeric($data["puntaje"]) || !is_numeric($data["ganador"])) {
+        http_response_code(400);
+        echo json_encode(["mensaje" => "Campos numéricos inválidos"]);
+        return;
+    }
+
+    $nombre = htmlspecialchars($data['nombre'], ENT_QUOTES, 'UTF-8');
+    $contra_no_preparada = htmlspecialchars($data['contraseña'], ENT_QUOTES, 'UTF-8');
+    $edad = intval($data['edad']);
+    $correo = filter_var($data['correo'], FILTER_SANITIZE_EMAIL);
+    $contraseña = prepararContraseña($contra_no_preparada);
+
+    if (!filter_var($correo, FILTER_VALIDATE_EMAIL)) {
+        http_response_code(400);
+        echo json_encode(["mensaje" => "Correo inválido"]);
+        exit();
+    }
+
+    try {
+        $result = $usuarios->registerNewUser($nombre, $contraseña, $edad, $correo);
+        if ($result) {
+            http_response_code(201);
+            echo json_encode(["mensaje" => "Usuario registrado exitosamente"]);
+        } else {
+            http_response_code(500);
+            echo json_encode(["mensaje" => "Error al registrar usuario"]);
+        }
+    } catch (Exception $e) {
+        http_response_code(500);
+        echo json_encode([
+            "mensaje" => "Error interno del servidor",
+            "error" => $e->getMessage()
+        ]);
+    }
+}
+
+
+
+function funcionPartidaPOST($partida, $data)
+{
+    if ($data === null) {
+        http_response_code(400);
+        echo json_encode(["mensaje" => "JSON inválido"]);
+        return;
+    }
+
+    $requiredFields = ["fecha", "jugadores", "puntaje", "ganador"];
+    foreach ($requiredFields as $field) {
+        if (!isset($data[$field])) {
+            http_response_code(400);
+            echo json_encode(["mensaje" => "Campo '$field' es requerido"]);
+            return;
+        }
+    }
+
+    if (!is_numeric($data["jugadores"]) || !is_numeric($data["puntaje"]) || !is_numeric($data["ganador"])) {
+        http_response_code(400);
+        echo json_encode(["mensaje" => "Campos numéricos inválidos"]);
+        return;
+    }
+
+    $fecha = $data["fecha"];
+    $jugadores = intval($data["jugadores"]);
+    $puntaje = intval($data["puntaje"]);
+    $ganador = intval($data["ganador"]);
+
+    if (!DateTime::createFromFormat('Y-m-d H:i:s', $fecha)) {
+        http_response_code(400);
+        echo json_encode(["mensaje" => "Formato de fecha inválido. Use Y-m-d H:i:s"]);
+        return;
+    }
+
+    try {
+        $result = $partida->insertarPartida($fecha, $jugadores, $puntaje, $ganador);
+        if ($result) {
+            http_response_code(201);
+            echo json_encode([
+                "mensaje" => "Partida ingresada exitosamente",
+                "id" => $result
+            ]);
+        } else {
+            http_response_code(500);
+            echo json_encode(["mensaje" => "Error al ingresar partida"]);
+        }
+    } catch (Exception $e) {
+        http_response_code(500);
+        echo json_encode([
+            "mensaje" => "Error interno del servidor",
+            "error" => $e->getMessage()
+        ]);
+    }
+}
+
+
+
+function funcionCrearTablero($partida, $data)
+{
+    if ($data === null) {
+        http_response_code(400);
+        echo json_encode(["mensaje" => "Formato JSON invalido"]);
+    }
+
+    if (!isset($data["id"])) {
+        http_response_code(400);
+        echo json_encode(["mensaje" => "ID requerido para la creación del tablero"]);
+    }
+
+    if (!is_numeric($data["id"])) {
+        http_response_code(400);
+        echo json_encode(["mensaje" => "El id de la partida debe de ser numerico"]);
+    }
+
+    $ID = intval($data["id"]);
+    try {
+        $result = $partida->crearTablero($ID);
+        if ($result) {
+            http_response_code(201);
+            echo json_encode([
+                "mensaje" => "Tablero creado exitosamente",
+                "id" => $result
+            ]);
+        } else {
+            http_response_code(500);
+            echo json_encode(["mensaje" => "Error al ingresar tablero"]);
+        }
+    } catch (Exception $e) {
+        http_response_code(500);
+        echo json_encode([
+            "mensaje" => "Error interno del servidor",
             "error" => $e->getMessage()
         ]);
     }

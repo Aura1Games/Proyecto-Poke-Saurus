@@ -27,4 +27,19 @@ class Partida
         }
         return false;
     }
+
+    public function crearTablero($idPartida)
+    {
+        # Creamos la consulta
+        $query = "INSERT INTO Tablero(id_partida) VALUES (:idPartida)";
+        # Preparamos la consulta
+        $stmt = $this->conn->prepare($query);
+        # Reemplazamos la etiqueta por el parametro dado a la función
+        $stmt->bindParam(":idPartida", $idPartida, PDO::PARAM_INT);
+        # Ejecutamos la consulta preparada
+        if ($stmt->execute()) {
+            return $this->conn->lastInsertId();
+        }
+        return false;
+    }
 }
