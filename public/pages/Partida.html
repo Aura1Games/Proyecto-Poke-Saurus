@@ -31,21 +31,30 @@
             <div class=" align-self-center img-thumbnail" id="tablero">
             
               <!-- Bosque de la semejanza -->
-              <div class="recinto recintoLaterales admite6" title="Bosque de la semejanza" id="bosqueDeLaSemejanza"></div>
+              <div class="recinto recintoLaterales admite6" title="Bosque de la semejanza" id="bosqueDeLaSemejanza">
+                <div class="objeto"></div>
+                <div class="objeto"></div>
+                <div class="objeto"></div>
+                <div class="objeto"></div>
+                <div class="objeto"></div>
+                <div class="objeto"></div>
+              </div>
               <!-- "Rio" -->
-              <div class="recinto recintoCentro" title="Rio"></div>
+              <div class="recinto recintoCentro" title="Rio" id="rio1"></div>
               <!-- Rey de la selva -->
               <div class="recinto recintoLaterales" title="Rey de la selva" id="reyDeLaSelva"></div>
               <!-- Trio frondoso -->
               <div class="recinto recintoLaterales " title="Trio frondoso" id="trioFrondoso"></div>
               <!-- Rio -->
-              <div class="recinto recintoCentro" title="Rio"></div>
+              <div class="recinto recintoCentro" title="Rio" id="rio2"></div>
               <!-- Prado de la diferencia -->
               <div class="recinto recintoLaterales " title="Prado de la diferencia" id="pradoDeLaDiferencia"></div>
               <!-- Pradera del amor -->
               <div class="recinto recintoLaterales " title="Pradera del amor" id="praderaDelAmor"></div>
               <!-- Rio -->
-              <div class="recinto recintoCentro" title="Rio"></div>
+              <div class="recinto recintoCentro" title="Rio" id="rio3">
+                
+              </div>
               <!-- Isla solitaria -->
               <div class="recinto recintoLaterales " title="Isla solitaria" id="islaSolitaria"></div>
             </div>
@@ -158,22 +167,22 @@
                     <div class="modal-body d-flex flex-column">
                         
   <select class="form-select mb-4" aria-label="Default select example" id="select-dinosaurios">
-  <option selected value="">Seleccione un dinosaurio</option>
-  <option value="1">Espinosaurios</option>
-  <option value="2">Triceratops</option>
-  <option value="3">Estegosaurio</option>
-  <option value="4">Parasaurolophus</option>
-  <option value="5">Brachiosaurus</option>
-  <option value="6">Tiranosaurio Rex</option>
+  <option selected value="none">Seleccione un dinosaurio</option>
+  <option value="Espinosaurios">Espinosaurios</option>
+  <option value="Triceratops">Triceratops</option>
+  <option value="Estegosaurio">Estegosaurio</option>
+  <option value="Parasaurolophus">Parasaurolophus</option>
+  <option value="Brachiosaurus">Brachiosaurus</option>
+  <option value="Tiranosaurio Rex">Tiranosaurio Rex</option>
 </select><select class="form-select mb-4" aria-label="Default select example" id="select-recintos">
-  <option selected value="">Seleccione un recinto</option>
-  <option value="bosqueDeLaSemejanza">El Bosque de la Semejanza</option>
-  <option value="pradoDeLaDiferencia">El Prado de la Diferencia</option>
-  <option value="praderaDelAmor">La Pradera del Amor</option>
-  <option value="trioFrondoso">El Trío Frondoso</option>
-  <option value="reyDeLaSelva">El Rey de la Selva</option>
-  <option value="islaSolitaria">La Isla Solitaria</option>
-  <option value="rio">El Rio</option>
+  <option selected value="none">Seleccione un recinto</option>
+  <option value="El Bosque de la Semejanza">El Bosque de la Semejanza</option>
+  <option value="El Prado de la Diferencia">El Prado de la Diferencia</option>
+  <option value="La Pradera del Amor">La Pradera del Amor</option>
+  <option value="El Trío Frondoso">El Trío Frondoso</option>
+  <option value="El Rey de la Selva">El Rey de la Selva</option>
+  <option value="La Isla Solitaria">La Isla Solitaria</option>
+  <option value="El Rio">El Rio</option>
 </select>
 <div class="alert alert-primary" role="alert">
   Recuerda las restricciónes del dado para colocar tus dinosaurios

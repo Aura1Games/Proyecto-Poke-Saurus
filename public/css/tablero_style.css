@@ -288,33 +288,16 @@
     font-size: 28px;
   }
 }
+*/
 
-@media (max-width: 768px) {
-  #tablero {
-    width: 95vw;
-    height: 90vh;
-    padding: 8px;
-    gap: 6px;
-    grid-template-columns: 1fr;
-    grid-template-rows: repeat(9, 1fr);
-  }
-
-  .recinto {
-    grid-column: 1 !important;
-  }
-
-  .recintoCentro {
-    height: 100%;
-    border-radius: 20px;
-  }
-
+@media (max-width: 1220px) {
   .objeto {
-    width: 45px;
-    height: 45px;
-    font-size: 24px;
+    width: 30px;
+    height: 30px;
+    font-size: 17px;
     margin: 3px;
   }
-} */
+}
 
 /* Títulos y etiquetas de recintos */
 .recinto::after {

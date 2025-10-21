@@ -47,11 +47,14 @@ CREATE TABLE Tablero(
     FOREIGN KEY (id_partida) REFERENCES Partida(id_partida)
 );
 
+#DELETE FROM Tablero where id_tablero >0;
+#ALTER TABLE Dinosaurio AUTO_INCREMENT = 1;
+
 # Consultar la tabla Tablero
 SELECT * FROM Tablero;
 
 # Ingresar datos a la tabla Tablero
-INSERT INTO Tablero(id_partida) VALUES (1);
+#INSERT INTO Tablero(id_partida) VALUES (1);
 
 
 # ================================
@@ -64,10 +67,14 @@ CREATE TABLE Recinto(
     FOREIGN KEY (id_tablero) REFERENCES Tablero(id_tablero)
 );
 
+# eliminar datos anteriores de la tabla
+#DELETE FROM Recinto where id_recinto >0;
+#ALTER TABLE Recinto AUTO_INCREMENT = 1;
+
 # Consultar la tabla Recinto
 SELECT * FROM Recinto;
 # Ingresar datos a la tabla Recinto
-INSERT INTO Recinto(nombre, id_tablero) VALUES ("parejas", 1);
+#INSERT INTO Recinto(nombre, id_tablero) VALUES ("parejas", 1);
 
 
 # ================================
@@ -75,15 +82,17 @@ INSERT INTO Recinto(nombre, id_tablero) VALUES ("parejas", 1);
 # ================================
 CREATE TABLE Dinosaurio(
     id_dinosaurio INT AUTO_INCREMENT PRIMARY KEY,
-    color enum("rojo","verde","amarillo","naranja","violeta","rosado") NOT NULL
+    color enum("rojo","verde","amarillo","naranja","rosado","celeste") NOT NULL
 );
+
+# Eliminar datos previos de la tabla Dinosaurio y reiniciar auto_increment
+#DELETE FROM Dinosaurio where id_dinosaurio >0;
+#ALTER TABLE Dinosaurio AUTO_INCREMENT = 1;
+# Ingresar datos a la tabla Dinosaurio
+INSERT INTO Dinosaurio(color) VALUES ("rojo"),("verde"),("amarillo"),("naranja"),("rosado"),("celeste");
 
 # Consultar la tabla Dinosaurio
 SELECT * FROM Dinosaurio;
-
-# Ingresar datos a la tabla Dinosaurio
-INSERT INTO Dinosaurio(color) VALUES ("verde");
-
 
 # ================================
 # Relación Usuario- Partida: Juega(id_usuario, id_partida)
@@ -96,12 +105,14 @@ CREATE TABLE Juega(
     FOREIGN KEY (id_partida) REFERENCES Partida(id_partida)
 );
 
+# eliminar datos existentes de la tabla
+#DELETE FROM Juega where id_usuario >0;
+
 # Consultar la tabla Juega
 SELECT * FROM Juega;
 
 # Ingresar datos a la tabla Juega
-INSERT INTO Juega(id_usuario, id_partida) VALUES (1, 1);
-
+#INSERT INTO Juega(id_usuario, id_partida) VALUES (1, 1);
 
 # ================================
 # Relación Recinto - Dinosaurio: Colocacion(id_recinto, id_dinosaurio)
@@ -114,9 +125,13 @@ CREATE TABLE Colocacion(
     FOREIGN KEY (id_dinosaurio) REFERENCES Dinosaurio(id_dinosaurio)
 );
 
+# Eliminar los datos previos de la tabla Colocacion y reiniciar auto_increment
+#DELETE FROM Colocacion where id_recinto >0;
+#ALTER TABLE Dinosaurio AUTO_INCREMENT = 1;
+
 # Consultar la tabla Colocacion
 SELECT * FROM Colocacion;
 
 # Ingresar datos a la tabla Colocacion
-INSERT INTO Colocacion(id_recinto, id_dinosaurio) VALUES (1, 1);
+#INSERT INTO Colocacion(id_recinto, id_dinosaurio) VALUES (1, 1);
 
