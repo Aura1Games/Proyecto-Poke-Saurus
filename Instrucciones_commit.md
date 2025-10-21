@@ -4,19 +4,19 @@
 ***
 ## (1) Acceder a las carpetas:
 
--`public/`
-|-`css/`
-| |-archivos.css
-|
-|-`images/`
-| |-imagenes
-|
-|-`js/`
-| |-archivos.js
-|
-|-`pages/`
-| |- paginas_secundarias.html
-|-`index.html`
+- -`public/`
+- |-`css/`
+- | |-archivos.css
+- |
+- |-`images/`
+- | |-imagenes
+- |
+- |-`js/`
+- | |-archivos.js
+- |
+- |-`pages/`
+- | |- paginas_secundarias.html
+- |-`index.html`
 
 ***
 
@@ -38,8 +38,7 @@ boton de commit y tocamos 'commit & push'.
 
 ## (4) sincronizar cambios del repositorio en la nube y el local:
 
-    **En** la pestaña 'Graph' -> la que está debajo de la pestaña 'CHANGES',
-    clickear el boton pull (es una plecha NO semipunteada que APUNTA a un macaco -> -o-) y luego clickeamos en 'Sync' en el boton principal
-    cuando aparezca en azul.
-
+**En** la pestaña 'Graph' -> la que está debajo de la pestaña 'CHANGES',
+clickear el boton pull (es una plecha NO semipunteada que APUNTA a un macaco -> -o-) y luego clickeamos en 'Sync' en el boton principal
+cuando aparezca en azul.
 ***

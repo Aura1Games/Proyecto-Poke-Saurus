@@ -48,9 +48,9 @@ Usamos un Stack completo (***Full Stack***) en el desarrollo del sistema:
 ***
 #### 👥 Integrantes del Grupo 
 -  💡[**Elian Gutierrez**](https://github.com/Elian-zzz/) _Coordinador_
-- 📋**Mateo Lalin** _SubCoordinador_ 
-- 📈**Benjamin Gigena** ~_Orden y porgreso_
-- 🤝**Emiliano K.** ~_Relaciones internas_
+- 📋[**Mateo Lalin**](https://github.com/matln05) _SubCoordinador_ 
+- 📈[**Benjamin Gigena**](https://github.com/Gigena07) ~_Orden y porgreso_
+- 🤝[**Emiliano Krawczyszyn**](https://github.com/emiliano-ctrl) ~_Relaciones internas_
 - [⭐ __AuraGames__](https://github.com/Aura1Games/Proyecto-Poke-Saurus)
 ***
 _Todos los derechos reservados AuraGamesStudios ©2025_
