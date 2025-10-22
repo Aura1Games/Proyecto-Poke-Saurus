@@ -42,4 +42,35 @@ class Partida
         }
         return false;
     }
+
+    public function generarRecintosBD($idTablero)
+    {
+
+        # Creamos la consulta
+        $query = 'INSERT INTO Recinto(nombre, id_tablero) VALUES ("El Bosque de la Semejanza", :idTablero),("El Prado de la Diferencia", :idTablero),("La Pradera del Amor", :idTablero),("El Trío Frondoso", :idTablero),("El Rey de la Selva", :idTablero),("La Isla Solitaria", :idTablero),("El Rio", :idTablero);';
+        # Preparamos a consuta
+        $stmt = $this->conn->prepare($query);
+        # reemplazamos las etiquetas :idTablero
+        $stmt->bindParam(":idTablero", $idTablero, PDO::PARAM_INT);
+        # ejecutamos la consulta
+        if ($stmt->execute()) {
+            return true;
+        }
+        return false;
+    }
+    public function generarRelacionJuega($idUsuario, $idPartida)
+    {
+        # Creamos la consulta
+        $query = 'INSERT INTO Juega(id_usuario, id_partida) VALUES (:idUsuario, :idPartida);';
+        # Premaramos la consulta
+        $stmt = $this->conn->prepare($query);
+        # Reemplazamos las etiquetas :idUsuario y :idPartida
+        $stmt->bindParam(":idUsuario", $idUsuario, PDO::PARAM_INT);
+        $stmt->bindParam(":idPartida", $idPartida, PDO::PARAM_INT);
+        # Ejecutamos la consulta
+        if ($stmt->execute()) {
+            return true;
+        }
+        return false;
+    }
 }

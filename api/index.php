@@ -91,6 +91,12 @@ switch ($method) {
             case "crear_tablero":
                 funcionCrearTablero($partida, $data);
                 break;
+            case "crear_recintos":
+                funcionCrearRecintos($partida, $data);
+                break;
+            case "crear_relacion_juega":
+                funcionGenerarRelacionJuega($partida, $data);
+                break;
             default:
                 http_response_code(400);
                 echo json_encode(["mensaje" => "Tipo de acción no especificado o inválido"]);
@@ -391,6 +397,90 @@ function funcionCrearTablero($partida, $data)
         } else {
             http_response_code(500);
             echo json_encode(["mensaje" => "Error al ingresar tablero"]);
+        }
+    } catch (Exception $e) {
+        http_response_code(500);
+        echo json_encode([
+            "mensaje" => "Error interno del servidor",
+            "error" => $e->getMessage()
+        ]);
+    }
+}
+
+function funcionCrearRecintos($partida, $data)
+{
+
+    if ($data === null) {
+        http_response_code(400);
+        echo json_encode(["mensaje" => "Formato JSON invalido"]);
+    }
+
+    if (!isset($data["id"])) {
+        http_response_code(400);
+        echo json_encode(["mensaje" => "ID requerido para la creación del recintos"]);
+    }
+
+    if (!is_numeric($data["id"])) {
+        http_response_code(400);
+        echo json_encode(["mensaje" => "El id del tablero debe de ser numerico"]);
+    }
+
+    $idTablero = intval($data["id"]);
+    try {
+        $result = $partida->generarRecintosBD($idTablero);
+        if ($result) {
+            http_response_code(201);
+            echo json_encode([
+                "mensaje" => "Recintos creados exitosamente"
+            ]);
+        } else {
+            http_response_code(500);
+            echo json_encode(["mensaje" => "Error al ingresar recintos"]);
+        }
+    } catch (Exception $e) {
+        http_response_code(500);
+        echo json_encode([
+            "mensaje" => "Error interno del servidor",
+            "error" => $e->getMessage()
+        ]);
+    }
+}
+
+function funcionGenerarRelacionJuega($partida, $data)
+{
+
+    if ($data === null) {
+        http_response_code(400);
+        echo json_encode(["mensaje" => "Formato JSON invalido"]);
+    }
+
+    $parametrosRequeridos = ["idUsuario", "idPartida"];
+    foreach ($parametrosRequeridos as $parametro) {
+        if (!isset($data[$parametro])) {
+            http_response_code(400);
+            echo json_encode(["mensaje" => "$parametro requerido para la creación de la relación juega"]);
+        }
+    }
+
+
+    if (!is_numeric($data["idUsuario"]) || !is_numeric($data["idPartida"])) {
+        http_response_code(400);
+        echo json_encode(["mensaje" => "Los parametro para la creación de la relación juega, deben de ser numericos"]);
+    }
+
+    $idPartida = intval($data["idPartida"]);
+    $idUsuario = intval($data["idUsuario"]);
+
+    try {
+        $result = $partida->generarRelacionJuega($idUsuario, $idPartida);
+        if ($result) {
+            http_response_code(201);
+            echo json_encode([
+                "mensaje" => "Relación juega creada exitosamente"
+            ]);
+        } else {
+            http_response_code(500);
+            echo json_encode(["mensaje" => "Error al ingresar relación juega"]);
         }
     } catch (Exception $e) {
         http_response_code(500);

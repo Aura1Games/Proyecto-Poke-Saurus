@@ -117,6 +117,10 @@ class ApiPartida {
       })
       .then((data) => {
         alert("✅ " + data.mensaje);
+        this.guardarEnLocalStorage(
+          "tablero",
+          data.id ? { id: data.id } : { id: null }
+        );
       })
       .catch((error) => {
         console.error("error: " + error);
@@ -135,8 +139,17 @@ class ApiPartida {
     return `${año}-${mes}-${dia} ${hora}:${minutos}:${segundos}`;
   }
 
-  guardarUsuariosEnLocalStorage() {
-    localStorage.setItem("usuarios", JSON.stringify(this.jugadoresVerificados));
+  /**
+   *
+   * @param {string} item - Descripción de los elementos a guardar
+   * @param {Array} elemento - Arreglo a almacenar en localStorage
+   */
+
+  guardarEnLocalStorage(item, elemento) {
+    console.log(
+      `-(guardarEnLocalStorage) : item : (${item}) ; elemento : (${elemento})`
+    );
+    localStorage.setItem(item, JSON.stringify(elemento));
   }
 }
 
@@ -257,10 +270,10 @@ window.addEventListener("DOMContentLoaded", () => {
           }
 
           alert(mensaje);
-          console.log(`Usuario verificado: ${nombreIngresado}`);
-          console.log(
-            `Total logeados: ${apiPartida.jugadoresVerificados.length}`
-          );
+          // console.log(`Usuario verificado: ${nombreIngresado}`);
+          // console.log(
+          //   `Total logeados: ${apiPartida.jugadoresVerificados.length}`
+          // );
         } else {
           // Login fallido
           alert(`❌ ${resultado.mensaje}`);
@@ -298,7 +311,10 @@ window.addEventListener("DOMContentLoaded", () => {
           // api ingresar tablero aquí <= data.id
           console.log("debbugging del id de partida: " + data.id);
           await apiPartida.postTablero(data.id);
-          apiPartida.guardarUsuariosEnLocalStorage();
+          apiPartida.guardarEnLocalStorage(
+            "usuarios",
+            apiPartida.jugadoresVerificados
+          );
           window.location.href = "./Partida.html";
         })
         .catch((error) => {

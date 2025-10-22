@@ -1,3 +1,4 @@
+CREATE DATABASE IF NOT exists BDDS;
 use BDDS;
 # La siguiente línea de código establece que la BD soporte caracteres utf-8
  ALTER DATABASE BDDS CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
@@ -29,6 +30,10 @@ CREATE TABLE Partida(
     ganador INT,
     FOREIGN KEY (ganador) REFERENCES Usuario(id_usuario)
 );
+
+# Eliminar los datos de partida
+#DELETE FROM Partida where id_partida >0;
+#ALTER TABLE Partida AUTO_INCREMENT = 1;
 
 # Consultar la tabla Partida
 SELECT * FROM Partida;
@@ -74,7 +79,7 @@ CREATE TABLE Recinto(
 # Consultar la tabla Recinto
 SELECT * FROM Recinto;
 # Ingresar datos a la tabla Recinto
-#INSERT INTO Recinto(nombre, id_tablero) VALUES ("parejas", 1);
+#INSERT INTO Recinto(nombre, id_tablero) VALUES ("El Bosque de la Semejanza", 2),("El Prado de la Diferencia",2),("La Pradera del Amor",2),("El Trío Frondoso",2),("El Rey de la Selva",2),("La Isla Solitaria",2),("El Rio",2);
 
 
 # ================================
@@ -112,7 +117,7 @@ CREATE TABLE Juega(
 SELECT * FROM Juega;
 
 # Ingresar datos a la tabla Juega
-#INSERT INTO Juega(id_usuario, id_partida) VALUES (1, 1);
+# INSERT INTO Juega(id_usuario, id_partida) VALUES (2, 7);
 
 # ================================
 # Relación Recinto - Dinosaurio: Colocacion(id_recinto, id_dinosaurio)
