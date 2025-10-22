@@ -16,6 +16,7 @@
 </div>
 
 ![Estado del Proyecto](https://img.shields.io/badge/Estado-En%20Desarrollo-green)
+
 ![version_proyecto](https://img.shields.io/badge/versin-v1.0.5-green)
 
 ![Licencia](https://img.shields.io/badge/Licencia-MIT-green)
