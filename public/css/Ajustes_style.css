@@ -207,6 +207,14 @@ select {
   color: gray;
   cursor: pointer;
 }
+@media (width < 1450px) {
+  .content,
+  .content > * {
+    font-size: calc(inherit - 5px);
+    width: calc(inherit - 50px);
+  }
+}
+
 @media (width < 992px) {
   #fondo {
     background-image: url(../images/dino_imagen_vertical.jpg);

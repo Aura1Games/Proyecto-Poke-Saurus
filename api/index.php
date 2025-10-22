@@ -174,7 +174,8 @@ function funcionGet($usuarios)
         echo json_encode($data ? $data : ["mensaje" => "Usuario no encontrado"]);
     } else {
         $data = $usuarios->getAll();
-        echo json_encode($data);
+        http_response_code(404);
+        echo json_encode(["mensaje" => "petición get no valida"]);
     }
 }
 

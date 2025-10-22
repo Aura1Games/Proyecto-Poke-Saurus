@@ -307,12 +307,12 @@ window.addEventListener("DOMContentLoaded", () => {
   const jugadores = partida.obtenerLocaStorage("usuarios"); // desestrucutramos lo obtenido por el metodo partida (en éste caso es un arreglo)
   elementoNombreJugador.innerText = `Nombre: ${jugadores[0]}`;
   const tablero = partida.obtenerLocaStorage("tablero");
-  partida.generarTablerosBD(tablero[0]);
+  partida.generarTablerosBD(tablero["id"]);
   /*
   Para actualizar la relación juega necesitamos implementar que el id de la partida e
   id de los jugadores se guarde en localStorage en ajustes de partida para mandarlos en la función 
   'partida.generarRelacionesMultiples()' dentro de Partida_script.js
   
-  */ 
+  */
   manipular.colocar_dinosaurio(paqueteSelects);
 });

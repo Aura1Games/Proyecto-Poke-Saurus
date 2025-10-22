@@ -1,15 +1,7 @@
 class ApiUsuarios {
   constructor(baseUrl) {
     this.baseUrl = baseUrl;
-  }
-
-  async getAll() {
-    return fetch(this.baseUrl).then((response) => {
-      if (!response.ok) {
-        throw new Error("Error en la petición HTTP");
-      }
-      return response.json();
-    });
+    this.jugadores = [];
   }
 
   async getByName(name) {
@@ -58,6 +50,7 @@ class ApiUsuarios {
             nombre: data.nombre,
             correo: data.correo,
             edad: data.edad,
+            id: data.id_usuario,
           };
         } else {
           return null;
@@ -151,11 +144,21 @@ class ApiPartida {
     );
     localStorage.setItem(item, JSON.stringify(elemento));
   }
+
+  limpiarLocalStorage(elemento) {
+    let auxiliar = localStorage.getItem(elemento);
+    auxiliar
+      ? localStorage.setItem(elemento, JSON.stringify([]))
+      : console.log("localStorage limpio");
+  }
 }
 
 // Instancias de clases API
 const api = new ApiUsuarios("http://localhost/Proyecto-Poke-Saurus/api/");
 const apiPartida = new ApiPartida("http://localhost/Proyecto-Poke-Saurus/api/");
+
+apiPartida.limpiarLocalStorage("usuarios");
+apiPartida.limpiarLocalStorage("tablero");
 
 window.addEventListener("DOMContentLoaded", () => {
   const selectElement = document.getElementById("cant_jugadores");
@@ -262,7 +265,11 @@ window.addEventListener("DOMContentLoaded", () => {
           apiPartida.jugadoresVerificados.push(nombreIngresado.toLowerCase());
 
           let mensaje = `✅ Jugador "${nombreIngresado}" verificado con éxito.`;
-
+          api.jugadores.push({
+            id: usuarioExiste.id,
+            nombre: usuarioExiste.nombre,
+          });
+          console.log(api.jugadores);
           // Notificar si se migró la contraseña
           if (resultado.migracion) {
             mensaje +=
@@ -315,6 +322,8 @@ window.addEventListener("DOMContentLoaded", () => {
             "usuarios",
             apiPartida.jugadoresVerificados
           );
+          apiPartida.guardarEnLocalStorage("infoUsuarios", api.jugadores);
+          alert("debugging: " + api.jugadores);
           window.location.href = "./Partida.html";
         })
         .catch((error) => {
