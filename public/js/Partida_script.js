@@ -250,10 +250,24 @@ class Tablero {
 
   /**
    *
+   * @param {number} tipo - numero id del dinosaurio a colocar
+   * @param {object} movimiento - objeto que almacena el movimiento
+   * @param {array} paqueteTablero - arreglo que contiene los elementos DOM de los recintos
+   */
+
+  colocarDinosauriosTableroDOM(tipo, movimiento, paqueteTablero) {
+    // Sintaxis de movimiento
+    // const movimiento = {
+    //       dino: paqueteSelects[0].value,
+    //       recinto: paqueteSelects[1].value,
+    //     };
+  }
+
+  /**
+   *
    * @param {object} movimiento - Objeto que contiene el dinosaurio y el recinto
    * {dino:T-Rex,recinto: bosqueFrondoso}
    */
-
   #guardarMovimientoLocalStorage(movimiento) {
     if (
       typeof movimiento === "object" &&
@@ -289,9 +303,9 @@ class Tablero {
     paqueteSelects[0] : selectDinosaurios 
     paqueteSelects[1] : selectRecintos 
     paqueteSelects[2] : btn 
-    
-
     */
+    // Clases de objetos de distintos colores
+    /*dinosaurio-rojo, dinosaurio-verde, dinosaurio-rosado, dinosaurio-celeste, dinosaurio-amarillo, dinosaurio-naranja */
 
     paqueteSelects[2].addEventListener("click", () => {
       if (
@@ -308,6 +322,8 @@ class Tablero {
           dino: paqueteSelects[0].value,
           recinto: paqueteSelects[1].value,
         };
+        // Cumple con los requisitos para agregar un dinosaurio
+
         this.#guardarMovimientoLocalStorage(movimiento);
         alert(
           `✅ Dinosaurio ${paqueteSelects[0].value} colocado en el recinto ${paqueteSelects[1].value} 🦖`
