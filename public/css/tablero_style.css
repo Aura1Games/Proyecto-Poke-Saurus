@@ -6,6 +6,10 @@
   --naranja-principal: #ffecb3;
 }
 
+body {
+  overscroll-behavior: none;
+}
+
 /* Tablero principal con textura de fondo */
 #tablero {
   width: 932.875px;
@@ -265,6 +269,31 @@
     inset 0 1px 2px rgba(255, 255, 255, 0.5);
   font-size: 36px;
   position: relative;
+}
+.dinosaurio-rojo {
+  background: red;
+  border-color: rgb(131, 2, 2);
+}
+
+.dinosaurio-verde {
+  background: rgb(13, 185, 70);
+  border-color: rgb(7, 100, 38);
+}
+.dinosaurio-rosado {
+  background: rgb(218, 23, 182);
+  border-color: rgb(134, 15, 112);
+}
+.dinosaurio-celeste {
+  background: rgb(20, 152, 189);
+  border-color: rgb(12, 87, 108);
+}
+.dinosaurio-amarillo {
+  background: rgb(234, 238, 15);
+  border-color: rgb(95, 96, 9);
+}
+.dinosaurio-naranja {
+  background: rgb(255, 115, 0);
+  border-color: rgb(131, 59, 0);
 }
 
 /* Responsive */

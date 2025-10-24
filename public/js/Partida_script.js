@@ -250,21 +250,6 @@ class Tablero {
 
   /**
    *
-   * @param {number} tipo - numero id del dinosaurio a colocar
-   * @param {object} movimiento - objeto que almacena el movimiento
-   * @param {array} paqueteTablero - arreglo que contiene los elementos DOM de los recintos
-   */
-
-  colocarDinosauriosTableroDOM(tipo, movimiento, paqueteTablero) {
-    // Sintaxis de movimiento
-    // const movimiento = {
-    //       dino: paqueteSelects[0].value,
-    //       recinto: paqueteSelects[1].value,
-    //     };
-  }
-
-  /**
-   *
    * @param {object} movimiento - Objeto que contiene el dinosaurio y el recinto
    * {dino:T-Rex,recinto: bosqueFrondoso}
    */
@@ -278,6 +263,7 @@ class Tablero {
       localStorage.setItem("movimiento", JSON.stringify(movimiento));
       // mensajeConsola(`Movimiento guardado en localStorage: ${movimiento}`, 1);
     } else {
+      console.log(movimiento.dino, movimiento.recinto);
       console.error(
         "El parámetro movimiento debe ser un objeto con las propiedades 'dino' y 'recinto'."
       );
@@ -298,14 +284,11 @@ class Tablero {
    */
 
   colocar_dinosaurio(paqueteSelects) {
-    /*
-    orden de paqueteSelects:
-    paqueteSelects[0] : selectDinosaurios 
-    paqueteSelects[1] : selectRecintos 
-    paqueteSelects[2] : btn 
-    */
-    // Clases de objetos de distintos colores
-    /*dinosaurio-rojo, dinosaurio-verde, dinosaurio-rosado, dinosaurio-celeste, dinosaurio-amarillo, dinosaurio-naranja */
+    // Sintaxis de movimiento
+    // const movimiento = {
+    //       dino: paqueteSelects[0].value,
+    //       recinto: paqueteSelects[1].value,
+    //     };
 
     paqueteSelects[2].addEventListener("click", () => {
       if (
@@ -317,17 +300,42 @@ class Tablero {
           "⚠️ Debes de seleccionar un dinosaurio y un recinto para colocar un dinosario 🦖"
         );
       } else {
-        // mensajeConsola("Dinosaurio colocado correctamente", 1);
+        // Gardamos en movimiento la clase del dinosurio y el indice del tablero (para recuperarlo después)
         const movimiento = {
-          dino: paqueteSelects[0].value,
-          recinto: paqueteSelects[1].value,
+          dino: paqueteSelects[0].options[paqueteSelects[0].selectedIndex]
+            .dataset.clase,
+          recinto:
+            paqueteSelects[1].options[paqueteSelects[1].selectedIndex].dataset
+              .idRecinto,
         };
         // Cumple con los requisitos para agregar un dinosaurio
-
+        this.#colocarDinosaurioDOM(paqueteSelects);
+        // Guardar movimiento en local storage
         this.#guardarMovimientoLocalStorage(movimiento);
         alert(
           `✅ Dinosaurio ${paqueteSelects[0].value} colocado en el recinto ${paqueteSelects[1].value} 🦖`
         );
+      }
+    });
+  }
+
+  #colocarDinosaurioDOM(paqueteSelects) {
+    // Obtiene el elemento del select dinosaurios seleccionado
+    const opcionSeleccionadaDinosaurios =
+      paqueteSelects[0].options[paqueteSelects[0].selectedIndex];
+    // Obtiene el elemento del select recintos seleccionado
+    const opcionSeleccionadaRecintos =
+      paqueteSelects[1].options[paqueteSelects[1].selectedIndex];
+    let claseDino = opcionSeleccionadaDinosaurios.dataset.clase;
+    let idRecinto = opcionSeleccionadaRecintos.dataset.idRecinto;
+
+    const dinosaurio = document.createElement("div");
+    dinosaurio.classList.add("objeto");
+    dinosaurio.classList.add(claseDino);
+    this.paqueteTablero.forEach((element) => {
+      // console.log(`${element.id}`);
+      if (idRecinto === element.id) {
+        element.appendChild(dinosaurio);
       }
     });
   }
