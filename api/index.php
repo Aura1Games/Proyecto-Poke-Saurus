@@ -287,12 +287,7 @@ function funcionRegistrarUsuarioPOST($usuarios, $data)
         }
     }
 
-    // Validar tipos de datos
-    if (!is_numeric($data["jugadores"]) || !is_numeric($data["puntaje"]) || !is_numeric($data["ganador"])) {
-        http_response_code(400);
-        echo json_encode(["mensaje" => "Campos numéricos inválidos"]);
-        return;
-    }
+
 
     $nombre = htmlspecialchars($data['nombre'], ENT_QUOTES, 'UTF-8');
     $contra_no_preparada = htmlspecialchars($data['contraseña'], ENT_QUOTES, 'UTF-8');
