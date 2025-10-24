@@ -1,0 +1,50 @@
+:root {
+  /* Variables base (tema claro por defecto) */
+  --fondo: rgba(
+    103,
+    131,
+    153,
+    0.836
+  ); /* Fondo principal (de Configuracion_style.css) */
+  --fondo-alternativo: rgba(242, 240, 255, 0.41); /* Fondo alternativo */
+  --contraste: rgb(205, 213, 50); /* Color de contraste/acento */
+  --texto-principal: rgb(8, 34, 56); /* Texto principal (h1) */
+  --texto-secundario: white; /* Texto en labels */
+  --fondo-body: rgba(205, 213, 219, 0.795); /* Fondo del body */
+  --fondo-contenedor: var(--fondo); /* Fondo de contenedores */
+  --borde-contenedor: rgb(54, 123, 179); /* Borde de contenedores */
+  --fondo-content: var(--fondo-alternativo); /* Fondo de .content */
+  --fuente-oficial: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+  --fuente-etiquetas: Verdana, Geneva, Tahoma, sans-serif;
+
+  /* Variables adicionales inferidas de otros CSS (e.g., reglas.css, menu.css) */
+  --fondo-reglas: rgb(220, 255, 244); /* Fondo de reglas */
+  --contraste-reglas: rgb(120, 191, 49); /* Contraste de reglas */
+  --fondo-menu: #e9bebe; /* Fondo de botones menu */
+  --color-menu: #821414; /* Color texto menu */
+  --fondo-aside: rgba(76, 112, 76, 0.753); /* Aside en ajustes */
+  --fondo-main: rgba(96, 128, 143, 0.541); /* Main en ajustes */
+  --fondo-partida: rgba(240, 248, 255, 0.753); /* Aside en partida */
+  --fondo-registro: rgba(255, 255, 255, 0.95); /* Fondo registro */
+}
+
+/* Tema oscuro: Inferido (fondos oscuros, textos claros, ajustes de contraste) */
+[data-theme="oscuro"] {
+  --fondo: rgba(20, 55, 44, 0.9); /* Oscuro basado en reglas.css */
+  --fondo-alternativo: rgba(30, 30, 50, 0.8); /* Oscuro alternativo */
+  --contraste: rgb(255, 255, 150); /* Más brillante para resaltar en oscuro */
+  --texto-principal: rgb(240, 240, 240); /* Claro para legibilidad */
+  --texto-secundario: rgb(220, 220, 220); /* Claro */
+  --fondo-body: rgba(10, 10, 20, 0.95); /* Muy oscuro */
+  --fondo-contenedor: var(--fondo);
+  --borde-contenedor: rgb(150, 200, 255); /* Azul claro para contraste */
+  --fondo-content: var(--fondo-alternativo);
+  --fondo-reglas: rgba(20, 55, 44); /* Oscuro */
+  --contraste-reglas: rgb(200, 255, 129); /* Brillante */
+  --fondo-menu: rgba(50, 20, 20, 0.9); /* Oscuro rojizo */
+  --color-menu: rgb(255, 200, 200); /* Claro rojizo */
+  --fondo-aside: rgba(20, 40, 20, 0.9); /* Oscuro verdoso */
+  --fondo-main: rgba(30, 40, 50, 0.8); /* Oscuro azulado */
+  --fondo-partida: rgba(10, 20, 30, 0.9); /* Oscuro */
+  --fondo-registro: rgba(50, 50, 50, 0.95); /* Gris oscuro */
+}

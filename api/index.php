@@ -70,7 +70,17 @@ $method = $_SERVER['REQUEST_METHOD'];
 // Manejar diferentes métodos
 switch ($method) {
     case 'GET':
-        funcionGet($usuarios);
+        $data = $_GET["tipo"];
+        switch ($data) {
+            case 'usuarioPorNombre':
+                funcionGet($usuarios);
+                break;
+
+            case "ultimaPartida":
+                funcionGetUltimaPartida($partida);
+                break;
+        }
+
         break;
 
     case 'POST':
@@ -173,12 +183,16 @@ function funcionGet($usuarios)
         $data = $usuarios->getByName($nombre);
         echo json_encode($data ? $data : ["mensaje" => "Usuario no encontrado"]);
     } else {
-        $data = $usuarios->getAll();
         http_response_code(404);
         echo json_encode(["mensaje" => "petición get no valida"]);
     }
 }
 
+function funcionGetUltimaPartida($partida)
+{
+    $data = $partida->consultarUltimaPartida();
+    echo json_encode($data ? $data : ["mensaje" => "Error en obtener ultima partida"]);
+}
 
 
 function funcionVerificarLoginPOST($usuarios, $db, $data)

@@ -12,20 +12,6 @@ class Usuarios
     {
         $this->conn = $db;
     }
-
-    // Método para obtener todos los registros de usuarios de la base de datos
-    public function getAll()
-    {
-        // Creamos la consulta SQL para seleccionar los campos deseados de la tabla 'animales'
-        $query = "SELECT id_usuario, nombre, contraseña, edad, correo FROM {$this->table}";
-        // Preparamos la consulta usando la conexión a la base de datos para evitar inyecciones SQL
-        $stmt = $this->conn->prepare($query);
-        // Ejecutamos la consulta preparada
-        $stmt->execute();
-        // Obtenemos todos los resultados como un array asociativo y lo devolvemos
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
-    }
-
     // Método para obtener un usuario específico por su nombre
     public function getByName($nombre)
     {
@@ -66,7 +52,8 @@ class Usuarios
         return false;
     }
 
-    public function obtenerHash($nombre) {
+    public function obtenerHash($nombre)
+    {
         $query = "SELECT contraseña FROM {$this->table} WHERE nombre = :nombre";
         // Preparamos la consulta usando la conexión a la base de datos
         $stmt = $this->conn->prepare($query);
@@ -77,5 +64,4 @@ class Usuarios
         // Obtenemos el resultado como un array asociativo (solo un registro) y lo devolvemos
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
-
 }

@@ -1,13 +1,548 @@
-.cosete {
-  position: absolute;
-  top: 45%;
-  transform: translateY(-50%);
+/* ============================================
+   VARIABLES GLOBALES (Coherencia con el proyecto)
+   ============================================ */
+:root {
+  --color-principal: rgba(194, 181, 181, 0.63);
+  --color-verificado: rgb(33, 90, 33);
+  --color-verificado-claro: rgb(39, 146, 39);
+  --color-error: rgb(194, 50, 50);
+  --fuente-oficial: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+  --fuente-etiquetas: Verdana, Geneva, Tahoma, sans-serif;
+  --sombra-card: 0 8px 24px rgba(0, 0, 0, 0.15);
+  --sombra-hover: 0 12px 32px rgba(0, 0, 0, 0.2);
+  --border-radius: 20px;
+  --transition-speed: 0.3s;
 }
-.salir {
-  position: absolute;
-  top: 90%;
-  left: 10px;
+
+/* ============================================
+   RESET Y BASE
+   ============================================ */
+html,
+body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+  overflow-x: hidden;
 }
-#errores {
+
+body {
+  /* Usando flexbox para centrado vertical perfecto */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+
+  /* Fondo con gradiente (puede ser reemplazado con imagen) */
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   position: relative;
+  padding: 1rem;
+}
+
+/* Si quieres agregar imagen de fondo (opcional) */
+body::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url("../images/dino_imagen.webp");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  opacity: 0.3; /* Hace la imagen más sutil */
+  z-index: -1;
+}
+
+/* ============================================
+   FORMULARIO - Card Centrado
+   LÓGICA: Bootstrap flex utilities + estilos nativos
+   ============================================ */
+#formRegistro {
+  /* Ancho responsivo con max-width */
+  width: 100%;
+  max-width: 600px;
+
+  /* Padding interno adaptativo */
+  padding: clamp(2rem, 5vw, 3rem);
+
+  /* Estilos de card elevado */
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  border-radius: var(--border-radius);
+  box-shadow: var(--sombra-card);
+
+  /* Gap entre elementos hijos (alternativa a margins) */
+  gap: 1.5rem;
+
+  /* Transición suave */
+  transition: all var(--transition-speed) ease;
+
+  /* Centrado garantizado por Bootstrap: d-flex justify-content-center */
+  /* align-items-center, pero reforzado con body flex */
+  position: relative;
+  z-index: 10;
+}
+
+#formRegistro:hover {
+  box-shadow: var(--sombra-hover);
+  transform: translateY(-4px);
+}
+
+/* ============================================
+   TÍTULO
+   LÓGICA: Tipografía fluida con clamp()
+   ============================================ */
+#formRegistro h1 {
+  font-size: clamp(1.8rem, 5vw, 2.5rem);
+  font-family: var(--fuente-oficial);
+  color: #333;
+  margin-bottom: 1.5rem;
+  text-align: center;
+  font-weight: bold;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+#formRegistro h1 span {
+  color: var(--color-verificado);
+  font-family: "Courier New", Courier, monospace;
+  font-style: italic;
+}
+
+/* ============================================
+   GRUPOS DE INPUTS
+   LÓGICA: col-8 de Bootstrap se adapta automáticamente,
+   pero agregamos width: 100% para garantizar consistencia
+   ============================================ */
+#formRegistro .col-8 {
+  width: 100%;
+  max-width: 100%;
+  padding: 0; /* Elimina padding de Bootstrap en este contexto */
+}
+
+/* Labels con estilo coherente */
+#formRegistro .form-label {
+  font-family: var(--fuente-etiquetas);
+  font-size: clamp(0.95rem, 2vw, 1.1rem);
+  font-weight: 600;
+  color: #555;
+  margin-bottom: 0.5rem;
+  margin-top: 0.75rem;
+}
+
+/* Primer label sin margen superior */
+#formRegistro .col-8:first-of-type .form-label {
+  margin-top: 0;
+}
+
+/* ============================================
+   INPUTS
+   LÓGICA: Override de estilos Bootstrap para coherencia
+   ============================================ */
+#formRegistro .form-control {
+  font-size: clamp(0.95rem, 2vw, 1.1rem);
+  font-family: var(--fuente-etiquetas);
+  padding: 0.75rem 1rem;
+  border: 2px solid #ddd;
+  border-radius: 10px;
+  transition: all var(--transition-speed) ease;
+  background: rgba(255, 255, 255, 0.9);
+}
+
+#formRegistro .form-control:focus {
+  border-color: var(--color-verificado);
+  box-shadow: 0 0 0 0.25rem rgba(33, 90, 33, 0.15);
+  background: white;
+  outline: none;
+}
+
+#formRegistro .form-control::placeholder {
+  color: #aaa;
+  font-style: italic;
+}
+
+/* Estado de error (controlado por JS) */
+#formRegistro .form-control.is-invalid {
+  border-color: var(--color-error);
+}
+
+#formRegistro .form-control.is-invalid:focus {
+  box-shadow: 0 0 0 0.25rem rgba(194, 50, 50, 0.15);
+}
+
+/* Estado de éxito (controlado por JS) */
+#formRegistro .form-control.is-valid {
+  border-color: var(--color-verificado);
+}
+
+/* ============================================
+   INPUTS ESPECIALES - Contraseñas
+   ============================================ */
+/* Segunda contraseña con menos margen superior */
+#inputRepetirContra {
+  margin-top: 0.5rem;
+}
+
+/* Input de edad con ancho limitado (opcional) */
+#inputEdad {
+  max-width: 150px;
+}
+
+/* ============================================
+   CONTENEDOR DE ERRORES
+   LÓGICA: Posicionado para mostrar mensajes dinámicos
+   ============================================ */
+#errores {
+  min-height: 2rem;
+  padding: 0.75rem;
+  border-radius: 10px;
+  font-family: var(--fuente-etiquetas);
+  font-size: 0.9rem;
+  color: var(--color-error);
+  background: rgba(194, 50, 50, 0.1);
+  border: 1px solid rgba(194, 50, 50, 0.3);
+  margin-top: 1rem;
+
+  /* Oculto por defecto si está vacío */
+  display: none;
+  transition: all var(--transition-speed) ease;
+}
+
+#errores:not(:empty) {
+  display: block;
+  animation: slideDown 0.3s ease;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Lista de errores */
+#errores ul {
+  margin: 0;
+  padding-left: 1.5rem;
+}
+
+#errores li {
+  margin: 0.25rem 0;
+}
+
+/* ============================================
+   BOTÓN DE SUBMIT
+   LÓGICA: Estilo coherente con el proyecto
+   ============================================ */
+#btnSubmit {
+  font-size: clamp(1rem, 2.5vw, 1.2rem);
+  font-family: var(--fuente-oficial);
+  font-weight: bold;
+  padding: 0.75rem 3rem;
+  border-radius: 12px;
+  border: none;
+  background: linear-gradient(
+    135deg,
+    var(--color-verificado) 0%,
+    var(--color-verificado-claro) 100%
+  );
+  color: white;
+  cursor: pointer;
+  transition: all var(--transition-speed) ease;
+  box-shadow: 0 4px 12px rgba(33, 90, 33, 0.3);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  width: 100%;
+  max-width: 250px;
+}
+
+#btnSubmit:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(33, 90, 33, 0.4);
+  background: linear-gradient(
+    135deg,
+    var(--color-verificado-claro) 0%,
+    var(--color-verificado) 100%
+  );
+}
+
+#btnSubmit:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 8px rgba(33, 90, 33, 0.3);
+}
+
+#btnSubmit:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* ============================================
+   BOTÓN SALIR/VOLVER
+   LÓGICA: Fixed position para siempre estar visible
+   ============================================ */
+.salir {
+  position: fixed;
+  bottom: 2rem;
+  left: 2rem;
+
+  /* Estilos del botón */
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+  border: 2px solid white;
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(5px);
+
+  /* Tipografía */
+  color: white;
+  font-size: 1.5rem;
+  font-weight: bold;
+
+  /* Centrado del contenido */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  /* Efectos */
+  cursor: pointer;
+  transition: all var(--transition-speed) ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  z-index: 100;
+}
+
+.salir:hover {
+  background: rgba(255, 255, 255, 0.9);
+  color: var(--color-verificado);
+  transform: translateX(-5px) scale(1.1);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
+}
+
+.salir:active {
+  transform: translateX(-3px) scale(1.05);
+}
+
+/* ============================================
+   MEDIA QUERIES - Bootstrap Breakpoints
+   ============================================ */
+
+/* Large devices (desktops, less than 1200px) */
+@media (max-width: 1199.98px) {
+  #formRegistro {
+    max-width: 550px;
+    padding: 2.5rem;
+  }
+}
+
+/* Medium devices (tablets, less than 992px) */
+@media (max-width: 991.98px) {
+  body {
+    padding: 0.75rem;
+  }
+
+  #formRegistro {
+    max-width: 500px;
+    padding: 2rem;
+    gap: 1.25rem;
+  }
+
+  #btnSubmit {
+    max-width: 100%;
+  }
+}
+
+/* Small devices (landscape phones, less than 768px) */
+@media (max-width: 767.98px) {
+  body {
+    padding: 0.5rem;
+    align-items: flex-start; /* Permite scroll natural */
+    padding-top: 2rem;
+    padding-bottom: 6rem; /* Espacio para botón salir */
+  }
+
+  #formRegistro {
+    max-width: 100%;
+    padding: 1.5rem;
+    gap: 1rem;
+    margin: 1rem 0;
+  }
+
+  #formRegistro h1 {
+    font-size: 1.75rem;
+    margin-bottom: 1rem;
+  }
+
+  #formRegistro .form-label {
+    font-size: 1rem;
+    margin-top: 0.5rem;
+  }
+
+  #formRegistro .form-control {
+    font-size: 1rem;
+    padding: 0.65rem 0.85rem;
+  }
+
+  #inputEdad {
+    max-width: 100%;
+  }
+
+  #btnSubmit {
+    padding: 0.85rem 2rem;
+    font-size: 1.1rem;
+  }
+
+  .salir {
+    bottom: 1.5rem;
+    left: 1.5rem;
+    width: 2.75rem;
+    height: 2.75rem;
+    font-size: 1.3rem;
+  }
+}
+
+/* Extra small devices (portrait phones, less than 576px) */
+@media (max-width: 575.98px) {
+  body {
+    padding: 0.25rem;
+    padding-top: 1.5rem;
+    padding-bottom: 5rem;
+  }
+
+  #formRegistro {
+    padding: 1.25rem;
+    gap: 0.85rem;
+    border-radius: 15px;
+  }
+
+  #formRegistro h1 {
+    font-size: 1.5rem;
+    margin-bottom: 0.75rem;
+  }
+
+  #formRegistro .form-label {
+    font-size: 0.95rem;
+    margin-bottom: 0.35rem;
+  }
+
+  #formRegistro .form-control {
+    font-size: 0.95rem;
+    padding: 0.6rem 0.75rem;
+  }
+
+  #btnSubmit {
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+  }
+
+  .salir {
+    bottom: 1rem;
+    left: 1rem;
+    width: 2.5rem;
+    height: 2.5rem;
+    font-size: 1.2rem;
+  }
+
+  #errores {
+    font-size: 0.85rem;
+    padding: 0.5rem;
+  }
+}
+
+/* Extra extra small (very small phones, less than 400px) */
+@media (max-width: 399.98px) {
+  #formRegistro {
+    padding: 1rem;
+  }
+
+  #formRegistro h1 {
+    font-size: 1.35rem;
+  }
+
+  .salir {
+    width: 2.25rem;
+    height: 2.25rem;
+    font-size: 1.1rem;
+  }
+}
+
+/* ============================================
+   ESTADOS DE CARGA (opcional para JS)
+   ============================================ */
+#formRegistro.loading {
+  pointer-events: none;
+  opacity: 0.7;
+}
+
+#formRegistro.loading #btnSubmit::after {
+  content: "";
+  display: inline-block;
+  width: 1rem;
+  height: 1rem;
+  margin-left: 0.5rem;
+  border: 2px solid white;
+  border-top-color: transparent;
+  border-radius: 50%;
+  animation: spin 0.6s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ============================================
+   ACCESIBILIDAD
+   ============================================ */
+*:focus-visible {
+  outline: 2px solid var(--color-verificado);
+  outline-offset: 2px;
+}
+
+/* Mejora de contraste para inputs deshabilitados */
+#formRegistro .form-control:disabled {
+  background-color: #f5f5f5;
+  opacity: 0.8;
+}
+
+/* ============================================
+   ANIMACIONES DE ENTRADA (opcional)
+   ============================================ */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+#formRegistro {
+  animation: fadeInUp 0.5s ease;
+}
+
+/* ============================================
+   PRINT STYLES (oculta elementos no necesarios)
+   ============================================ */
+@media print {
+  .salir {
+    display: none;
+  }
+
+  body::before {
+    display: none;
+  }
+
+  #formRegistro {
+    box-shadow: none;
+    border: 1px solid #ddd;
+  }
 }

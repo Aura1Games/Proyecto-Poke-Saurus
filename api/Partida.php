@@ -73,4 +73,18 @@ class Partida
         }
         return false;
     }
+
+    public function consultarUltimaPartida()
+    {
+        # Creamos la consulta
+        $query = 'SELECT id_partida FROM Juega ORDER BY id_partida DESC LIMIT 1;';
+        # Preparamos la consulta
+        $stmt = $this->conn->prepare($query);
+        # Ejecutamos la consulta
+        if ($stmt->execute()) {
+            return $stmt->fetch(PDO::FETCH_ASSOC);
+        } else {
+            return false;
+        }
+    }
 }

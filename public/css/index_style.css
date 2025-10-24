@@ -1,11 +1,11 @@
 .btn-menu {
-  background-color: #e9bebe;
-  color: #821414;
+  background-color: var(--fondo-menu);
+  color: var(--color-menu);
   font-weight: bold;
   border: 1px solid black;
 }
 .btn-menu:hover {
-  background-color: #821414;
+  background-color: var(--color-menu);
   color: #e9bebe;
 }
 #fondo {

@@ -1,6 +1,6 @@
 :root {
-  --fondo: rgb(220, 255, 244);
-  --contraste: rgb(120, 191, 49);
+  --fondo-reglas: rgb(220, 255, 244);
+  --contraste-reglas: rgb(120, 191, 49);
   --fuente-oficial: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
   --fuente-etiquetas: Verdana, Geneva, Tahoma, sans-serif;
 }

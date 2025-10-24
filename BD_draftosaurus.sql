@@ -115,6 +115,7 @@ CREATE TABLE Juega(
 
 # Consultar la tabla Juega
 SELECT * FROM Juega;
+select id_partida from Juega order by id_partida desc;
 
 # Ingresar datos a la tabla Juega
 # INSERT INTO Juega(id_usuario, id_partida) VALUES (2, 7);

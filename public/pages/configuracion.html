@@ -3,6 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="../css/darkLightGlobal.css" />
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css"
       rel="stylesheet"
@@ -12,48 +13,41 @@
     <link rel="stylesheet" href="../css/global.css" />
     <link rel="icon" type="image/x-icon" href="../images/dino_icono.webp" />
     <link rel="stylesheet" href="../css/Configuracion_style.css" />
-
     <title>Configuración</title>
   </head>
   <body>
     <h1>CONFIGURACIÓN</h1>
     <div class="contenedor">
       <div class="content">
-        <!-- select boostrap -->
+        <!-- Select para idioma -->
         <div class="form-floating">
           <select
             class="form-select"
-            id="floatingSelect"
-            aria-label="Floating label select example"
+            id="selectIdioma"
+            aria-label="Seleccionar idioma"
           >
-            <option value="1" selected>Español</option>
-            <option value="2">Inglés</option>
+            <option value="es" selected>Español</option>
+            <option value="en">Inglés</option>
           </select>
-          <label for="floatingSelect">Seleccióne un idioma</label>
+          <label for="selectIdioma">Seleccione un idioma</label>
         </div>
       </div>
 
       <div class="content">
+        <!-- Select para tema -->
         <div class="form-floating">
           <select
             class="form-select"
-            id="floatingSelect"
-            aria-label="Floating label select example"
+            id="selectTema"
+            aria-label="Seleccionar tema"
           >
-            <option value="1" selected>Claro</option>
-            <option value="2">Oscuro</option>
+            <option value="claro" selected>Claro</option>
+            <option value="oscuro">Oscuro</option>
           </select>
-          <label for="floatingSelect">Seleccióne un Tema</label>
+          <label for="selectTema">Seleccione un tema</label>
         </div>
-        <!-- <h3>Tema</h3>
-        <div class="cosete">
-          <label for="tema">Seleccionar tema </label>
-          <select name="Colores" id="select_tema">
-            <option value="white">Claro</option>
-            <option value="black">Oscuro</option>
-          </select>
-        </div> -->
       </div>
+
       <!-- Button trigger modal -->
       <div class="d-flex justify-content-center">
         <button
@@ -87,7 +81,7 @@
                 aria-label="Close"
               ></button>
             </div>
-            <div class="modal-body">Deseas guardar los cambios?</div>
+            <div class="modal-body">¿Deseas guardar los cambios?</div>
             <div class="modal-footer">
               <div class="d-flex justify-content-between w-100">
                 <button
@@ -95,11 +89,12 @@
                   class="btn btn-secondary"
                   data-bs-dismiss="modal"
                 >
-                  Close
+                  Cerrar
                 </button>
                 <button
                   type="button"
                   class="btn btn-primary"
+                  id="btnGuardarCambios"
                   data-bs-dismiss="modal"
                 >
                   Guardar cambios
@@ -110,17 +105,21 @@
         </div>
       </div>
     </div>
+
+    <!-- Diálogo de confirmación (opcional, pero lo mantengo) -->
     <dialog id="modal">
       <h2>Guardar cambios</h2>
-      <p>se guardaron los cambios correctamente</p>
+      <p>Se guardaron los cambios correctamente</p>
       <button onclick="modal.close()">Cerrar</button>
     </dialog>
+
     <button class="salir" id="btn_salir"><-</button>
+
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"
       integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q"
       crossorigin="anonymous"
     ></script>
-    <script src="../js/global_script.js"></script>
+    <script src="../js/configuracion_script.js"></script>
   </body>
 </html>

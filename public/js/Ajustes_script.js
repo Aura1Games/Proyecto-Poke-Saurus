@@ -5,12 +5,15 @@ class ApiUsuarios {
   }
 
   async getByName(name) {
-    return fetch(`${this.baseUrl}?nombre=${name}`).then((response) => {
-      if (!response.ok) {
-        throw new Error("Error en la petición HTTP");
+    // ?tipo=usuarioPorNombre&nombre=elian
+    return fetch(`${this.baseUrl}?tipo=usuarioPorNombre&nombre=${name}`).then(
+      (response) => {
+        if (!response.ok) {
+          throw new Error("Error en la petición HTTP");
+        }
+        return response.json();
       }
-      return response.json();
-    });
+    );
   }
 
   /**
@@ -322,6 +325,7 @@ window.addEventListener("DOMContentLoaded", () => {
             "usuarios",
             apiPartida.jugadoresVerificados
           );
+          apiPartida.guardarEnLocalStorage("partida", data.id);
           apiPartida.guardarEnLocalStorage("infoUsuarios", api.jugadores);
           alert("debugging: " + api.jugadores);
           window.location.href = "./Partida.html";

@@ -24,7 +24,7 @@ class Partida {
     }
   }
 
-  async generarTablerosBD(idTablero) {
+  async generarRecintosBD(idTablero) {
     if (idTablero === null || idTablero === undefined) {
       console.error(`Error: idTabero invalido idTablero: (${idTablero})`);
       return;
@@ -113,18 +113,31 @@ class Partida {
   async generarRelacionesMultiples(relaciones) {
     if (!Array.isArray(relaciones)) {
       console.error("Error: Se esperaba un array de relaciones");
+      console.error("Tipo recibido:", typeof relaciones);
+      console.error("Valor recibido:", relaciones);
       return null;
+    }
+
+    // Validar que el array no esté vacío
+    if (relaciones.length === 0) {
+      console.error("Error: El array de relaciones está vacío");
+      alert("⚠️ No hay relaciones para procesar");
+      return null;
+    }
+
+    // Validar estructura de cada relación
+    for (const relacion of relaciones) {
+      if (!relacion.idUsuario || !relacion.idPartida) {
+        console.error("Error: Relación con estructura inválida:", relacion);
+        alert("❌ Datos de relación incompletos");
+        return null;
+      }
     }
 
     try {
       const resultados = [];
 
-      // Procesar cada relación secuencialmente usando for...of
       for (const relacion of relaciones) {
-        console.log(
-          `Procesando relación: Usuario ${relacion.idUsuario} - Partida ${relacion.idPartida}`
-        );
-
         const resultado = await this.generarRelacionJuega(
           relacion.idUsuario,
           relacion.idPartida
@@ -137,13 +150,10 @@ class Partida {
           alert(
             `❌ Error al crear relación para Usuario ${relacion.idUsuario}`
           );
-          return null; // Detener el proceso si hay un error
+          return null;
         }
 
         resultados.push(resultado);
-        console.log(
-          `Relación creada exitosamente: Usuario ${relacion.idUsuario}`
-        );
       }
 
       alert("✅ Todas las relaciones fueron creadas exitosamente en orden");
@@ -152,6 +162,56 @@ class Partida {
       console.error("Error al procesar las relaciones:", error);
       alert("❌ Error al procesar las relaciones");
       return null;
+    }
+  }
+
+  async obtenerUltimaPartida() {
+    return await fetch(`${this.baseURL}?tipo=ultimaPartida`)
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Error en la petición HTTP");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        if (data.id_partida) {
+          return data;
+        }
+      })
+      .catch((error) => {
+        console.error("Error: " + error);
+      });
+  }
+
+  async levantarPartida() {
+    const tablero = partida.obtenerLocaStorage("tablero");
+    const infoPartida = this.obtenerLocaStorage("partida");
+    const infoUsuarios = this.obtenerLocaStorage("infoUsuarios");
+    const relaciones = [];
+
+    let auxiliar = await this.obtenerUltimaPartida();
+    console.log(
+      `último id de Partida obtenido de la BD: ${auxiliar.id_partida} `,
+      `id almacenado en localStorage: ${infoPartida}`
+    );
+    if (Number(auxiliar.id_partida) === Number(infoPartida)) {
+      return console.log("Ya se registraron las tablas de la partida actual");
+    }
+    console.log("Registrando tablas de partida actual... ");
+
+    try {
+      // ===== | GENERAR RECINTOS | =====
+      await this.generarRecintosBD(tablero["id"]);
+
+      //  ======= GENERAR RELACION JUEGA =======
+      infoUsuarios.forEach((element) => {
+        let objeto = { idUsuario: element.id, idPartida: Number(infoPartida) };
+        relaciones.push(objeto);
+      });
+      await this.generarRelacionesMultiples(relaciones);
+      console.log("Partida iniciada con éxito");
+    } catch (error) {
+      return console.error(`Error al iniciar la partida: ${error}`);
     }
   }
 }
@@ -202,7 +262,7 @@ class Tablero {
       typeof movimiento.recinto === "string"
     ) {
       localStorage.setItem("movimiento", JSON.stringify(movimiento));
-      console.log("Movimiento guardado en localStorage:", movimiento);
+      // mensajeConsola(`Movimiento guardado en localStorage: ${movimiento}`, 1);
     } else {
       console.error(
         "El parámetro movimiento debe ser un objeto con las propiedades 'dino' y 'recinto'."
@@ -215,7 +275,7 @@ class Tablero {
     let auxiliar = localStorage.getItem("movimiento");
     auxiliar
       ? localStorage.setItem("movimiento", JSON.stringify([]))
-      : console.log("Comienzo de partida...");
+      : mensajeConsola("Comienzo de partida...", 1);
   }
 
   /**
@@ -243,7 +303,7 @@ class Tablero {
           "⚠️ Debes de seleccionar un dinosaurio y un recinto para colocar un dinosario 🦖"
         );
       } else {
-        console.log("Dinosaurio colocado correctamente");
+        // mensajeConsola("Dinosaurio colocado correctamente", 1);
         const movimiento = {
           dino: paqueteSelects[0].value,
           recinto: paqueteSelects[1].value,
@@ -306,13 +366,8 @@ window.addEventListener("DOMContentLoaded", () => {
   //   Asignamos el nombre del jugador al elemento del DOM
   const jugadores = partida.obtenerLocaStorage("usuarios"); // desestrucutramos lo obtenido por el metodo partida (en éste caso es un arreglo)
   elementoNombreJugador.innerText = `Nombre: ${jugadores[0]}`;
-  const tablero = partida.obtenerLocaStorage("tablero");
-  partida.generarTablerosBD(tablero["id"]);
-  /*
-  Para actualizar la relación juega necesitamos implementar que el id de la partida e
-  id de los jugadores se guarde en localStorage en ajustes de partida para mandarlos en la función 
-  'partida.generarRelacionesMultiples()' dentro de Partida_script.js
-  
-  */
+
+  partida.levantarPartida();
+
   manipular.colocar_dinosaurio(paqueteSelects);
 });
