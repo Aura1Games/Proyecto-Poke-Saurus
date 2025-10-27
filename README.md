@@ -1,7 +1,7 @@
 # S.I.G.P.D. (Sistema Gestor de Partidas de Draftosaurus)
 
 <div align="center">
-  <img src="public/images/dino_icono.webp" alt="Logo SIGPD" width="200"/>
+  <img src="./public/images/dino_icono.webp" alt="Logo SIGPD" width="200"/>
   <br>
   <p>
     <strong>Un sistema gestor de partidas para el juego Draftosaurus</strong>
