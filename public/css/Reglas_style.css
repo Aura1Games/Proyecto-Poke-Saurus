@@ -1,5 +1,5 @@
 :root {
-  --fondo-reglas: rgb(220, 255, 244);
+  --fondo-reglas: rgba(186, 234, 200, 0.348);
   --contraste-reglas: rgb(120, 191, 49);
   --fuente-oficial: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
   --fuente-etiquetas: Verdana, Geneva, Tahoma, sans-serif;
@@ -7,13 +7,14 @@
 
 body {
   margin: 1rem;
+  background-color: var(--fondo-reglas);
 }
 
 h1,
 h2,
 h3 {
   font-family: var(--fuente-oficial);
-  color: var(--contraste);
+  color: var(--contraste-reglas);
 }
 p {
   text-align: justify;
@@ -27,6 +28,9 @@ p {
   border: 3px #abad0a solid;
   padding: 1rem;
   background-color: #dad60673;
+}
+.salir {
+  border: 1px black solid;
 }
 .contenedor {
   background-color: var(--contraste);

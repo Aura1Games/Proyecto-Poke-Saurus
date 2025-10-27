@@ -1,5 +1,4 @@
 :root {
-  /* Variables */
   --verde-principal: rgba(70, 191, 70, 0.62);
   --verde-secundario: #056309;
   --naranja-secundario: #f57c00;
@@ -10,10 +9,10 @@ body {
   overscroll-behavior: none;
 }
 
-/* Tablero principal con textura de fondo */
+/* Tablero principal - Manteniendo diseño original pero responsivo */
 #tablero {
-  width: 932.875px;
-  height: 854.875px;
+  width: calc(100vmin - 15vmin);
+  height: calc(100vmin - 15vmin);
   background: #3d7a1fb5;
   padding: 15px;
   border: 1.333px solid #1fa445;
@@ -24,10 +23,10 @@ body {
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3),
     inset 0 2px 5px rgba(255, 255, 255, 0.2);
   position: relative;
-  overflow: hidden;
+  overflow: visible;
 }
 
-/* Textura de fondo del tablero */
+/* Textura de fondo del tablero (original) */
 #tablero::before {
   content: "";
   position: absolute;
@@ -45,7 +44,7 @@ body {
   z-index: 0;
 }
 
-/* Recintos base */
+/* Recintos base (original) */
 .recinto {
   position: relative;
   background-color: rgba(255, 255, 255, 0.9);
@@ -57,134 +56,32 @@ body {
   border: 3px solid transparent;
 }
 
-/* Recintos laterales con bordes más gruesos */
+/* Recintos laterales (original) */
 .recintoLaterales {
   border-radius: 20px;
-  width: calc(100% - 20px);
-  height: calc(100% - 20px);
+  width: calc(100% - 10px);
+  height: calc(100% - 10px);
   max-width: 300px;
   max-height: 280px;
-  padding: 10px;
+  padding: 15px;
   flex-wrap: wrap;
   justify-content: space-evenly;
   align-content: space-evenly;
-  gap: 8px;
+  gap: 3px;
+  overflow: none;
 }
 
-/* Estilos específicos por recinto */
-
-/* 1. Bosque de la semejanza (Superior Izquierda) - VERDE */
-.recinto[title="Bosque de la semejanza"] {
-  background-color: var(--verde-principal);
-  border-color: var(--verde-secundario);
-  grid-column: 1;
-  grid-row: 1;
-}
-
-.recinto[title="Bosque de la semejanza"]::before {
-  content: "🟰";
-  position: absolute;
-  top: 5px;
-  left: 10px;
-  font-size: 24px;
-  opacity: 0.9;
-}
-
-.recinto[title="Rey de la selva"] {
-  background-color: var(--verde-principal);
-  border-color: var(--verde-secundario);
-  grid-column: 3;
-  grid-row: 1;
-}
-
-.recinto[title="Rey de la selva"]::before {
-  content: "👑";
-  position: absolute;
-  top: 5px;
-  left: 10px;
-  font-size: 24px;
-  opacity: 0.9;
-}
-
-.recinto[title="Trio frondoso"] {
-  background-color: var(--verde-principal);
-  border-color: var(--verde-secundario);
-  grid-column: 1;
-  grid-row: 2;
-}
-
-.recinto[title="Trio frondoso"]::before {
-  content: "3️⃣";
-  position: absolute;
-  top: 5px;
-  left: 10px;
-  font-size: 24px;
-  opacity: 0.9;
-}
-
-.recinto[title="Prado de la diferencia"] {
-  background-color: var(--naranja-principal);
-  border-color: var(--naranja-secundario);
-  grid-column: 3;
-  grid-row: 2;
-}
-
-.recinto[title="Prado de la diferencia"]::before {
-  content: "≠";
-  position: absolute;
-  top: 5px;
-  left: 10px;
-  font-size: 30px;
-  opacity: 1;
-}
-
-/* 5. Pradera del amor (Inferior Izquierda) - ROSA/NARANJA */
-.recinto[title="Pradera del amor"] {
-  background-color: var(--naranja-principal);
-  border-color: var(--naranja-secundario);
-  grid-column: 1;
-  grid-row: 3;
-}
-
-.recinto[title="Pradera del amor"]::before {
-  content: "❤️";
-  position: absolute;
-  top: 5px;
-  left: 10px;
-  font-size: 24px;
-  opacity: 0.9;
-}
-
-/* 6. Isla solitaria (Inferior Derecha) - BEIGE/TIERRA */
-.recinto[title="Isla solitaria"] {
-  background-color: var(--naranja-principal);
-  border-color: var(--naranja-secundario);
-  grid-column: 3;
-  grid-row: 3;
-}
-
-.recinto[title="Isla solitaria"]::before {
-  content: "1️⃣";
-  position: absolute;
-  top: 5px;
-  left: 10px;
-  font-size: 24px;
-  opacity: 0.9;
-}
-
-/* RÍO CENTRAL - Todas las secciones del río */
+/* Recintos centrales (original) */
 .recintoCentro {
   width: 100%;
   height: 100%;
   background: #0288d1;
-
   border-left: 5px solid #01579b;
   border-right: 5px solid #01579b;
-
   overflow: hidden;
 }
 
-/* Posicionamiento específico de cada sección del río */
+/* Posicionamiento específico (original) */
 .recintoCentro:nth-of-type(2) {
   grid-column: 2;
   grid-row: 1;
@@ -200,7 +97,7 @@ body {
   grid-row: 3;
 }
 
-/* Efecto de agua en movimiento */
+/* Efecto de agua en movimiento (original) */
 .recintoCentro::before {
   content: "";
   position: absolute;
@@ -226,7 +123,7 @@ body {
   animation: ondas 3s ease-in-out infinite;
 }
 
-/* Burbujas decorativas en el río */
+/* Burbujas decorativas (original) */
 .recintoCentro::after {
   content: "";
   position: absolute;
@@ -243,7 +140,128 @@ body {
   animation: burbujas 4s ease-in-out infinite;
 }
 
-/* Objetos/Espacios dentro de los recintos */
+/* Animaciones (original) */
+@keyframes ondas {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 0.7;
+  }
+  50% {
+    transform: scale(1.1);
+    opacity: 1;
+  }
+}
+
+@keyframes burbujas {
+  0%,
+  100% {
+    transform: translate(-50%, -50%) scale(1);
+  }
+  50% {
+    transform: translate(-50%, -60%) scale(1.1);
+  }
+}
+
+/* Estilos específicos por recinto (original) */
+.recinto[title="Bosque de la semejanza"] {
+  background-color: var(--verde-principal);
+  border-color: var(--verde-secundario);
+  grid-column: 1;
+  grid-row: 1;
+}
+
+.recinto[title="Rey de la selva"] {
+  background-color: var(--verde-principal);
+  border-color: var(--verde-secundario);
+  grid-column: 3;
+  grid-row: 1;
+}
+
+.recinto[title="Trio frondoso"] {
+  background-color: var(--verde-principal);
+  border-color: var(--verde-secundario);
+  grid-column: 1;
+  grid-row: 2;
+}
+
+.recinto[title="Prado de la diferencia"] {
+  background-color: var(--naranja-principal);
+  border-color: var(--naranja-secundario);
+  grid-column: 3;
+  grid-row: 2;
+}
+
+.recinto[title="Pradera del amor"] {
+  background-color: var(--naranja-principal);
+  border-color: var(--naranja-secundario);
+  grid-column: 1;
+  grid-row: 3;
+}
+
+.recinto[title="Isla solitaria"] {
+  background-color: var(--naranja-principal);
+  border-color: var(--naranja-secundario);
+  grid-column: 3;
+  grid-row: 3;
+}
+
+/* Iconos de recintos (original) */
+.recinto[title="Bosque de la semejanza"]::before {
+  content: "🟰";
+  position: absolute;
+  top: 5px;
+  left: 10px;
+  font-size: 24px;
+  opacity: 0.7;
+}
+
+.recinto[title="Rey de la selva"]::before {
+  content: "👑";
+  position: absolute;
+  top: 5px;
+  left: 10px;
+  font-size: 24px;
+  opacity: 0.7;
+}
+
+.recinto[title="Trio frondoso"]::before {
+  content: "3️⃣";
+  position: absolute;
+  top: 5px;
+  left: 10px;
+  font-size: 24px;
+  opacity: 0.7;
+}
+
+.recinto[title="Prado de la diferencia"]::before {
+  content: "≠";
+  position: absolute;
+  top: 5px;
+  left: 10px;
+  font-size: 30px;
+  opacity: 0.8;
+}
+
+.recinto[title="Pradera del amor"]::before {
+  content: "❤️";
+  position: absolute;
+  top: 5px;
+  left: 10px;
+  font-size: 24px;
+  opacity: 0.7;
+}
+
+.recinto[title="Isla solitaria"]::before {
+  content: "1️⃣";
+  position: absolute;
+  top: 5px;
+  left: 10px;
+  font-size: 24px;
+  opacity: 0.7;
+}
+
+/* Objetos/Espacios dentro de los recintos (original) */
 .admite6 {
   display: flex;
   flex-direction: row;
@@ -254,27 +272,29 @@ body {
 }
 
 .objeto {
-  width: 70px;
-  height: 70px;
-  margin: 5px;
+  width: 30px;
+  height: 30px;
+  margin: 3px;
   background: blueviolet;
   border: 1px solid #1a676e;
   border-radius: 15px;
   display: flex;
   align-items: center;
   justify-content: center;
+
   transition: all 0.3s ease;
-  cursor: pointer;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2),
     inset 0 1px 2px rgba(255, 255, 255, 0.5);
   font-size: 36px;
   position: relative;
+  z-index: -1;
 }
+
+/* Colores de dinosaurios (original) */
 .dinosaurio-rojo {
   background: red;
   border-color: rgb(131, 2, 2);
 }
-
 .dinosaurio-verde {
   background: rgb(13, 185, 70);
   border-color: rgb(7, 100, 38);
@@ -296,39 +316,7 @@ body {
   border-color: rgb(131, 59, 0);
 }
 
-/* Responsive */
-/* @media (max-width: 1024px) {
-  #tablero {
-    width: 90vw;
-    height: 85vh;
-    padding: 10px;
-    gap: 8px;
-  }
-
-  .recintoLaterales {
-    max-width: 100%;
-    max-height: 100%;
-    padding: 8px;
-  }
-
-  .objeto {
-    width: 55px;
-    height: 55px;
-    font-size: 28px;
-  }
-}
-*/
-
-@media (max-width: 1220px) {
-  .objeto {
-    width: 30px;
-    height: 30px;
-    font-size: 17px;
-    margin: 3px;
-  }
-}
-
-/* Títulos y etiquetas de recintos */
+/* Títulos y etiquetas de recintos (original) */
 .recinto::after {
   position: absolute;
   bottom: 5px;
@@ -366,13 +354,7 @@ body {
   content: "💔 = 7pt";
 }
 
-/* Clase para imagen del tablero de fondo (opcional) */
-.img-thumbnail {
-  background-clip: padding-box;
-  position: relative;
-}
-
-/* Sombra interna para dar profundidad */
+/* Sombra interna (original) */
 .recintoLaterales::before {
   content: "";
   position: absolute;
@@ -383,4 +365,92 @@ body {
   border-radius: 15px;
   box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.1);
   pointer-events: none;
+}
+
+/* Responsive con Bootstrap */
+@media (width > 1320px) {
+  #tablero {
+    width: calc(55rem - 15vmin);
+    height: calc(60rem - 5vmin);
+  }
+
+  .objeto {
+    width: 50px;
+    height: 50px;
+    font-size: 25px;
+  }
+}
+
+@media (max-width: 1070px) {
+  /* #tablero {
+    width: calc(40rem - 15vmin);
+    height: calc(60rem - 5vmin);
+  } */
+
+  .objeto {
+    width: 30px;
+    height: 30px;
+    font-size: 24px;
+  }
+
+  .recintoLaterales {
+    gap: 4px;
+    width: calc(100% - 5px);
+    height: calc(100% - 5px);
+  }
+}
+
+@media (max-width: 840px) {
+  #tablero {
+    width: calc(100vmin - 25vmin);
+    height: calc(100vmin - 25vmin);
+  }
+
+  .objeto {
+    width: 25px;
+    height: 25px;
+    font-size: 16px;
+  }
+
+  .recinto::after {
+    font-size: 9px;
+  }
+}
+
+@media (max-width: 576px) {
+  body {
+    overscroll-behavior: auto;
+  }
+
+  .recinto::after {
+    font-size: 6px;
+  }
+
+  #tablero {
+    width: 95%;
+    height: calc(auto + 50px);
+    aspect-ratio: 950 / 870;
+    padding: 10px;
+    overflow-y: auto;
+  }
+
+  .objeto {
+    width: 20px;
+    height: 20px;
+    font-size: 10px;
+    margin: 2px;
+  }
+
+  .recintoLaterales {
+    padding: 9px;
+    flex-flow: wrap;
+    flex-grow: 1;
+    gap: 2.5px;
+    height: 100%;
+    width: 100%;
+  }
+
+  .admite6 {
+    padding: 10px;
+  }
 }

@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Partida</title>
-    <!-- <link rel="stylesheet" href="../css/darkLightGlobal.css"> -->
+    <link rel="stylesheet" href="../css/cursoresCustom.css" />
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css"
       rel="stylesheet"
@@ -12,244 +12,513 @@
       crossorigin="anonymous"
     />
     <link rel="icon" type="image/x-icon" href="../images/dino_icono.webp" />
-    <!-- <link rel="stylesheet" href="../css/global.css" /> -->
-    <link rel="stylesheet" href="../css/Partida_style.css" />
-    <link rel="stylesheet" href="../css/tablero_style.css">
-
+    <link rel="stylesheet" href="../css/tablero_style.css" />
   </head>
   <body>
     <div id="fondo"></div>
-    <div class="container-fluid px-0 h-100">
-      <div class="row px-0 mx-0">
-        <div class="col-md-8 col-sm-12 px-0">
 
-          <!-- dentro del main está toda la estructura de el tablero -->
-          <main
-            class="d-flex flex-column px-0 h-100"
-          >
-          <!-- tablero -->
-            
-            <div class=" align-self-center img-thumbnail" id="tablero">
-            
-              <!-- Bosque de la semejanza -->
-              <div class="recinto recintoLaterales admite6" title="Bosque de la semejanza" id="bosqueDeLaSemejanza">. 
-
-              </div>
-              <!-- "Rio" -->
-              <div class="recinto recintoCentro" title="Rio" id="rio1"></div>
-              <!-- Rey de la selva -->
-              <div class="recinto recintoLaterales" title="Rey de la selva" id="reyDeLaSelva"></div>
-              <!-- Trio frondoso -->
-              <div class="recinto recintoLaterales " title="Trio frondoso" id="trioFrondoso"></div>
-              <!-- Rio -->
-              <div class="recinto recintoCentro" title="Rio" id="rio2"></div>
-              <!-- Prado de la diferencia -->
-              <div class="recinto recintoLaterales " title="Prado de la diferencia" id="pradoDeLaDiferencia"></div>
-              <!-- Pradera del amor -->
-              <div class="recinto recintoLaterales " title="Pradera del amor" id="praderaDelAmor"></div>
-              <!-- Rio -->
-              <div class="recinto recintoCentro" title="Rio" id="rio3">
-                
-              </div>
-              <!-- Isla solitaria -->
-              <div class="recinto recintoLaterales " title="Isla solitaria" id="islaSolitaria"></div>
-            </div>
-          </main>
+    <!-- Contenedor principal con Bootstrap -->
+    <div class="container-fluid vh-100 d-flex flex-column">
+      <!-- Header para móviles -->
+      <div class="row d-md-none bg-primary text-white py-2">
+        <div class="col-12 text-center">
+          <h5 class="mb-0">Partida en Curso</h5>
         </div>
+      </div>
 
-        <div class="col-md-4 col-sm-12 px-0">
+      <div class="row flex-grow-1 g-0">
+        <!-- Panel lateral - Se convierte en header en móviles -->
+        <div class="col-md-4 col-lg-3 order-2 order-md-1">
           <aside
-            class="d-flex flex-column mb-3 px-0 h-100"
-            
+            class="h-100 bg-success bg-opacity-50 d-flex flex-column p-2 p-md-3 overflow-auto"
           >
-            <div class="w-100 h-25 contenedor_aside px-2">
-              <h3 class="text-center">Información</h3>
-            </div>
-            <ul class="list-group px-2 mb-2 mt-2">
-              <li class="list-group-item" id="campoNombreJugador">Nombre: Juancito_021</li>
-              <li class="list-group-item">Puntos: 0</li>
-              <li class="list-group-item">Cantidad de dinosaurios: 6</li>
-            </ul>
-            <div class="w-100 h-25 contenedor_aside px-2">
-              <h3 class="text-center">Partida</h3>
-            </div>
-            <ul class="list-group px-2 mb-2 mt-2">
-              <li class="list-group-item">Ronda: 1</li>
-              <li class="list-group-item">Turno: Juancito_021</li>
-              <li class="list-group-item">Dado: bosque</li>
-            </ul>
-            <div class="w-100 h-25 contenedor_aside px-2">
-              <h3 class="text-center">Interactuar</h3>
-            </div>
-
-            <div class="d-flex flex-column contenedor px-2 mb-2 mt-2">
-              <!-- Button trigger modal -->
-              <button
-                type="button"
-                class="btn btn-primary"
-                data-bs-toggle="modal"
-                data-bs-target="#exampleModal"
-              >
-                Ver dinosaurios disponibles
-              </button>
-
-              <!-- Modal -->
-              <div
-                class="modal fade"
-                id="exampleModal"
-                tabindex="-1"
-                role="dialog"
-                aria-labelledby="modalDinosauriosDisponibles"
-              >
-                <div class="modal-dialog modal-fullscreen-sm-down" role="document">
-                  <div class="modal-content">
-                    <div class="modal-header">
-                      <h1 class="modal-title fs-5" id="modalDinosauriosDisponibles">
-                        Dinosaurios disponibles
-                      </h1>
-                      <button
-                        type="button"
-                        class="btn-close"
-                        data-bs-dismiss="modal"
-                        aria-label="Cerrar"
-                        data-bs-target="#exampleModal"
-                      ></button>
-                    </div>
-                    <div class="modal-body">
-                        <ul class="list-group " id="lista_dinosaurios">
-  <li class="list-group-item d-inline-flex justify-content-between"><span style="color: orange;"><h3>Espinosaurios</h3> </span><h3>1</h3> </li>
-  <li class="list-group-item d-inline-flex justify-content-between"><span style="color: yellow;"><h3>Triceratops</h3> </span><h3>1</h3> </li>
-  <li class="list-group-item d-inline-flex justify-content-between"><span style="color: skyblue;"><h3>Estegosaurio</h3> </span><h3>1</h3> </li>
-  <li class="list-group-item d-inline-flex justify-content-between"><span style="color: green;"><h3>Parasaurolophus</h3> </span><h3>1</h3> </li>
-  <li class="list-group-item d-inline-flex justify-content-between"><span style="color: rgb(170, 11, 170);"><h3>Brachiosaurus</h3> </span><h3>1</h3> </li>
-  <li class="list-group-item d-inline-flex justify-content-between"><span style="color: red;"><h3>Tiranosaurio rex</h3> </span><h3>1</h3> </li>
-</ul></h1></div>
-                  </div>
-                </div>
+            <!-- Información del Jugador -->
+            <div class="card mb-3 shadow-sm">
+              <div class="card-header bg-info bg-opacity-25">
+                <h6 class="card-title mb-0 text-center">Información</h6>
               </div>
-            </div>
-            <div class="d-flex flex-column contenedor px-2 mb-2 mt-2">
-              <!-- Button trigger modal -->
-              <button
-                type="button"
-                class="btn btn-primary"
-                data-bs-toggle="modal"
-                data-bs-target="#Modal2"
-              >
-                Colocar dinosaurios
-              </button>
-
-              <!-- Modal -->
-              <div
-                class="modal fade"
-                id="Modal2"
-                tabindex="-1"
-                role="dialog"
-                aria-labelledby="modalColocarDinosaurios"
-              >
-                <div class="modal-dialog modal-fullscreen-sm-down" role="document">
-                  <div class="modal-content">
-                    <div class="modal-header">
-                      <h1 class="modal-title fs-5" id="modalColocarDinosaurios">
-                        Colocar dinosaurios
-                      </h1>
-                      <button
-                        type="button"
-                        class="btn-close"
-                        data-bs-dismiss="modal"
-                        aria-label="Cerrar"
-                      ></button>
-                    </div>
-                    <div class="modal-body d-flex flex-column">
-                        
-  <select class="form-select mb-4" aria-label="Default select example" id="select-dinosaurios">
-  <option selected value="none">Seleccione un dinosaurio</option>
-  <option value="Espinosaurios" data-clase="dinosaurio-naranja" data-id-bd="4">Espinosaurios</option>
-  <option value="Triceratops" data-clase="dinosaurio-amarillo" data-id-bd="3">Triceratops</option>
-  <option value="Estegosaurio" data-clase="dinosaurio-celeste" data-id-bd="6">Estegosaurio</option>
-  <option value="Parasaurolophus" data-clase="dinosaurio-verde" data-id-bd="2">Parasaurolophus</option>
-  <option value="Brachiosaurus" data-clase="dinosaurio-rosado" data-id-bd="5">Brachiosaurus</option>
-  <option value="Tiranosaurio Rex" data-clase="dinosaurio-rojo" data-id-bd="1">Tiranosaurio Rex</option>
-</select>
-<select class="form-select mb-4" aria-label="Default select example" id="select-recintos">
-  <option selected value="none">Seleccione un recinto</option>
-  <option value="El Bosque de la Semejanza" data-id-recinto="bosqueDeLaSemejanza" data-id-recinto-tablero="0">El Bosque de la Semejanza</option>
-  <option value="El Prado de la Diferencia" data-id-recinto="pradoDeLaDiferencia" data-id-recinto-tablero="1">El Prado de la Diferencia</option>
-  <option value="La Pradera del Amor" data-id-recinto="praderaDelAmor" data-id-recinto-tablero="2">La Pradera del Amor</option>
-  <option value="El Trío Frondoso" data-id-recinto="trioFrondoso" data-id-recinto-tablero="3">El Trío Frondoso</option>
-  <option value="El Rey de la Selva" data-id-recinto="reyDeLaSelva" data-id-recinto-tablero="4">El Rey de la Selva</option>
-  <option value="La Isla Solitaria" data-id-recinto="islaSolitaria" data-id-recinto-tablero="5">La Isla Solitaria</option>
-  <option value="El Rio" data-id-recinto="rio" data-id-recinto-tablero="6">El Rio</option>
-</select>
-<div class="alert alert-primary" role="alert">
-  Recuerda las restricciónes del dado para colocar tus dinosaurios
-</div>
-<button class="btn btn-primary align-self-center" id="btnColocarDinosaurios">Colocar dinosaurio</button>
-</div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="d-flex flex-column contenedor px-2 mb-2 mt-2">
-              <!-- Button trigger modal -->
-              <button
-                type="button"
-                class="btn btn-primary"
-                data-bs-toggle="modal"
-                data-bs-target="#Modal3"
-              >
-                Terminar turno
-              </button>
-
-              <!-- Modal -->
-              <div
-                class="modal fade"
-                id="Modal3"
-                tabindex="-1"
-                role="dialog"
-                aria-labelledby="modalTerminarTurno"
-              >
-                <div class="modal-dialog modal-fullscreen-sm-down" role="document">
-                  <div class="modal-content">
-                    <div class="modal-header">
-                      <h1 class="modal-title fs-5" id="modalTerminarTurno">
-                        Terminar turno
-                      </h1>
-                      <button
-                        type="button"
-                        class="btn-close"
-                        data-bs-dismiss="modal"
-                        aria-label="Cerrar"
-                        data-bs-target="#Modal3"
-                      ></button>
-                    </div>
-                    <div class="modal-body d-flex flex-column">
-                        <h2 class="h6">Resumen del turno</h2>
-                        <div class="alert alert-primary" role="alert" id="alert_turno">
-                        <p>Dinosaurio <span style="color: red;"><i>Tiranosaurio rex</i> </span> colocado en el recinto <span style="color: grey;"><i>La Isla Solitaria</i></span>.</p>
-                        </div>
-                    <button 
-                        class="btn btn-primary align-self-center"
-                        aria-label="Continuar al siguiente turno"
+              <div class="card-body p-2">
+                <ul class="list-group list-group-flush small">
+                  <li
+                    class="list-group-item d-flex justify-content-between align-items-center px-1 py-2"
+                  >
+                    <span>Nombre:</span>
+                    <span class="fw-bold" id="campoNombreJugador"
+                      >Juancito_021</span
                     >
-                        Continuar
-                    </button>
-                    </div>
-                  </div>
-                </div>
+                  </li>
+                  <li
+                    class="list-group-item d-flex justify-content-between align-items-center px-1 py-2"
+                  >
+                    <span>Puntos:</span>
+                    <span class="badge bg-primary rounded-pill">0</span>
+                  </li>
+                  <li
+                    class="list-group-item d-flex justify-content-between align-items-center px-1 py-2"
+                  >
+                    <span>Dinosaurios:</span>
+                    <span class="badge bg-success rounded-pill">6</span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+            <!-- Estado de Partida -->
+            <div class="card mb-3 shadow-sm">
+              <div class="card-header bg-warning bg-opacity-25">
+                <h6 class="card-title mb-0 text-center">Partida</h6>
+              </div>
+              <div class="card-body p-2">
+                <ul class="list-group list-group-flush small">
+                  <li
+                    class="list-group-item d-flex justify-content-between align-items-center px-1 py-2"
+                  >
+                    <span>Ronda:</span>
+                    <span class="badge bg-secondary rounded-pill">1</span>
+                  </li>
+                  <li
+                    class="list-group-item d-flex justify-content-between align-items-center px-1 py-2"
+                  >
+                    <span>Turno:</span>
+                    <span class="fw-bold text-truncate">Juancito_021</span>
+                  </li>
+                  <li
+                    class="list-group-item d-flex justify-content-between align-items-center px-1 py-2"
+                  >
+                    <span>Dado:</span>
+                    <span class="badge bg-info rounded-pill">bosque</span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+            <!-- Controles de Interacción -->
+            <div class="card mb-3 shadow-sm">
+              <div class="card-header bg-danger bg-opacity-25">
+                <h6 class="card-title mb-0 text-center">Interactuar</h6>
+              </div>
+              <div class="card-body p-2">
+                <!-- Botón Ver Dinosaurios -->
+                <button
+                  type="button"
+                  class="btn btn-outline-primary w-100 mb-2"
+                  data-bs-toggle="modal"
+                  data-bs-target="#modalDinosaurios"
+                >
+                  <i class="bi bi-eye"></i> Ver Dinosaurios
+                </button>
+
+                <!-- Botón Colocar Dinosaurios -->
+                <button
+                  type="button"
+                  class="btn btn-outline-success w-100 mb-2"
+                  data-bs-toggle="modal"
+                  data-bs-target="#modalColocar"
+                >
+                  <i class="bi bi-geo-alt"></i> Colocar Dinosaurios
+                </button>
+
+                <!-- Botón Terminar Turno -->
+                <button
+                  type="button"
+                  class="btn btn-outline-warning w-100"
+                  data-bs-toggle="modal"
+                  data-bs-target="#modalTerminar"
+                >
+                  <i class="bi bi-flag"></i> Terminar Turno
+                </button>
               </div>
             </div>
           </aside>
         </div>
+
+        <!-- Área Principal del Tablero -->
+        <div class="col-md-8 col-lg-9 order-1 order-md-2">
+          <main
+            class="h-100 bg-success bg-opacity-25 d-flex align-items-center justify-content-center p-2 p-md-3"
+          >
+            <!-- Contenedor del Tablero Responsive -->
+            <div class="d-flex align-items-center justify-content-center">
+              <!-- Tablero con aspect ratio responsivo -->
+              <div
+                class="border-0 bg-transparent position-relative"
+                style="max-width: 100%; max-height: 100%"
+              >
+                <div id="tablero" class="">
+                  <!-- Fila 1 -->
+                  <div
+                    class="recinto recintoLaterales admite6"
+                    title="Bosque de la semejanza"
+                    id="bosqueDeLaSemejanza"
+                  >
+                    <div class="objeto dinosaurio-rojo"></div>
+                    <div class="objeto dinosaurio-rojo"></div>
+                    <div class="objeto dinosaurio-rojo"></div>
+                    <div class="objeto dinosaurio-rojo"></div>
+                    <div class="objeto dinosaurio-rojo"></div>
+                    <div class="objeto dinosaurio-rojo"></div>
+                  </div>
+                  <div class="recinto recintoCentro" title="Rio" id="rio1">
+                    <div class="objeto dinosaurio-rojo"></div>
+                    <div class="objeto dinosaurio-rojo"></div>
+                  </div>
+                  <div
+                    class="recinto recintoLaterales"
+                    title="Rey de la selva"
+                    id="reyDeLaSelva"
+                  >
+                    <div class="objeto dinosaurio-rojo"></div>
+                  </div>
+
+                  <!-- Fila 2 -->
+                  <div
+                    class="recinto recintoLaterales"
+                    title="Trio frondoso"
+                    id="trioFrondoso"
+                  >
+                    <div class="objeto dinosaurio-rojo"></div>
+                    <div class="objeto dinosaurio-rojo"></div>
+                    <div class="objeto dinosaurio-rojo"></div>
+                    <div class="objeto dinosaurio-rojo"></div>
+                    <div class="objeto dinosaurio-rojo"></div>
+                    <div class="objeto dinosaurio-rojo"></div>
+                  </div>
+                  <div class="recinto recintoCentro" title="Rio" id="rio2">
+                    <div class="objeto dinosaurio-rojo"></div>
+                    <div class="objeto dinosaurio-rojo"></div>
+                  </div>
+                  <div
+                    class="recinto recintoLaterales"
+                    title="Prado de la diferencia"
+                    id="pradoDeLaDiferencia"
+                  >
+                    <div class="objeto dinosaurio-rojo"></div>
+                    <div class="objeto dinosaurio-rojo"></div>
+                    <div class="objeto dinosaurio-rojo"></div>
+                    <div class="objeto dinosaurio-rojo"></div>
+                    <div class="objeto dinosaurio-rojo"></div>
+                    <div class="objeto dinosaurio-rojo"></div>
+                  </div>
+
+                  <!-- Fila 3 -->
+                  <div
+                    class="recinto recintoLaterales"
+                    title="Pradera del amor"
+                    id="praderaDelAmor"
+                  >
+                    <div class="objeto dinosaurio-rojo"></div>
+                    <div class="objeto dinosaurio-rojo"></div>
+                    <div class="objeto dinosaurio-rojo"></div>
+                    <div class="objeto dinosaurio-rojo"></div>
+                    <div class="objeto dinosaurio-rojo"></div>
+                    <div class="objeto dinosaurio-rojo"></div>
+                  </div>
+                  <div class="recinto recintoCentro" title="Rio" id="rio3">
+                    <div class="objeto dinosaurio-rojo"></div>
+                    <div class="objeto dinosaurio-rojo"></div>
+                  </div>
+                  <div
+                    class="recinto recintoLaterales"
+                    title="Isla solitaria"
+                    id="islaSolitaria"
+                  >
+                    <div class="objeto dinosaurio-rojo"></div>
+                    <div class="objeto dinosaurio-rojo"></div>
+                    <div class="objeto dinosaurio-rojo"></div>
+                    <div class="objeto dinosaurio-rojo"></div>
+                    <div class="objeto dinosaurio-rojo"></div>
+                    <div class="objeto dinosaurio-rojo"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </main>
+        </div>
       </div>
     </div>
-    <!-- <button class="salir" id="btn_salir"><-</button> -->
+
+    <!-- Modal Dinosaurios Disponibles -->
+    <div
+      class="modal fade"
+      id="modalDinosaurios"
+      tabindex="-1"
+      aria-labelledby="modalDinosauriosLabel"
+    >
+      <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+          <div class="modal-header bg-primary text-white">
+            <h5 class="modal-title" id="modalDinosauriosLabel">
+              Dinosaurios Disponibles
+            </h5>
+            <button
+              type="button"
+              class="btn-close btn-close-white"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <div class="list-group">
+              <div
+                class="list-group-item d-flex justify-content-between align-items-center"
+              >
+                <span class="text-warning"><strong>Espinosaurios</strong></span>
+                <span class="badge bg-warning rounded-pill">1</span>
+              </div>
+              <div
+                class="list-group-item d-flex justify-content-between align-items-center"
+              >
+                <span class="text-success"><strong>Triceratops</strong></span>
+                <span class="badge bg-success rounded-pill">1</span>
+              </div>
+              <div
+                class="list-group-item d-flex justify-content-between align-items-center"
+              >
+                <span class="text-info"><strong>Estegosaurio</strong></span>
+                <span class="badge bg-info rounded-pill">1</span>
+              </div>
+              <div
+                class="list-group-item d-flex justify-content-between align-items-center"
+              >
+                <span class="text-primary"
+                  ><strong>Parasaurolophus</strong></span
+                >
+                <span class="badge bg-primary rounded-pill">1</span>
+              </div>
+              <div
+                class="list-group-item d-flex justify-content-between align-items-center"
+              >
+                <span class="text-purple"><strong>Brachiosaurus</strong></span>
+                <span class="badge bg-purple rounded-pill">1</span>
+              </div>
+              <div
+                class="list-group-item d-flex justify-content-between align-items-center"
+              >
+                <span class="text-danger"
+                  ><strong>Tiranosaurio Rex</strong></span
+                >
+                <span class="badge bg-danger rounded-pill">1</span>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Cerrar
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal Colocar Dinosaurios -->
+    <div
+      class="modal fade"
+      id="modalColocar"
+      tabindex="-1"
+      aria-labelledby="modalColocarLabel"
+    >
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header bg-success text-white">
+            <h5 class="modal-title" id="modalColocarLabel">
+              Colocar Dinosaurios
+            </h5>
+            <button
+              type="button"
+              class="btn-close btn-close-white"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <div class="mb-3">
+              <label for="select-dinosaurios" class="form-label"
+                >Seleccione un dinosaurio</label
+              >
+              <select class="form-select" id="select-dinosaurios">
+                <option selected value="none">Seleccione un dinosaurio</option>
+                <option
+                  value="Espinosaurios"
+                  data-clase="dinosaurio-naranja"
+                  data-id-bd="4"
+                >
+                  Espinosaurios
+                </option>
+                <option
+                  value="Triceratops"
+                  data-clase="dinosaurio-amarillo"
+                  data-id-bd="3"
+                >
+                  Triceratops
+                </option>
+                <option
+                  value="Estegosaurio"
+                  data-clase="dinosaurio-celeste"
+                  data-id-bd="6"
+                >
+                  Estegosaurio
+                </option>
+                <option
+                  value="Parasaurolophus"
+                  data-clase="dinosaurio-verde"
+                  data-id-bd="2"
+                >
+                  Parasaurolophus
+                </option>
+                <option
+                  value="Brachiosaurus"
+                  data-clase="dinosaurio-rosado"
+                  data-id-bd="5"
+                >
+                  Brachiosaurus
+                </option>
+                <option
+                  value="Tiranosaurio Rex"
+                  data-clase="dinosaurio-rojo"
+                  data-id-bd="1"
+                >
+                  Tiranosaurio Rex
+                </option>
+              </select>
+            </div>
+
+            <div class="mb-3">
+              <label for="select-recintos" class="form-label"
+                >Seleccione un recinto</label
+              >
+              <select class="form-select" id="select-recintos">
+                <option selected value="none">Seleccione un recinto</option>
+                <option
+                  value="El Bosque de la Semejanza"
+                  data-id-recinto="bosqueDeLaSemejanza"
+                  data-id-recinto-tablero="0"
+                >
+                  El Bosque de la Semejanza
+                </option>
+                <option
+                  value="El Prado de la Diferencia"
+                  data-id-recinto="pradoDeLaDiferencia"
+                  data-id-recinto-tablero="1"
+                >
+                  El Prado de la Diferencia
+                </option>
+                <option
+                  value="La Pradera del Amor"
+                  data-id-recinto="praderaDelAmor"
+                  data-id-recinto-tablero="2"
+                >
+                  La Pradera del Amor
+                </option>
+                <option
+                  value="El Trío Frondoso"
+                  data-id-recinto="trioFrondoso"
+                  data-id-recinto-tablero="3"
+                >
+                  El Trío Frondoso
+                </option>
+                <option
+                  value="El Rey de la Selva"
+                  data-id-recinto="reyDeLaSelva"
+                  data-id-recinto-tablero="4"
+                >
+                  El Rey de la Selva
+                </option>
+                <option
+                  value="La Isla Solitaria"
+                  data-id-recinto="islaSolitaria"
+                  data-id-recinto-tablero="5"
+                >
+                  La Isla Solitaria
+                </option>
+                <option
+                  value="El Rio"
+                  data-id-recinto="rio"
+                  data-id-recinto-tablero="6"
+                >
+                  El Rio
+                </option>
+              </select>
+            </div>
+
+            <div class="alert alert-info small">
+              <i class="bi bi-info-circle"></i> Recuerda las restricciones de
+              los tableros para colocar tus dinosaurios
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Cancelar
+            </button>
+            <button
+              type="button"
+              class="btn btn-success"
+              id="btnColocarDinosaurios"
+            >
+              Colocar Dinosaurio
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal Terminar Turno -->
+    <div
+      class="modal fade"
+      id="modalTerminar"
+      tabindex="-1"
+      aria-labelledby="modalTerminarLabel"
+    >
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header bg-warning text-dark">
+            <h5 class="modal-title" id="modalTerminarLabel">Terminar Turno</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <h6 class="mb-3">Resumen del Turno</h6>
+            <div class="alert alert-warning" id="alert_turno">
+              <p class="mb-0">
+                Dinosaurio
+                <span class="text-danger fw-bold">Tiranosaurio rex</span>
+                colocado en el recinto
+                <span class="text-muted fw-bold">La Isla Solitaria</span>.
+              </p>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Volver
+            </button>
+            <button type="button" class="btn btn-warning">
+              Continuar al Siguiente Turno
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q"
+      crossorigin="anonymous"
+    ></script>
+    <script type="module" src="../js/Partida_script.js"></script>
   </body>
-  <script
-    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q"
-    crossorigin="anonymous"
-  ></script>
-  <script type="module" src="../js/Partida_script.js"></script>
-  <script src="../js/global_script.js"></script>
 </html>

@@ -8,11 +8,20 @@ html {
 }
 
 .salir {
-  width: 3rem; /* unidad relativa de tamaño 1rem = 16px */
-  height: 3rem;
-  border-radius: 80rem;
-  border: none;
-  font-size: larger;
+  background-color: rgba(255, 255, 255, 0.2);
+  color: white;
+  border: 2px solid white;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  font-size: 1.5rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.salir:hover {
+  background-color: white;
+  color: var(--aside-color);
+  transform: translateX(-5px);
 }
 html {
   scroll-behavior: smooth; /* Agrega un efecto suave al recorrido de la pagina */

@@ -4,14 +4,13 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Ajustes de partida</title>
-    <!-- <link rel="stylesheet" href="../css/darkLightGlobal.css"> -->
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css"
       rel="stylesheet"
       integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr"
       crossorigin="anonymous"
     />
-    <!-- <link rel="stylesheet" href="../css/global.css" /> -->
+    <link rel="stylesheet" href="../css/cursoresCustom.css">
 
     <link rel="stylesheet" href="../css/Ajustes_style_mejorado.css" />
 
@@ -82,7 +81,8 @@
                 required
                 
               />
-              <button class="btn_verificar btn btn-secondary">verificar</button>
+              <button type="button" class="btn_verificar btn btn-secondary" id="btn-verificar-1">verificar</button>
+
             </div>
             <div class="content position-relative" id="contenedor_02">
               <div class="_logo _no_verificado" id="_p2">
@@ -99,7 +99,8 @@
                 class="mt-2 mb-1"
                 required
               />
-              <button class="btn_verificar btn btn-secondary">verificar</button>
+              <button type="button" class="btn_verificar btn btn-secondary" id="btn-verificar-2">verificar</button>
+
             </div>
             <div class="content position-relative" id="contenedor_03">
               <div class="_logo _no_verificado" id="_p3">
@@ -116,7 +117,8 @@
                 class="mt-2 mb-1"
                 required
               />
-              <button class="btn_verificar btn btn-secondary">verificar</button>
+                <button type="button" class="btn_verificar btn btn-secondary" id="btn-verificar-3">verificar</button>
+
             </div>
             <div class="content position-relative" id="contenedor_04">
               <div class="_logo _no_verificado" id="_p4">
@@ -133,9 +135,8 @@
                 class="mt-2 mb-1"
                 required
               />
-              <button type="submit" class="btn_verificar btn btn-secondary" id="btn-verificar">
-                verificar
-              </button>
+              <button type="button" class="btn_verificar btn btn-secondary" id="btn-verificar-4">verificar</button>
+
             </div>
             <div class="content position-relative justi" id="contenedor_05">
               <div class="_logo _no_verificado" id="_p5">
@@ -152,14 +153,42 @@
                 class="mt-2 mb-1"
                 required
               />
-              <button type="submit" class="btn_verificar btn btn-secondary" id="btn-verificar">
-                verificar
-              </button>
+             <button type="button" class="btn_verificar btn btn-secondary" id="btn-verificar-5">verificar</button>
+
             </div>
           </div>
         </main>
       </div>
     </div>
+
+
+<!-- Modal de verificación -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <!-- Cabecera del modal -->
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Ingrese su contraseña</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <!-- Cuerpo del modal -->
+      <div class="modal-body">
+        <form id="form-contraseña">
+          <div class="mb-3">
+            <label for="input-contraseña" class="col-form-label">Contraseña</label>
+            <input type="password" class="form-control" id="input-contraseña" placeholder="Ingrese su contraseña">
+          </div>
+        </form>
+      </div>
+      <!-- Footer del modal -->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+        <button type="button" class="btn btn-primary" id="btn-verificar-modal">Verificar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"
       integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q"

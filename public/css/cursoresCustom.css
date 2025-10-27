@@ -1,0 +1,13 @@
+.objeto:hover,
+button.btn:hover,
+button.btn-close:hover,
+a:hover,
+select:hover,
+input:hover,
+.salir:hover {
+  cursor: url(../images/cursorDinosaurioPointer.png), pointer !important;
+}
+
+html {
+  cursor: url(../images/cursorDinosaurioDefault.png), auto;
+}

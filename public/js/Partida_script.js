@@ -374,13 +374,13 @@ class Tablero {
           recinto: recinto,
           recintoTablero: recintoTablero,
         };
+        alert(
+          `✅ Dinosaurio ${paqueteSelects[0].value} colocado en el recinto ${paqueteSelects[1].value} 🦖`
+        );
         // Cumple con los requisitos para agregar un dinosaurio
         this.#colocarDinosaurioDOM(paqueteSelects);
         // Guardar movimiento en local storage
         this.#guardarMovimientoLocalStorage(movimiento);
-        alert(
-          `✅ Dinosaurio ${paqueteSelects[0].value} colocado en el recinto ${paqueteSelects[1].value} 🦖`
-        );
       }
     });
   }
@@ -401,12 +401,19 @@ class Tablero {
     this.paqueteTablero.forEach((element) => {
       if (idRecinto === element.id) {
         element.appendChild(dinosaurio);
-      } else if (idRecinto === "rio" && element.id.includes("rio")) {
-        if (element.childElementCount < 3) {
+      } else if (
+        idRecinto === "rio" &&
+        (element.id.includes("rio1") ||
+          element.id.includes("rio2") ||
+          element.id.includes("rio3"))
+      ) {
+        if (element.childElementCount < 2) {
           element.appendChild(dinosaurio);
         }
       }
     });
+    paqueteSelects[0].value = "none";
+    paqueteSelects[1].value = "none";
   }
 }
 
