@@ -183,23 +183,24 @@ class Partida {
       });
   }
 
-  async levantarPartida() {
+  async levantarPartida(tab) {
     const tablero = partida.obtenerLocaStorage("tablero");
     const infoPartida = this.obtenerLocaStorage("partida");
     const infoUsuarios = this.obtenerLocaStorage("infoUsuarios");
     const relaciones = [];
 
     let auxiliar = await this.obtenerUltimaPartida();
-    console.log(
-      `último id de Partida obtenido de la BD: ${auxiliar.id_partida} `,
-      `id almacenado en localStorage: ${infoPartida}`
-    );
+    // console.log(
+    //   `último id de Partida obtenido de la BD: ${auxiliar.id_partida} `,
+    //   `id almacenado en localStorage: ${infoPartida}`
+    // );
     if (Number(auxiliar.id_partida) === Number(infoPartida)) {
       return console.log("Ya se registraron las tablas de la partida actual");
     }
     console.log("Registrando tablas de partida actual... ");
 
     try {
+      tab.generarTableroPartidaLocalStorage();
       // ===== | GENERAR RECINTOS | =====
       await this.generarRecintosBD(tablero["id"]);
 
@@ -209,7 +210,7 @@ class Partida {
         relaciones.push(objeto);
       });
       await this.generarRelacionesMultiples(relaciones);
-      console.log("Partida iniciada con éxito");
+      // console.log("Partida iniciada con éxito");
     } catch (error) {
       return console.error(`Error al iniciar la partida: ${error}`);
     }
@@ -281,9 +282,9 @@ class Tablero {
     //       recintoTablero: Representa el indice del tablero en el arreglo tablero de localStorage,
     //     };
 
-    console.log(
-      `debugging de movimiento: ${movimiento}, subElementos: ${movimiento.dino} | ${movimiento.recinto} | ${movimiento.recintoTablero} | ${movimiento.dinoIdBd}`
-    );
+    // console.log(
+    //   `debugging de movimiento: ${movimiento}, subElementos: ${movimiento.dino} | ${movimiento.recinto} | ${movimiento.recintoTablero} | ${movimiento.dinoIdBd}`
+    // );
 
     if (
       typeof movimiento !== "object" ||
@@ -294,9 +295,9 @@ class Tablero {
       movimiento.dinoIdBd === undefined ||
       !(movimiento.recintoTablero >= 0 && movimiento.recintoTablero < 7)
     ) {
-      console.log(
-        ` dino: ${movimiento.dino} | dinoID: ${movimiento.dinoIdBd} | recinto: ${movimiento.recinto} | recinto tablero: ${movimiento.recintoTablero} `
-      );
+      // console.log(
+      //   ` dino: ${movimiento.dino} | dinoID: ${movimiento.dinoIdBd} | recinto: ${movimiento.recinto} | recinto tablero: ${movimiento.recintoTablero} `
+      // );
       console.error(
         "El parámetro movimiento debe ser un objeto con las propiedades 'dino', 'recinto' y 'recintoTablero' ."
       );
@@ -309,17 +310,17 @@ class Tablero {
     let recintoTablero = Number(movimiento.recintoTablero);
     let tablero = JSON.parse(localStorage.getItem("Tablero"));
     // Inicia un nuevo grupo con la etiqueta "Información de Usuario"
-    console.group("Información de movimiento");
+    // console.group("Información de movimiento");
 
-    // Estos mensajes aparecerán dentro del grupo
-    console.log(`Dinosaurio: ${dinosaurio}`);
-    console.log(`Recinto: ${recinto}`);
-    console.log(`Recinto Tablero: ${recintoTablero}`);
-    console.log(
-      `arreglo obtenido del localStorage: ${tablero} | tamaño tablero: ${tablero.length}`
-    );
-    console.log(`Dinosaurio ID: ${dinosaurioID}`);
-    console.groupEnd();
+    // // Estos mensajes aparecerán dentro del grupo
+    // console.log(`Dinosaurio: ${dinosaurio}`);
+    // console.log(`Recinto: ${recinto}`);
+    // console.log(`Recinto Tablero: ${recintoTablero}`);
+    // console.log(
+    //   `arreglo obtenido del localStorage: ${tablero} | tamaño tablero: ${tablero.length}`
+    // );
+    // // console.log(`Dinosaurio ID: ${dinosaurioID}`);
+    // console.groupEnd();
     let objetoAlmacenado = {
       dino: dinosaurio,
       recinto: recinto,
@@ -415,6 +416,43 @@ class Tablero {
     paqueteSelects[0].value = "none";
     paqueteSelects[1].value = "none";
   }
+  #colocarDinosaurioDOMsimple(info) {
+    if (info === null || info === undefined) {
+      return console.error("información invalida al obtener los movimientos");
+    }
+    const recinto = document.getElementById(`${info.recinto}`);
+    const dinosaurio = document.createElement("div");
+    dinosaurio.classList.add("objeto");
+    dinosaurio.classList.add(info.dino);
+    if (recinto) {
+      recinto.appendChild(dinosaurio);
+    } else {
+      console.error("Error al recuperar los movimientos en el DOM");
+    }
+  }
+
+  recuperarMovimientosLocalStorage() {
+    let movimientos = JSON.parse(localStorage.getItem("Tablero"));
+
+    movimientos.forEach((recinto) => {
+      if (
+        Array.isArray(recinto) &&
+        recinto[0] != null &&
+        recinto[0] != undefined
+      ) {
+        console.group("Info objeto movimiento");
+        console.log(recinto[0].dino);
+        console.log(recinto[0].recinto);
+        console.log(recinto.length);
+        console.groupEnd();
+        let info = {
+          dino: recinto[0].dino,
+          recinto: recinto[0].recinto,
+        };
+        this.#colocarDinosaurioDOMsimple(info);
+      }
+    });
+  }
 }
 
 class Dinosaurio {
@@ -461,13 +499,13 @@ const dinosaurios = new Dinosaurio();
 
 // comienzo de la manipulación de la partida
 window.addEventListener("DOMContentLoaded", () => {
-  tablero.generarTableroPartidaLocalStorage();
   const elementoNombreJugador = document.getElementById("campoNombreJugador");
   //   Asignamos el nombre del jugador al elemento del DOM
   const jugadores = partida.obtenerLocaStorage("usuarios"); // desestrucutramos lo obtenido por el metodo partida (en éste caso es un arreglo)
   elementoNombreJugador.innerText = `Nombre: ${jugadores[0]}`;
 
-  partida.levantarPartida();
+  tablero.recuperarMovimientosLocalStorage();
+  partida.levantarPartida(tablero);
 
   tablero.colocar_dinosaurio(paqueteSelects);
 });
