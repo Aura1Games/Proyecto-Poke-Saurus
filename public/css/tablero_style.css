@@ -26,6 +26,12 @@ body {
   overflow: visible;
 }
 
+#rio {
+  grid-row: 1 / -1;
+  flex-grow: 1;
+  flex-wrap: wrap;
+}
+
 /* Textura de fondo del tablero (original) */
 #tablero::before {
   content: "";
@@ -82,7 +88,7 @@ body {
 }
 
 /* Posicionamiento específico (original) */
-.recintoCentro:nth-of-type(2) {
+/* .recintoCentro:nth-of-type(2) {
   grid-column: 2;
   grid-row: 1;
 }
@@ -95,10 +101,10 @@ body {
 .recintoCentro:nth-of-type(8) {
   grid-column: 2;
   grid-row: 3;
-}
+} */
 
 /* Efecto de agua en movimiento (original) */
-.recintoCentro::before {
+/* .recintoCentro::before {
   content: "";
   position: absolute;
   top: 0;
@@ -121,7 +127,7 @@ body {
       transparent 40%
     );
   animation: ondas 3s ease-in-out infinite;
-}
+} */
 
 /* Burbujas decorativas (original) */
 .recintoCentro::after {

@@ -74,6 +74,25 @@ class ApiPartida {
     this.baseUrl = baseUrl;
   }
 
+  generarTableroPartidaLocalStorage() {
+    /**
+     * Tablero [] <- arreglo general
+     * Tablero[
+     * [], <- bosqueDeLaSemejanza
+     * [], <- pradoDeLaDiferencia
+     * [], <- praderaDelAmor
+     * [], <- trioFrondoso
+     * [], <- reyDeLaSelva
+     * [], <- islaSolitaria
+     * [], <- rio
+     * ];
+     */
+
+    const tablero = [[], [], [], [], [], [], []];
+
+    localStorage.setItem("Tablero", JSON.stringify(tablero));
+  }
+
   postPartida(fecha, cant_jugadores, puntaje_final, ganador) {
     return fetch(this.baseUrl, {
       method: "POST",
@@ -419,6 +438,7 @@ window.addEventListener("DOMContentLoaded", () => {
           );
           apiPartida.guardarEnLocalStorage("partida", data.id);
           apiPartida.guardarEnLocalStorage("infoUsuarios", api.jugadores);
+          apiPartida.generarTableroPartidaLocalStorage();
           alert("debugging: " + api.jugadores);
           window.location.href = "./Partida.html";
         })

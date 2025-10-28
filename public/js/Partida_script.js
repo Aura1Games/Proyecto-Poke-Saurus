@@ -1,8 +1,5 @@
 // ⚠️ ❌ ✅
 
-// Guardar en localStorage:
-// localStorage.setItem("usuarios", JSON.stringify([algo]));
-
 class Partida {
   constructor(url) {
     this.baseURL = url;
@@ -200,7 +197,6 @@ class Partida {
     console.log("Registrando tablas de partida actual... ");
 
     try {
-      tab.generarTableroPartidaLocalStorage();
       // ===== | GENERAR RECINTOS | =====
       await this.generarRecintosBD(tablero["id"]);
 
@@ -250,25 +246,6 @@ class Tablero {
     this.rio = ["rio1", "rio2", "rio3"];
   }
 
-  generarTableroPartidaLocalStorage() {
-    /**
-     * Tablero [] <- arreglo general
-     * Tablero[
-     * [], <- bosqueDeLaSemejanza
-     * [], <- pradoDeLaDiferencia
-     * [], <- praderaDelAmor
-     * [], <- trioFrondoso
-     * [], <- reyDeLaSelva
-     * [], <- islaSolitaria
-     * [], <- rio
-     * ];
-     */
-
-    const tablero = [[], [], [], [], [], [], []];
-
-    localStorage.setItem("Tablero", JSON.stringify(tablero));
-  }
-
   /**
    *
    * @param {object} movimiento - Objeto que contiene el dinosaurio y el recinto
@@ -292,8 +269,7 @@ class Tablero {
       movimiento.dino === undefined ||
       movimiento.recinto === undefined ||
       movimiento.recintoTablero === undefined ||
-      movimiento.dinoIdBd === undefined ||
-      !(movimiento.recintoTablero >= 0 && movimiento.recintoTablero < 7)
+      movimiento.dinoIdBd === undefined
     ) {
       // console.log(
       //   ` dino: ${movimiento.dino} | dinoID: ${movimiento.dinoIdBd} | recinto: ${movimiento.recinto} | recinto tablero: ${movimiento.recintoTablero} `
@@ -305,27 +281,15 @@ class Tablero {
     }
 
     let dinosaurio = movimiento.dino;
-    let dinosaurioID = movimiento.dinoIdBd;
+    this.dinosaurioID = movimiento.dinoIdBd;
     let recinto = movimiento.recinto;
     let recintoTablero = Number(movimiento.recintoTablero);
     let tablero = JSON.parse(localStorage.getItem("Tablero"));
-    // Inicia un nuevo grupo con la etiqueta "Información de Usuario"
-    // console.group("Información de movimiento");
-
-    // // Estos mensajes aparecerán dentro del grupo
-    // console.log(`Dinosaurio: ${dinosaurio}`);
-    // console.log(`Recinto: ${recinto}`);
-    // console.log(`Recinto Tablero: ${recintoTablero}`);
-    // console.log(
-    //   `arreglo obtenido del localStorage: ${tablero} | tamaño tablero: ${tablero.length}`
-    // );
-    // // console.log(`Dinosaurio ID: ${dinosaurioID}`);
-    // console.groupEnd();
     let objetoAlmacenado = {
       dino: dinosaurio,
       recinto: recinto,
     };
-
+    console.log(`recinto a guardar: ${objetoAlmacenado.recinto}`);
     tablero[recintoTablero].push(objetoAlmacenado);
 
     localStorage.setItem("Tablero", JSON.stringify(tablero));
@@ -347,41 +311,9 @@ class Tablero {
           "⚠️ Debes de seleccionar un dinosaurio y un recinto para colocar un dinosario 🦖"
         );
       } else {
-        // Obtenemos los atributos data-* de las opciones seleccionadas de los select
-
-        // dinosaurio : clase de css que se almacena del dinosaurio (para identificar el color del dinoasurio)
-        let dinosaurio =
-          paqueteSelects[0].options[paqueteSelects[0].selectedIndex].dataset
-            .clase;
-        // idDinoBD : id del dinosaurio seleccionado en la base de datos, es parseada con Number() para explicitar que se requiere un numero entero
-        let idDinoBD = Number(
-          paqueteSelects[0].options[paqueteSelects[0].selectedIndex].dataset
-            .idBd
-        );
-        // recinto : id en html del recinto al que el dinosaurio fué colocado
-        let recinto =
-          paqueteSelects[1].options[paqueteSelects[1].selectedIndex].dataset
-            .idRecinto;
-        // recintoTablero : ubicación en el Array Tablero guardado en localStorage, requiere que sea un numero entero
-        let recintoTablero = Number(
-          paqueteSelects[1].options[paqueteSelects[1].selectedIndex].dataset
-            .idRecintoTablero
-        );
-
-        // Gardamos en movimiento la clase del dinosurio y el indice del tablero (para recuperarlo después)
-        const movimiento = {
-          dino: dinosaurio,
-          dinoIdBd: idDinoBD,
-          recinto: recinto,
-          recintoTablero: recintoTablero,
-        };
-        alert(
-          `✅ Dinosaurio ${paqueteSelects[0].value} colocado en el recinto ${paqueteSelects[1].value} 🦖`
-        );
         // Cumple con los requisitos para agregar un dinosaurio
         this.#colocarDinosaurioDOM(paqueteSelects);
         // Guardar movimiento en local storage
-        this.#guardarMovimientoLocalStorage(movimiento);
       }
     });
   }
@@ -394,29 +326,86 @@ class Tablero {
     const opcionSeleccionadaRecintos =
       paqueteSelects[1].options[paqueteSelects[1].selectedIndex];
     let claseDino = opcionSeleccionadaDinosaurios.dataset.clase;
+    let idDino = Number(opcionSeleccionadaDinosaurios.dataset.idBd);
     let idRecinto = opcionSeleccionadaRecintos.dataset.idRecinto;
-
     const dinosaurio = document.createElement("div");
+    let info = {};
     dinosaurio.classList.add("objeto");
     dinosaurio.classList.add(claseDino);
     this.paqueteTablero.forEach((element) => {
       if (idRecinto === element.id) {
-        element.appendChild(dinosaurio);
-      } else if (
-        idRecinto === "rio" &&
-        (element.id.includes("rio1") ||
-          element.id.includes("rio2") ||
-          element.id.includes("rio3"))
-      ) {
-        if (element.childElementCount < 2) {
+        info = {
+          dino: claseDino,
+          recinto: element.id,
+          idDino: idDino,
+        };
+        let retornoRestricciones = this.aplicarRestricciones(info);
+        if (retornoRestricciones == true) {
+          // aprueba todas las restricciónes para colocar el dinosaurio
+          alert(
+            `✅ Dinosaurio ${paqueteSelects[0].value} colocado en el recinto ${paqueteSelects[1].value} 🦖`
+          );
           element.appendChild(dinosaurio);
+          // Obtenemos los atributos data-* de las opciones seleccionadas de los select
+          // dinosaurio : clase de css que se almacena del dinosaurio (para identificar el color del dinoasurio)
+          let dino =
+            paqueteSelects[0].options[paqueteSelects[0].selectedIndex].dataset
+              .clase;
+          // idDinoBD : id del dinosaurio seleccionado en la base de datos, es parseada con Number() para explicitar que se requiere un numero entero
+          let idDinoBD = Number(
+            paqueteSelects[0].options[paqueteSelects[0].selectedIndex].dataset
+              .idBd
+          );
+          // recinto : id en html del recinto al que el dinosaurio fué colocado
+          let recinto =
+            paqueteSelects[1].options[paqueteSelects[1].selectedIndex].dataset
+              .idRecinto;
+          // recintoTablero : ubicación en el Array Tablero guardado en localStorage, requiere que sea un numero entero
+          let recintoTablero = Number(
+            paqueteSelects[1].options[paqueteSelects[1].selectedIndex].dataset
+              .idRecintoTablero
+          );
+
+          // Gardamos en movimiento la clase del dinosurio y el indice del tablero (para recuperarlo después)
+          const movimiento = {
+            dino: dino,
+            dinoIdBd: idDinoBD,
+            recinto: recinto,
+            recintoTablero: recintoTablero,
+          };
+          this.#guardarMovimientoLocalStorage(movimiento);
+        } else {
+          alert(retornoRestricciones);
         }
       }
+      // else if (idRecinto === "rio" &&) {
+      //   if (element.id.includes(`rio${i}`) && element.childElementCount < 2) {
+      //     i++;
+      //   }
+      //   info = {
+      //     dino: claseDino,
+      //     recinto: element.id,
+      //   };
+      //   if (this.aplicarRestricciones(info)) {
+      //     element.appendChild(dinosaurio) &&
+      //       alert(
+      //         `✅ Dinosaurio ${paqueteSelects[0].value} colocado en el recinto ${paqueteSelects[1].value} 🦖`
+      //       );
+      //   }
+      // }
     });
+
     paqueteSelects[0].value = "none";
     paqueteSelects[1].value = "none";
   }
+
   #colocarDinosaurioDOMsimple(info) {
+    /**  let info = {
+     *     dino: Clase del dinosaurio en css
+     *       recinto: Id del recinto en html
+     *    };
+     */
+
     if (info === null || info === undefined) {
       return console.error("información invalida al obtener los movimientos");
     }
@@ -435,23 +424,88 @@ class Tablero {
     let movimientos = JSON.parse(localStorage.getItem("Tablero"));
 
     movimientos.forEach((recinto) => {
-      if (
-        Array.isArray(recinto) &&
-        recinto[0] != null &&
-        recinto[0] != undefined
-      ) {
+      recinto.forEach((movimientos) => {
         console.group("Info objeto movimiento");
-        console.log(recinto[0].dino);
-        console.log(recinto[0].recinto);
-        console.log(recinto.length);
+        console.log(movimientos.dino);
+        console.log(movimientos.recinto);
         console.groupEnd();
         let info = {
-          dino: recinto[0].dino,
-          recinto: recinto[0].recinto,
+          dino: movimientos.dino,
+          recinto: movimientos.recinto,
         };
         this.#colocarDinosaurioDOMsimple(info);
-      }
+      });
+
+      // }
     });
+  }
+
+  calcularPuntos() {}
+
+  aplicarRestricciones(info) {
+    /**  let info = {
+     *     dino: Clase del dinosaurio en css
+     *     recinto: Id del recinto en html
+     *     idDino: id de dinosaurio en al base de datos
+     *    };
+     */
+    const recinto = document.getElementById(info.recinto);
+    let esValido = false,
+      mensaje = "";
+
+    if (recinto.childElementCount == 6) {
+      mensaje = "❌ recinto con el maximo de dinosaurios";
+    }
+    switch (info.recinto) {
+      case "bosqueDeLaSemejanza":
+        console.log("aplicando restricciónes para el bosque de la semejanza");
+        esValido = true;
+        break;
+      case "rio":
+        console.log("aplicando restricciónes para rio");
+        esValido = true;
+        break;
+      case "reyDeLaSelva":
+        console.log("aplicando restricciónes para rey de la selva");
+        if (recinto.childElementCount !== 0) {
+          mensaje =
+            "❌ Debe de haber un solo dinosaurio en el recinto el rey de la selva";
+        } else {
+          esValido = true;
+        }
+        break;
+      case "trioFrondoso":
+        console.log("aplicando restricciónes para trio frondoso");
+        esValido = true;
+        break;
+
+      case "pradoDeLaDiferencia":
+        console.log("aplicando restricciónes para prado de la diferencia");
+        esValido = true;
+        break;
+      case "praderaDelAmor":
+        console.log("aplicando restricciónes para pradera del amor");
+        esValido = true;
+        break;
+      case "islaSolitaria":
+        console.log("aplicando restricciónes para isla solitaria");
+        if (recinto.childElementCount !== 0) {
+          mensaje =
+            "❌ Debe de haber un solo dinosaurio en el recinto isla solitaria";
+        } else {
+          esValido = true;
+        }
+        break;
+      default:
+        console.log("Información de recinto no valida");
+        break;
+    }
+
+    if (esValido) {
+      return true;
+    } else {
+      return mensaje;
+    }
   }
 }
 
@@ -469,10 +523,7 @@ const trioFrondoso = document.getElementById("trioFrondoso");
 const pradoDeLaDiferencia = document.getElementById("pradoDeLaDiferencia");
 const praderaDelAmor = document.getElementById("praderaDelAmor");
 const islaSolitaria = document.getElementById("islaSolitaria");
-const rio1 = document.getElementById("rio1");
-const rio2 = document.getElementById("rio2");
-const rio3 = document.getElementById("rio3");
-
+const rio = document.getElementById("rio");
 const paqueteTablero = [
   bosqueDeLaSemejanza,
   reyDeLaSelva,
@@ -480,9 +531,7 @@ const paqueteTablero = [
   pradoDeLaDiferencia,
   praderaDelAmor,
   islaSolitaria,
-  rio1,
-  rio2,
-  rio3,
+  rio,
 ];
 
 //obtenemos los selects de colocación + boton de colocar
