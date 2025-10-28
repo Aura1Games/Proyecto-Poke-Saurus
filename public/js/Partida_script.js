@@ -243,7 +243,8 @@ class Tablero {
     */
 
     this.paqueteTablero = paqueteTablero;
-    this.rio = ["rio1", "rio2", "rio3"];
+    this.dinos = 0;
+    this.cant_dinos = document.getElementById("cantidad_dinosaurios");
   }
 
   /**
@@ -329,6 +330,7 @@ class Tablero {
     let idDino = Number(opcionSeleccionadaDinosaurios.dataset.idBd);
     let idRecinto = opcionSeleccionadaRecintos.dataset.idRecinto;
     const dinosaurio = document.createElement("div");
+
     let info = {};
     dinosaurio.classList.add("objeto");
     dinosaurio.classList.add(claseDino);
@@ -346,6 +348,9 @@ class Tablero {
             `✅ Dinosaurio ${paqueteSelects[0].value} colocado en el recinto ${paqueteSelects[1].value} 🦖`
           );
           element.appendChild(dinosaurio);
+          this.dinos += 1;
+
+          this.cant_dinos.innerText = `${this.dinos}`;
           // Obtenemos los atributos data-* de las opciones seleccionadas de los select
           // dinosaurio : clase de css que se almacena del dinosaurio (para identificar el color del dinoasurio)
           let dino =
@@ -434,10 +439,12 @@ class Tablero {
           recinto: movimientos.recinto,
         };
         this.#colocarDinosaurioDOMsimple(info);
+        this.dinos += 1;
       });
 
       // }
     });
+    this.cant_dinos.innerText = `${this.dinos}`;
   }
 
   calcularPuntos() {}
@@ -551,10 +558,11 @@ window.addEventListener("DOMContentLoaded", () => {
   const elementoNombreJugador = document.getElementById("campoNombreJugador");
   //   Asignamos el nombre del jugador al elemento del DOM
   const jugadores = partida.obtenerLocaStorage("usuarios"); // desestrucutramos lo obtenido por el metodo partida (en éste caso es un arreglo)
-  elementoNombreJugador.innerText = `Nombre: ${jugadores[0]}`;
+  const turno = document.getElementById("turno");
 
+  elementoNombreJugador.innerText = `${jugadores[0]}`;
+  turno.innerText = `${jugadores[0]}`;
   tablero.recuperarMovimientosLocalStorage();
   partida.levantarPartida(tablero);
-
   tablero.colocar_dinosaurio(paqueteSelects);
 });
