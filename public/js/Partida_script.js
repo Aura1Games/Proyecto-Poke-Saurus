@@ -282,7 +282,7 @@ class Tablero {
     }
 
     let dinosaurio = movimiento.dino;
-    this.dinosaurioID = movimiento.dinoIdBd;
+
     let recinto = movimiento.recinto;
     let recintoTablero = Number(movimiento.recintoTablero);
     let tablero = JSON.parse(localStorage.getItem("Tablero"));
@@ -383,21 +383,6 @@ class Tablero {
           alert(retornoRestricciones);
         }
       }
-      // else if (idRecinto === "rio" &&) {
-      //   if (element.id.includes(`rio${i}`) && element.childElementCount < 2) {
-      //     i++;
-      //   }
-      //   info = {
-      //     dino: claseDino,
-      //     recinto: element.id,
-      //   };
-      //   if (this.aplicarRestricciones(info)) {
-      //     element.appendChild(dinosaurio) &&
-      //       alert(
-      //         `✅ Dinosaurio ${paqueteSelects[0].value} colocado en el recinto ${paqueteSelects[1].value} 🦖`
-      //       );
-      //   }
-      // }
     });
 
     paqueteSelects[0].value = "none";
@@ -460,52 +445,110 @@ class Tablero {
     let esValido = false,
       mensaje = "";
 
-    if (recinto.childElementCount == 6) {
+    if (recinto.childElementCount == 6 || recinto.childElementCount > 6) {
       mensaje = "❌ recinto con el maximo de dinosaurios";
-    }
-    switch (info.recinto) {
-      case "bosqueDeLaSemejanza":
-        console.log("aplicando restricciónes para el bosque de la semejanza");
-        esValido = true;
-        break;
-      case "rio":
-        console.log("aplicando restricciónes para rio");
-        esValido = true;
-        break;
-      case "reyDeLaSelva":
-        console.log("aplicando restricciónes para rey de la selva");
-        if (recinto.childElementCount !== 0) {
-          mensaje =
-            "❌ Debe de haber un solo dinosaurio en el recinto el rey de la selva";
-        } else {
-          esValido = true;
-        }
-        break;
-      case "trioFrondoso":
-        console.log("aplicando restricciónes para trio frondoso");
-        esValido = true;
-        break;
+    } else {
+      switch (info.recinto) {
+        case "bosqueDeLaSemejanza":
+          console.log(
+            "aplicando restricciónes para el bosque de la semejanza, id dino: " +
+              info.idDino
+          );
+          var primeroDinoRecinto =
+            recinto.childElementCount != 0
+              ? recinto.childNodes[0].className.split(" ")[1]
+              : null;
 
-      case "pradoDeLaDiferencia":
-        console.log("aplicando restricciónes para prado de la diferencia");
-        esValido = true;
-        break;
-      case "praderaDelAmor":
-        console.log("aplicando restricciónes para pradera del amor");
-        esValido = true;
-        break;
-      case "islaSolitaria":
-        console.log("aplicando restricciónes para isla solitaria");
-        if (recinto.childElementCount !== 0) {
-          mensaje =
-            "❌ Debe de haber un solo dinosaurio en el recinto isla solitaria";
-        } else {
+          if (primeroDinoRecinto != null && primeroDinoRecinto !== info.dino) {
+            mensaje =
+              "❌ Todos los dinosaurios deben de ser iguales en el recinto bosque de la semejanza";
+          } else {
+            esValido = true;
+          }
+
+          break;
+        case "rio":
+          console.log(
+            "aplicando restricciónes para rio, id dino: " + info.idDino
+          );
           esValido = true;
-        }
-        break;
-      default:
-        console.log("Información de recinto no valida");
-        break;
+          break;
+        case "reyDeLaSelva":
+          console.log(
+            "aplicando restricciónes para rey de la selva, id dino: " +
+              info.idDino
+          );
+          if (recinto.childElementCount !== 0) {
+            mensaje =
+              "❌ Debe de haber un solo dinosaurio en el recinto el rey de la selva";
+          } else {
+            esValido = true;
+          }
+          break;
+        case "trioFrondoso":
+          console.log(
+            "aplicando restricciónes para trio frondoso, id dino: " +
+              info.idDino
+          );
+          esValido = true;
+          break;
+
+        case "pradoDeLaDiferencia":
+          console.log(
+            "aplicando restricciónes para prado de la diferencia, id dino: " +
+              info.idDino
+          );
+          var controlDinosaurioEnRecinto = false;
+
+          // Obtenemos la clase css del úlitmo dinosaurio colocado
+
+          if (recinto.childElementCount != 0) {
+            // ... Convierte la NodeList a un arreglo
+            [...recinto.childNodes].some((element) => {
+              // obtenemos las clases de los dinosaurios en el recinto y la comparamos con la clase del dinosaurio colocado
+              if (element.className.split(" ")[1] === info.dino) {
+                controlDinosaurioEnRecinto = true;
+              }
+              console.log(
+                element.className.split(" ")[1] === info.dino
+                  ? " Dino en recinto "
+                  : " Sin coincidencias "
+              );
+            });
+
+          } else {
+            esValido = true;
+          }
+          if (controlDinosaurioEnRecinto) {
+            mensaje =
+              "❌ Todos los dinosaurios deben de ser distintos en el recinto prado de la diferencia";
+          } else {
+            esValido = true;
+          }
+          break;
+        case "praderaDelAmor":
+          console.log(
+            "aplicando restricciónes para pradera del amor, id dino: " +
+              info.idDino
+          );
+          esValido = true;
+          break;
+        case "islaSolitaria":
+          console.log(
+            "aplicando restricciónes para isla solitaria, id dino: " +
+              info.idDino
+          );
+          if (recinto.childElementCount !== 0) {
+            mensaje =
+              "❌ Debe de haber un solo dinosaurio en el recinto isla solitaria";
+          } else {
+            esValido = true;
+          }
+          break;
+        default:
+          console.log("Información de recinto no valida");
+          break;
+      }
     }
 
     if (esValido) {
