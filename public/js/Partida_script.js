@@ -4,6 +4,14 @@ class Partida {
   constructor(url) {
     this.baseURL = url;
     this.jugadores = [];
+    this.btn_ver_dinosaurios = document.getElementById("btn-ver-dinosaurios");
+    this.btn_colocar_dinosaurios = document.getElementById(
+      "btn-colocar-dinosaurios"
+    );
+    this.btn_terminar_turno = document.getElementById("btn-terminar-turno");
+    this.btn_resultados_partida = document.getElementById(
+      "btn-resultados-partida"
+    );
   }
 
   /**
@@ -211,6 +219,13 @@ class Partida {
       return console.error(`Error al iniciar la partida: ${error}`);
     }
   }
+
+  async terminarPartida() {
+    this.btn_colocar_dinosaurios.style.display = "none";
+    this.btn_terminar_turno.style.display = "none";
+    this.btn_ver_dinosaurios.style.display = "none";
+    this.btn_resultados_partida.style.display = "block";
+  }
 }
 
 class Tablero {
@@ -301,7 +316,7 @@ class Tablero {
    * @param {array} paqueteSelects - Arreglo con objetos DOM select de dinosaurios y select recintos
    */
 
-  colocar_dinosaurio(paqueteSelects) {
+  colocar_dinosaurio(paqueteSelects, partida) {
     paqueteSelects[2].addEventListener("click", () => {
       if (
         paqueteSelects[0].value == "none" ||
@@ -315,6 +330,11 @@ class Tablero {
         // Cumple con los requisitos para agregar un dinosaurio
         this.#colocarDinosaurioDOM(paqueteSelects);
         // Guardar movimiento en local storage
+      }
+      if (this.evaluarFinPartida()) {
+        console.log(" === TERMINANDO PARTIDA ===");
+        alert("🦖 Fin de la partida");
+        partida.terminarPartida();
       }
     });
   }
@@ -389,6 +409,10 @@ class Tablero {
     paqueteSelects[1].value = "none";
   }
 
+  evaluarFinPartida() {
+    return this.dinos == 12 ? true : false;
+  }
+
   #colocarDinosaurioDOMsimple(info) {
     /**  let info = {
      *     dino: Clase del dinosaurio en css
@@ -431,8 +455,6 @@ class Tablero {
     });
     this.cant_dinos.innerText = `${this.dinos}`;
   }
-
-  calcularPuntos() {}
 
   aplicarRestricciones(info) {
     /**  let info = {
@@ -515,7 +537,6 @@ class Tablero {
                   : " Sin coincidencias "
               );
             });
-
           } else {
             esValido = true;
           }
@@ -605,7 +626,12 @@ window.addEventListener("DOMContentLoaded", () => {
 
   elementoNombreJugador.innerText = `${jugadores[0]}`;
   turno.innerText = `${jugadores[0]}`;
+
   tablero.recuperarMovimientosLocalStorage();
   partida.levantarPartida(tablero);
-  tablero.colocar_dinosaurio(paqueteSelects);
+  if (tablero.evaluarFinPartida()) {
+    console.log(" === TERMINANDO PARTIDA ===");
+    partida.terminarPartida();
+  }
+  tablero.colocar_dinosaurio(paqueteSelects, partida);
 });

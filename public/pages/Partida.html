@@ -108,6 +108,7 @@
                 <button
                   type="button"
                   class="btn btn-outline-primary w-100 mb-2"
+                  id="btn-ver-dinosaurios"
                   data-bs-toggle="modal"
                   data-bs-target="#modalDinosaurios"
                 >
@@ -118,6 +119,7 @@
                 <button
                   type="button"
                   class="btn btn-outline-success w-100 mb-2"
+                  id="btn-colocar-dinosaurios"
                   data-bs-toggle="modal"
                   data-bs-target="#modalColocar"
                 >
@@ -128,10 +130,21 @@
                 <button
                   type="button"
                   class="btn btn-outline-warning w-100"
+                  id="btn-terminar-turno"
                   data-bs-toggle="modal"
                   data-bs-target="#modalTerminar"
                 >
                   <i class="bi bi-flag"></i> Terminar Turno
+                </button>
+                <button
+                  type="button"
+                  class="btn mt-2 btn-outline-warning w-100"
+                  id="btn-resultados-partida"
+                  data-bs-toggle="modal"
+                  data-bs-target="#modalPartida"
+                  style="display: none"
+                >
+                  <i class="bi bi-flag"></i> Resultados partida
                 </button>
               </div>
             </div>
@@ -484,6 +497,44 @@
             </button>
             <button type="button" class="btn btn-warning">
               Continuar al Siguiente Turno
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Modal Resumen Partida  -->
+    <div
+      class="modal fade"
+      id="modalPartida"
+      tabindex="-1"
+      aria-labelledby="modalTerminarLabel"
+    >
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header bg-warning text-dark">
+            <h5 class="modal-title" id="modalTerminarLabel">
+              Resultados de la partida
+            </h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <div class="alert alert-warning" id="alert_turno">
+              <h3>¡🦖 Colocaste todos los dinosaurios!</h3>
+              <p class="mb-0">
+                Puntos obtenidos
+                <span class="text-danger fw-bold">--</span>
+                <!-- <span class="text-muted fw-bold">La Isla Solitaria</span>. -->
+              </p>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-warning">
+              Terminar partida
             </button>
           </div>
         </div>

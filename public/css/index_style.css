@@ -1,3 +1,7 @@
+:root {
+  --color-menu: #821414;
+  --fondo-menu: #e9bebe;
+}
 .btn-menu {
   background-color: var(--fondo-menu);
   color: var(--color-menu);
@@ -6,7 +10,7 @@
 }
 .btn-menu:hover {
   background-color: var(--color-menu);
-  color: #e9bebe;
+  color: var(--fondo-menu);
 }
 #fondo {
   position: fixed; /* Asegura que cubra toda la pantalla */
