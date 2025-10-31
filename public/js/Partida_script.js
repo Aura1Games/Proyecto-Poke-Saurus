@@ -12,6 +12,8 @@ class Partida {
     this.btn_resultados_partida = document.getElementById(
       "btn-resultados-partida"
     );
+    this.puntajes = [[], [], [], [], [], [], []];
+    this.tablero = this.obtenerLocaStorage("Tablero");
   }
 
   /**
@@ -188,7 +190,7 @@ class Partida {
       });
   }
 
-  async levantarPartida(tab) {
+  async levantarPartida() {
     const tablero = partida.obtenerLocaStorage("tablero");
     const infoPartida = this.obtenerLocaStorage("partida");
     const infoUsuarios = this.obtenerLocaStorage("infoUsuarios");
@@ -220,11 +222,118 @@ class Partida {
     }
   }
 
-  async terminarPartida() {
+  ejecutarFinPartida() {
     this.btn_colocar_dinosaurios.style.display = "none";
     this.btn_terminar_turno.style.display = "none";
     this.btn_ver_dinosaurios.style.display = "none";
     this.btn_resultados_partida.style.display = "block";
+    document.getElementById("cartel_partida").innerText = "Partida finalizada";
+    document.getElementById("btnColocarDinosaurios").style.display = "none";
+    this.tablero.forEach((recintos) => {
+      recintos.forEach((recinto) => {
+        this.cacularPuntos(recinto);
+      });
+    });
+
+    console.log("puntajes: " + JSON.stringify(this.puntajes));
+
+    console.group("Puntos obtenidos por recinto");
+    console.log(
+      `1. Bosque de la semejanza: ${JSON.stringify(this.puntajes[0])}`
+    );
+    console.log(
+      `2. Prado de la diferencia: ${JSON.stringify(this.puntajes[1])}`
+    );
+    console.log(`3. Pradera del amor: ${JSON.stringify(this.puntajes[2])}`);
+    console.log(`4. Trio frondoso: ${JSON.stringify(this.puntajes[3])}`);
+    console.log(`5. Rey de la selva: ${JSON.stringify(this.puntajes[4])}`);
+    console.log(`6. Isla solitaria: ${JSON.stringify(this.puntajes[5])}`);
+    console.log(`7. Rio: ${JSON.stringify(this.puntajes[6])}`);
+
+    console.groupEnd();
+  }
+
+  static terminarPartida() {
+    let instancia = new Partida("");
+    instancia.ejecutarFinPartida();
+  }
+
+  cacularPuntos(recinto) {
+    switch (recinto.recinto) {
+      case "bosqueDeLaSemejanza":
+        console.log("Calculando los puntos de bosque de la semejanza");
+        break;
+      case "reyDeLaSelva":
+        console.log("Calculando los puntos de rey de la selva");
+        break;
+      case "trioFrondoso":
+        console.log("Calculando los puntso de trio frondoso");
+        break;
+      case "rio":
+        console.log("Calculando los puntos de rio");
+        if (this.puntajes[6].length > 0) {
+          var puntajeAnterior = this.puntajes[6][0].puntos;
+          this.puntajes[6][0].puntos = puntajeAnterior + 1;
+        } else {
+          this.puntajes[6].push({ puntos: 1 });
+        }
+        break;
+      case "pradoDeLaDiferencia":
+        console.log("Calculando los puntso de prado de la diferencia");
+        break;
+      case "praderaDelAmor":
+        console.log("Calculando los puntso de pradera del amor");
+        var auxiliarTablero = this.tablero[2];
+        // let a = JSON.parse(localStorage.getItem("Tablero"))[2];
+        let cantidadParejas = 0;
+        while (auxiliarTablero.length > 1) {
+          let dinoRemovido = auxiliarTablero.shift();
+          auxiliarTablero.some((dinos) => {
+            if (dinoRemovido.dino === dinos.dino) {
+              cantidadParejas++;
+              console.log("Pareja de dinosaurios reconocida !!!");
+              auxiliarTablero.splice(auxiliarTablero.indexOf(dinos), 1);
+              return;
+            }
+          });
+        }
+        console.log("Cantidad de parejas: " + cantidadParejas);
+
+        this.puntajes[2].push(
+          cantidadParejas > 0 ? { puntos: cantidadParejas * 5 } : { puntos: 0 }
+        );
+
+        // if (this.puntajes[2].length > 0) {
+        //   var puntajeAnterior = this.puntajes[2][0].puntos;
+        //   this.puntajes[2][0].puntos = puntajeAnterior + 1;
+        // } else {
+        //   this.puntajes[2].push({ puntos: 1 });
+        // }
+
+        break;
+      case "islaSolitaria":
+        console.log("Calculando los puntos de isla solitaria");
+        let esUnico = true;
+        var auxiliarTablero = JSON.parse(localStorage.getItem("Tablero"));
+
+        auxiliarTablero.some((recintos) => {
+          recintos.some((dinos) => {
+            if (
+              auxiliarTablero[5][0].dino === dinos.dino &&
+              dinos.recinto !== "islaSolitaria"
+            ) {
+              esUnico = false;
+              console.log(
+                "DINOSAURIO " + auxiliarTablero[5][0].dino + " REPETIDO !!!"
+              );
+              return;
+            }
+          });
+        });
+
+        this.puntajes[5].push(esUnico ? { puntos: 7 } : { puntos: 0 });
+        break;
+    }
   }
 }
 
@@ -334,7 +443,7 @@ class Tablero {
       if (this.evaluarFinPartida()) {
         console.log(" === TERMINANDO PARTIDA ===");
         alert("🦖 Fin de la partida");
-        partida.terminarPartida();
+        Partida.terminarPartida();
       }
     });
   }
@@ -631,7 +740,7 @@ window.addEventListener("DOMContentLoaded", () => {
   partida.levantarPartida(tablero);
   if (tablero.evaluarFinPartida()) {
     console.log(" === TERMINANDO PARTIDA ===");
-    partida.terminarPartida();
+    Partida.terminarPartida();
   }
   tablero.colocar_dinosaurio(paqueteSelects, partida);
 });
