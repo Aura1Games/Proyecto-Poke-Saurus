@@ -1,4 +1,4 @@
-// ⚠️ ❌ ✅
+// ⚠️ ❌ ✅ 🦖
 
 class Partida {
   constructor(url) {
@@ -14,6 +14,15 @@ class Partida {
     );
     this.puntajes = [[], [], [], [], [], [], []];
     this.tablero = this.obtenerLocaStorage("Tablero");
+    this.nombreTableros = [
+      { recinto: "bosqueDeLaSemejanza" },
+      { recinto: "pradoDeLaDiferencia" },
+      { recinto: "praderaDelAmor" },
+      { recinto: "trioFrondoso" },
+      { recinto: "reyDeLaSelva" },
+      { recinto: "islaSolitaria" },
+      { recinto: "rio" },
+    ];
   }
 
   /**
@@ -222,6 +231,69 @@ class Partida {
     }
   }
 
+  #manipularDomPuntos() {
+    //   `1. Bosque de la semejanza: ${JSON.stringify(this.puntajes[0])}`
+    // );
+    // console.log(
+    //   `2. Prado de la diferencia: ${JSON.stringify(this.puntajes[1])}`
+    // );
+    // console.log(`3. Pradera del amor: ${JSON.stringify(this.puntajes[2])}`);
+    // console.log(`4. Trio frondoso: ${JSON.stringify(this.puntajes[3])}`);
+    // console.log(`5. Rey de la selva: ${JSON.stringify(this.puntajes[4])}`);
+    // console.log(`6. Isla solitaria: ${JSON.stringify(this.puntajes[5])}`);
+    // console.log(`7. Rio: ${JSON.stringify(this.puntajes[6])}`);
+
+    // Puntos de recintos de la selva
+    const arregloTableroDOM = [
+      document.getElementById("puntoBosqueDeLaSemejanza"),
+      document.getElementById("puntoPradoDeLaDiferencia"),
+      document.getElementById("puntoPraderaDelAmor"),
+      document.getElementById("puntoTrioFrondoso"),
+      document.getElementById("puntoReyDeLaSelva"),
+      document.getElementById("puntoIslaSolitaria"),
+      document.getElementById("puntoRio"),
+    ];
+
+    let etiquetaPuntos = document.getElementById("puntosObtenidos");
+    var auxiliarPuntos = 0;
+    // creación de puntaje dinamico (en estilos)
+
+    let puntosBosqueDeLaSemejanza = document.createElement("p");
+    let puntosReyDeLaSelva = document.createElement("p");
+    let puntosTrioFrondoso = document.createElement("p");
+    let puntosIslaSolitaria = document.createElement("p");
+    let puntosPradoDeLaDiferencia = document.createElement("p");
+    let puntosPraderaDelAmor = document.createElement("p");
+    let puntosRio = document.createElement("p");
+
+    const arregloObjetosDOM = [
+      puntosBosqueDeLaSemejanza,
+      puntosPradoDeLaDiferencia,
+      puntosPraderaDelAmor,
+      puntosTrioFrondoso,
+      puntosReyDeLaSelva,
+      puntosIslaSolitaria,
+      puntosRio,
+    ];
+    // Asignamos
+    arregloObjetosDOM.forEach((element, indice) => {
+      element.innerText = this.puntajes[indice].puntos || 0;
+      auxiliarPuntos += Number(this.puntajes[indice].puntos) || 0;
+      arregloTableroDOM[indice].appendChild(element);
+    });
+    etiquetaPuntos.innerText = "";
+    if (auxiliarPuntos >= 0 && auxiliarPuntos <= 10) {
+      etiquetaPuntos.style.color = "red";
+    } else if (auxiliarPuntos >= 11 && auxiliarPuntos <= 20) {
+      etiquetaPuntos.style.color = "yellow";
+    } else if (auxiliarPuntos >= 21 && auxiliarPuntos <= 30) {
+      etiquetaPuntos.style.color = "green";
+    } else if (auxiliarPuntos > 30) {
+      etiquetaPuntos.style.color = "blue";
+    }
+    etiquetaPuntos.innerText = auxiliarPuntos;
+  }
+
   ejecutarFinPartida() {
     this.btn_colocar_dinosaurios.style.display = "none";
     this.btn_terminar_turno.style.display = "none";
@@ -229,14 +301,11 @@ class Partida {
     this.btn_resultados_partida.style.display = "block";
     document.getElementById("cartel_partida").innerText = "Partida finalizada";
     document.getElementById("btnColocarDinosaurios").style.display = "none";
-    this.tablero.forEach((recintos) => {
-      recintos.forEach((recinto) => {
-        this.cacularPuntos(recinto);
-      });
+    this.nombreTableros.forEach((recintos) => {
+      this.cacularPuntos(recintos);
     });
-
+    this.#manipularDomPuntos();
     console.log("puntajes: " + JSON.stringify(this.puntajes));
-
     console.group("Puntos obtenidos por recinto");
     console.log(
       `1. Bosque de la semejanza: ${JSON.stringify(this.puntajes[0])}`
@@ -258,36 +327,95 @@ class Partida {
     instancia.ejecutarFinPartida();
   }
 
+  static calcularPuntosFueraDePartida(){
+    
+  }
+  // calculo de puntos relativo al tablero, no dependen de el ingreso de dinosaurios
+
   cacularPuntos(recinto) {
     switch (recinto.recinto) {
       case "bosqueDeLaSemejanza":
-        console.log("Calculando los puntos de bosque de la semejanza");
+        console.log("Aplicando puntos para el bosque de la semejanza");
+        var auxiliarTablero = this.tablero[0];
+        var puntos = 0;
+        var auxiliarTamañoTablero = auxiliarTablero.length;
+        if (auxiliarTamañoTablero > 0) {
+          const mapaPuntos = {
+            1: 2,
+            2: 4,
+            3: 8,
+            4: 12,
+            5: 18,
+            6: 24,
+          };
+          puntos = mapaPuntos[auxiliarTamañoTablero] || 0;
+        }
+        this.puntajes[0] = { puntos: puntos };
         break;
       case "reyDeLaSelva":
         console.log("Calculando los puntos de rey de la selva");
         break;
       case "trioFrondoso":
-        console.log("Calculando los puntso de trio frondoso");
+        console.log("Calculando puntos de trio frondoso");
+
+        var auxiliarTablero = this.tablero[3];
+        var cantidadTrios = 0;
+
+        if (auxiliarTablero && auxiliarTablero.length > 0) {
+          const conteoDinos = {};
+
+          auxiliarTablero.forEach((dino) => {
+            const tipo = dino.dino;
+            conteoDinos[tipo] = (conteoDinos[tipo] || 0) + 1;
+          });
+
+          console.log("Conteo de dinosaurios:", conteoDinos);
+
+          // Calcular trios
+          Object.values(conteoDinos).forEach((cantidad) => {
+            cantidadTrios += Math.floor(cantidad / 3);
+          });
+
+          console.log("Cantidad de trios: " + cantidadTrios);
+        }
+
+        this.puntajes[3] = {
+          puntos: cantidadTrios > 0 ? cantidadTrios * 7 : 0,
+        };
+
         break;
       case "rio":
         console.log("Calculando los puntos de rio");
-        if (this.puntajes[6].length > 0) {
-          var puntajeAnterior = this.puntajes[6][0].puntos;
-          this.puntajes[6][0].puntos = puntajeAnterior + 1;
-        } else {
-          this.puntajes[6].push({ puntos: 1 });
-        }
+        var auxiliarTamañoTablero = this.tablero[6].length;
+        puntos = auxiliarTamañoTablero > 0 ? auxiliarTamañoTablero : 0;
+        this.puntajes[6] = { puntos: puntos };
         break;
       case "pradoDeLaDiferencia":
-        console.log("Calculando los puntso de prado de la diferencia");
+        console.log("Calculando los puntos de prado de la diferencia");
+        var auxiliarTablero = this.tablero[1];
+        var puntos = 0;
+        var auxiliarTamañoTablero = auxiliarTablero.length;
+        if (auxiliarTamañoTablero > 0) {
+          const mapaPuntos = {
+            1: 1,
+            2: 3,
+            3: 6,
+            4: 10,
+            5: 15,
+            6: 21,
+          };
+          puntos = mapaPuntos[auxiliarTamañoTablero] || 0;
+        }
+        this.puntajes[1] = { puntos: puntos };
+
         break;
       case "praderaDelAmor":
-        console.log("Calculando los puntso de pradera del amor");
+        console.log("Calculando los puntos de pradera del amor");
         var auxiliarTablero = this.tablero[2];
         // let a = JSON.parse(localStorage.getItem("Tablero"))[2];
         let cantidadParejas = 0;
         while (auxiliarTablero.length > 1) {
-          let dinoRemovido = auxiliarTablero.shift();
+          var dinoRemovido = auxiliarTablero.shift();
           auxiliarTablero.some((dinos) => {
             if (dinoRemovido.dino === dinos.dino) {
               cantidadParejas++;
@@ -299,22 +427,14 @@ class Partida {
         }
         console.log("Cantidad de parejas: " + cantidadParejas);
 
-        this.puntajes[2].push(
-          cantidadParejas > 0 ? { puntos: cantidadParejas * 5 } : { puntos: 0 }
-        );
-
-        // if (this.puntajes[2].length > 0) {
-        //   var puntajeAnterior = this.puntajes[2][0].puntos;
-        //   this.puntajes[2][0].puntos = puntajeAnterior + 1;
-        // } else {
-        //   this.puntajes[2].push({ puntos: 1 });
-        // }
+        this.puntajes[2] =
+          cantidadParejas > 0 ? { puntos: cantidadParejas * 5 } : { puntos: 0 };
 
         break;
       case "islaSolitaria":
         console.log("Calculando los puntos de isla solitaria");
         let esUnico = true;
-        var auxiliarTablero = JSON.parse(localStorage.getItem("Tablero"));
+        var auxiliarTablero = this.obtenerLocaStorage("Tablero");
 
         auxiliarTablero.some((recintos) => {
           recintos.some((dinos) => {
@@ -331,7 +451,7 @@ class Partida {
           });
         });
 
-        this.puntajes[5].push(esUnico ? { puntos: 7 } : { puntos: 0 });
+        this.puntajes[5] = esUnico ? { puntos: 7 } : { puntos: 0 };
         break;
     }
   }
@@ -425,7 +545,7 @@ class Tablero {
    * @param {array} paqueteSelects - Arreglo con objetos DOM select de dinosaurios y select recintos
    */
 
-  colocar_dinosaurio(paqueteSelects, partida) {
+  colocar_dinosaurio(paqueteSelects) {
     paqueteSelects[2].addEventListener("click", () => {
       if (
         paqueteSelects[0].value == "none" ||
@@ -732,9 +852,9 @@ window.addEventListener("DOMContentLoaded", () => {
   //   Asignamos el nombre del jugador al elemento del DOM
   const jugadores = partida.obtenerLocaStorage("usuarios"); // desestrucutramos lo obtenido por el metodo partida (en éste caso es un arreglo)
   const turno = document.getElementById("turno");
-
-  elementoNombreJugador.innerText = `${jugadores[0]}`;
-  turno.innerText = `${jugadores[0]}`;
+  const jugador = jugadores[0] || "invitado1";
+  elementoNombreJugador.innerText = `${jugador}`;
+  turno.innerText = `${jugador}`;
 
   tablero.recuperarMovimientosLocalStorage();
   partida.levantarPartida(tablero);
