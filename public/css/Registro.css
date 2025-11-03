@@ -56,10 +56,6 @@ body::before {
   z-index: -1;
 }
 
-/* ============================================
-   FORMULARIO - Card Centrado
-   LÓGICA: Bootstrap flex utilities + estilos nativos
-   ============================================ */
 #formRegistro {
   /* Ancho responsivo con max-width */
   width: 100%;
@@ -177,10 +173,6 @@ body::before {
   border-color: var(--color-verificado);
 }
 
-/* ============================================
-   INPUTS ESPECIALES - Contraseñas
-   ============================================ */
-/* Segunda contraseña con menos margen superior */
 #inputRepetirContra {
   margin-top: 0.5rem;
 }
@@ -188,31 +180,6 @@ body::before {
 /* Input de edad con ancho limitado (opcional) */
 #inputEdad {
   max-width: 150px;
-}
-
-/* ============================================
-   CONTENEDOR DE ERRORES
-   LÓGICA: Posicionado para mostrar mensajes dinámicos
-   ============================================ */
-#errores {
-  min-height: 2rem;
-  padding: 0.75rem;
-  border-radius: 10px;
-  font-family: var(--fuente-etiquetas);
-  font-size: 0.9rem;
-  color: var(--color-error);
-  background: rgba(194, 50, 50, 0.1);
-  border: 1px solid rgba(194, 50, 50, 0.3);
-  margin-top: 1rem;
-
-  /* Oculto por defecto si está vacío */
-  display: none;
-  transition: all var(--transition-speed) ease;
-}
-
-#errores:not(:empty) {
-  display: block;
-  animation: slideDown 0.3s ease;
 }
 
 @keyframes slideDown {
@@ -236,10 +203,6 @@ body::before {
   margin: 0.25rem 0;
 }
 
-/* ============================================
-   BOTÓN DE SUBMIT
-   LÓGICA: Estilo coherente con el proyecto
-   ============================================ */
 #btnSubmit {
   font-size: clamp(1rem, 2.5vw, 1.2rem);
   font-family: var(--fuente-oficial);
@@ -282,11 +245,6 @@ body::before {
   cursor: not-allowed;
   transform: none;
 }
-
-/* ============================================
-   BOTÓN SALIR/VOLVER
-   LÓGICA: Fixed position para siempre estar visible
-   ============================================ */
 .salir {
   position: fixed;
   bottom: 2rem;
@@ -328,11 +286,6 @@ body::before {
   transform: translateX(-3px) scale(1.05);
 }
 
-/* ============================================
-   MEDIA QUERIES - Bootstrap Breakpoints
-   ============================================ */
-
-/* Large devices (desktops, less than 1200px) */
 @media (max-width: 1199.98px) {
   #formRegistro {
     max-width: 550px;
@@ -340,7 +293,6 @@ body::before {
   }
 }
 
-/* Medium devices (tablets, less than 992px) */
 @media (max-width: 991.98px) {
   body {
     padding: 0.75rem;
@@ -357,7 +309,6 @@ body::before {
   }
 }
 
-/* Small devices (landscape phones, less than 768px) */
 @media (max-width: 767.98px) {
   body {
     padding: 0.5rem;
@@ -511,9 +462,6 @@ body::before {
   opacity: 0.8;
 }
 
-/* ============================================
-   ANIMACIONES DE ENTRADA (opcional)
-   ============================================ */
 @keyframes fadeInUp {
   from {
     opacity: 0;

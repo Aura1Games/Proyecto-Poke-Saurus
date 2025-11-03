@@ -29,6 +29,17 @@
   z-index: 0; /* Detrás del contenido */
 }
 
+@media (width < 655px) {
+  #fondo {
+    background-image: url("../images/dion_fondo_celular.avif");
+  }
+}
+@media (width > 930px) {
+  #fondo {
+    background-image: url("../images/dino_fondo_grande.jpeg");
+  }
+}
+
 body > .container {
   position: relative;
   z-index: 1; /* Encima del fondo */

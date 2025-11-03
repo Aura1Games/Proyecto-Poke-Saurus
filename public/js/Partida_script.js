@@ -327,9 +327,7 @@ class Partida {
     instancia.ejecutarFinPartida();
   }
 
-  static calcularPuntosFueraDePartida(){
-    
-  }
+  static calcularPuntosFueraDePartida() {}
   // calculo de puntos relativo al tablero, no dependen de el ingreso de dinosaurios
 
   cacularPuntos(recinto) {
@@ -741,7 +739,14 @@ class Tablero {
             "aplicando restricciónes para trio frondoso, id dino: " +
               info.idDino
           );
-          esValido = true;
+
+          if (recinto.childElementCount == 3) {
+            esValido = false;
+            mensaje =
+              "❌ El recinto trio frondoso debe de tener solo tres dinosaurios";
+          } else {
+            esValido = true;
+          }
           break;
 
         case "pradoDeLaDiferencia":
