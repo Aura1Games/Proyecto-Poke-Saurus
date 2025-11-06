@@ -41,7 +41,7 @@ class Usuario {
     this.baseUrl = url;
   }
 
-  postRegistrarUsuario(nombre, correo, contra, edad) {
+  async postRegistrarUsuario(nombre, correo, contra, edad) {
     // Cabecera de la petición POST
     return fetch(this.baseUrl, {
       // petición POST
@@ -144,9 +144,7 @@ window.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-    const apiUsuario = new Usuario(
-      "http://localhost/Proyecto-Poke-Saurus/api/"
-    );
+    const apiUsuario = new Usuario("/Proyecto-Poke-Saurus/api/");
     apiUsuario
       .postRegistrarUsuario(
         informacionUsuario.nombre,

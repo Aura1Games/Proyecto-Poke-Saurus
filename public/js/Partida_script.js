@@ -293,7 +293,58 @@ class Partida {
     }
     etiquetaPuntos.innerText = auxiliarPuntos;
   }
+  async #actualizarEstadoPuntosPartida(idPartida, puntos) {
+    if (typeof puntos != "number" || typeof idPartida != "number") {
+      console.warn(
+        "Se requieren parametros numericos al actualizar al partida"
+      );
+    }
+    try {
+      const response = await fetch("/Proyecto-Poke-Saurus/api/", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          tipo: "cambiarEstadoPuntosPartida",
+          id_partida: idPartida,
+          puntos: puntos,
+        }),
+      });
 
+      if (!response.ok) {
+        throw new Error("Error en la petición HTTP");
+      }
+
+      const data = await response.json();
+      if (data.mensaje) {
+        return data;
+      }
+      return null;
+    } catch (error) {
+      console.error(`Error: ${error}`);
+      return null;
+    }
+  }
+
+  finzaliarPartida() {
+    let a = document.getElementById("btn_terminar_partida");
+
+    let puntos = 0;
+    for (let index = 0; index < 7; index++) {
+      puntos += this.puntajes[index].puntos || 0;
+    }
+
+    a.addEventListener("click", async () => {
+      let idPartida = Number(this.obtenerLocaStorage("partida"));
+      console.log(`Puntos: ${puntos}, id partida: ${idPartida}`);
+
+      // 1. Actualizar estado y puntos de la partida
+      await this.#actualizarEstadoPuntosPartida(idPartida, puntos);
+      alert("🦖 Adios");
+      window.location.href = "/Proyecto-Poke-Saurus/public/";
+    });
+  }
   ejecutarFinPartida() {
     this.btn_colocar_dinosaurios.style.display = "none";
     this.btn_terminar_turno.style.display = "none";
@@ -320,6 +371,7 @@ class Partida {
     console.log(`7. Rio: ${JSON.stringify(this.puntajes[6])}`);
 
     console.groupEnd();
+    this.finzaliarPartida();
   }
 
   static terminarPartida() {
@@ -352,6 +404,7 @@ class Partida {
         break;
       case "reyDeLaSelva":
         console.log("Calculando los puntos de rey de la selva");
+        this.puntajes[4] = { puntos: 7 };
         break;
       case "trioFrondoso":
         console.log("Calculando puntos de trio frondoso");
@@ -847,7 +900,7 @@ const btn = document.getElementById("btnColocarDinosaurios");
 
 const paqueteSelects = [selectDinosaurios, selectRecintos, btn];
 
-const partida = new Partida("http://localhost/Proyecto-Poke-Saurus/api/");
+const partida = new Partida("/Proyecto-Poke-Saurus/api/");
 const tablero = new Tablero(paqueteTablero);
 const dinosaurios = new Dinosaurio();
 

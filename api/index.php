@@ -57,12 +57,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
 require_once "database.php";
 require_once "Usuarios.php";
 require_once "Partida.php";
-
+require_once "Ranking.php";
 // Crear instancias
 $database = new Database();
 $db = $database->connect();
 $usuarios = new Usuarios($db);
 $partida = new Partida($db);
+$ranking = new Ranking($db);
 
 // Obtener método HTTP
 $method = $_SERVER['REQUEST_METHOD'];
@@ -71,6 +72,7 @@ $method = $_SERVER['REQUEST_METHOD'];
 switch ($method) {
     case 'GET':
         $data = $_GET["tipo"];
+
         switch ($data) {
             case 'usuarioPorNombre':
                 funcionGet($usuarios);
@@ -79,8 +81,10 @@ switch ($method) {
             case "ultimaPartida":
                 funcionGetUltimaPartida($partida);
                 break;
+            case "consultaRanking":
+                funcionGetRanking($ranking);
+                break;
         }
-
         break;
 
     case 'POST':
@@ -107,6 +111,17 @@ switch ($method) {
             case "crear_relacion_juega":
                 funcionGenerarRelacionJuega($partida, $data);
                 break;
+            case "ingresar_colocacion":
+                funcionIngresarColocacion($partida, $data);
+                break;
+            case "cambiarEstadoPuntosPartida":
+                cambiarEstadoPuntosPartida($partida, $data);
+                break;
+
+            case "obtener_recintos_por_tablero":
+                funcionObtenerRecintosPorTablero($partida, $data);
+                break;
+
             default:
                 http_response_code(400);
                 echo json_encode(["mensaje" => "Tipo de acción no especificado o inválido"]);
@@ -182,10 +197,11 @@ function funcionGet($usuarios)
 
         $data = $usuarios->getByName($nombre);
         echo json_encode($data ? $data : ["mensaje" => "Usuario no encontrado"]);
-    } else {
-        http_response_code(404);
-        echo json_encode(["mensaje" => "petición get no valida"]);
     }
+    // else {
+    //     http_response_code(404);
+    //     echo json_encode(["mensaje" => "petición get no valida"]);
+    // }
 }
 
 function funcionGetUltimaPartida($partida)
@@ -319,8 +335,6 @@ function funcionRegistrarUsuarioPOST($usuarios, $data)
     }
 }
 
-
-
 function funcionPartidaPOST($partida, $data)
 {
     if ($data === null) {
@@ -375,8 +389,6 @@ function funcionPartidaPOST($partida, $data)
         ]);
     }
 }
-
-
 
 function funcionCrearTablero($partida, $data)
 {
@@ -495,6 +507,180 @@ function funcionGenerarRelacionJuega($partida, $data)
     } catch (Exception $e) {
         http_response_code(500);
         echo json_encode([
+            "mensaje" => "Error interno del servidor",
+            "error" => $e->getMessage()
+        ]);
+    }
+}
+
+function funcionIngresarColocacion($partida, $data)
+{
+    if ($data === null) {
+        http_response_code(400);
+        echo json_encode(["mensaje" => "Formato JSON inválido"]);
+    }
+
+    if (!is_array($data)) {
+        http_response_code(400);
+        echo json_encode(["mensaje" => "Se esperaba un arreglo en el testigo"]);
+    }
+}
+
+function cambiarEstadoPuntosPartida($partida, $data)
+{
+
+
+    if ($data === null) {
+        http_response_code(400);
+        echo json_encode(["mensaje" => "Formato JSON invalido"]);
+    }
+
+
+
+    $camposRequeridos = ["puntos", "id_partida"];
+    foreach ($camposRequeridos as $campo) {
+        if (!isset($data[$campo])) {
+            http_response_code(400);
+            echo json_encode(["mensaje" => "$campo requerido para la actualización del estado de la partida"]);
+        }
+    }
+
+
+
+    if (!is_numeric($data["id_partida"]) && !is_numeric($data["puntos"])) {
+        http_response_code(400);
+        echo json_encode(["mensaje" => "Atributos no numericos al actualizar los puntos de la partida"]);
+    }
+
+
+    $id_partida = intval($data["id_partida"]);
+    $puntaje = intval($data["puntos"]);
+    try {
+        $resultado = $partida->cambiarEstadoPuntosPartida($id_partida, $puntaje);
+        if ($resultado) {
+            http_response_code(200);
+            echo json_encode(["mensaje" => "Estado y punto de partida actulizado con éxito, id de la partida: $id_partida"]);
+        } else {
+            http_response_code(500);
+            echo json_encode(["mensaje" => "Error al actualizar el estado de la partida"]);
+        }
+    } catch (Exception $e) {
+        http_response_code(500);
+        echo json_encode([
+            "mensaje" => "Error interno del servidor",
+            "error" => $e->getMessage()
+        ]);
+    }
+}
+// function obtenerEstadoPartida($partida)
+// {
+//     if ($_GET["id_partida"] === null) {
+//         http_response_code(400);
+//         echo json_encode(["mensaje" => "Formato JSON invalido"]);
+//     }
+
+//     if (!isset($_GET["id_partida"])) {
+//         http_response_code(400);
+//         echo json_encode(["mensaje" => "idPartida requerido para la obtención del estado de la partida"]);
+//     }
+
+//     if (!is_numeric($_GET["id_partida"])) {
+//         http_response_code(400);
+//         echo json_encode(["mensaje" => "El id de la partida debe de ser un numero al momento de obtener su estado"]);
+//     }
+
+//     $idPartida = intval($_GET["id_partida"]);
+
+
+//     try {
+//         $resultado = $partida->obtenerEstadoPartida($idPartida);
+
+//         if ($resultado && isset($resultado['estado'])) {
+//             http_response_code(200);
+//             echo json_encode([
+//                 "id_partida" => $idPartida,
+//                 "estado" => (bool)$resultado['estado']
+//             ]);
+//         } else {
+//             http_response_code(404);
+//             echo json_encode(["mensaje" => "Partida no encontrada o sin estado"]);
+//         }
+//     } catch (Exception $e) {
+//         http_response_code(500);
+//         echo json_encode([
+//             "mensaje" => "Error interno del servidor",
+//             "error" => $e->getMessage()
+//         ]);
+//     }
+// }
+function funcionGetRanking($ranking)
+{
+    try {
+        $data = $ranking->consultaRanking();
+
+        if ($data && count($data) > 0) {
+            http_response_code(200);
+            echo json_encode([
+                "exito" => true,
+                "mensaje" => "Ranking obtenido correctamente",
+                "data" => $data
+            ]);
+        } else {
+            http_response_code(404);
+            echo json_encode([
+                "exito" => false,
+                "mensaje" => "No se encontraron partidas en el ranking"
+            ]);
+        }
+    } catch (Exception $e) {
+        http_response_code(500);
+        echo json_encode([
+            "exito" => false,
+            "mensaje" => "Error al obtener ranking",
+            "error" => $e->getMessage()
+        ]);
+    }
+}
+
+
+function funcionObtenerRecintosPorTablero($partida, $data)
+{
+    if ($data === null) {
+        http_response_code(400);
+        echo json_encode(["mensaje" => "Formato JSON inválido"]);
+        return;
+    }
+
+    if (!isset($data["id_tablero"])) {
+        http_response_code(400);
+        echo json_encode(["mensaje" => "id_tablero requerido"]);
+        return;
+    }
+
+    if (!is_numeric($data["id_tablero"])) {
+        http_response_code(400);
+        echo json_encode(["mensaje" => "id_tablero debe ser numérico"]);
+        return;
+    }
+
+    $idTablero = intval($data["id_tablero"]);
+
+    try {
+        $recintos = $partida->obtenerRecintosPorTablero($idTablero);
+        if ($recintos !== false) {
+            http_response_code(200);
+            echo json_encode([
+                "exito" => true,
+                "recintos" => $recintos
+            ]);
+        } else {
+            http_response_code(500);
+            echo json_encode(["exito" => false, "mensaje" => "Error al obtener recintos"]);
+        }
+    } catch (Exception $e) {
+        http_response_code(500);
+        echo json_encode([
+            "exito" => false,
             "mensaje" => "Error interno del servidor",
             "error" => $e->getMessage()
         ]);

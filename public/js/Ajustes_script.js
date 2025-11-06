@@ -173,8 +173,8 @@ class ApiPartida {
 }
 
 // Instancias de clases API
-const api = new ApiUsuarios("http://localhost/Proyecto-Poke-Saurus/api/");
-const apiPartida = new ApiPartida("http://localhost/Proyecto-Poke-Saurus/api/");
+const api = new ApiUsuarios("/Proyecto-Poke-Saurus/api/");
+const apiPartida = new ApiPartida("/Proyecto-Poke-Saurus/api/");
 
 // Variables globales para el estado del modal
 let usuarioActual = null;
@@ -421,7 +421,7 @@ window.addEventListener("DOMContentLoaded", () => {
       const fecha = apiPartida.obtenerFechaActual();
 
       apiPartida
-        .postPartida(fecha, cant_jugadores, 40, 2)
+        .postPartida(fecha, cant_jugadores, 40, Number(api.jugadores[0].id))
         .then((response) => {
           if (!response.ok) {
             throw new Error(`Error del servidor: ${response.status}`);
@@ -439,7 +439,6 @@ window.addEventListener("DOMContentLoaded", () => {
           apiPartida.guardarEnLocalStorage("partida", data.id);
           apiPartida.guardarEnLocalStorage("infoUsuarios", api.jugadores);
           apiPartida.generarTableroPartidaLocalStorage();
-          alert("debugging: " + api.jugadores);
           window.location.href = "./Partida.html";
         })
         .catch((error) => {

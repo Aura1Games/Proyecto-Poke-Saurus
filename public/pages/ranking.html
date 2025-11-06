@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ranking de Jugadores</title>
+    <link rel="stylesheet" href="../css/cursoresCustom.css" />
+
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../css/global.css" />
+    <link rel="stylesheet" href="../css/Configuracion_style.css" />
+    <link rel="icon" type="image/x-icon" href="../images/dino_icono.webp" />
+    <style>
+      body {
+        background-color: #f8f9fa;
+      }
+
+      .ranking-container {
+        max-width: 600px;
+        margin: 40px auto;
+        border-radius: 15px;
+        overflow: hidden;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      }
+
+      .ranking-header {
+        background-color: #b30000;
+        color: white;
+        text-align: center;
+        font-weight: bold;
+        font-size: 1.8rem;
+        padding: 15px 0;
+      }
+
+      .table thead {
+        background-color: #8b0000;
+        color: #fff;
+      }
+
+      .table tbody tr:nth-child(odd) {
+        background-color: #e97d6c;
+        color: #fff;
+      }
+
+      .table tbody tr:nth-child(even) {
+        background-color: #c24b37;
+        color: #fff;
+      }
+
+      @media (max-width: 576px) {
+        .ranking-header {
+          font-size: 1.4rem;
+        }
+        .table th,
+        .table td {
+          font-size: 0.9rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <button class="salir d-flex align-items-end" id="btn_salir"><-</button>
+
+    <div id="fondo" class="img-fluid"></div>
+    <div class="ranking-container">
+      <div class="ranking-header">
+        <span style="font-weight: bold">Drafto</span
+        ><span style="font-weight: 400">ranking</span>
+      </div>
+      <table class="table table-bordered text-center m-0" id="ranking-table">
+        <thead>
+          <tr>
+            <th>Nombre</th>
+            <th>Edad</th>
+            <th>Puntos</th>
+          </tr>
+        </thead>
+        <tbody id="ranking-body">
+          <!-- Datos dinámicos desde JS -->
+          <tr>
+            <td>Cargando...</td>
+            <td>Cargando...</td>
+            <td>Cargando...</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <script src="../js/ranking_script.js"></script>
+  </body>
+</html>

@@ -87,4 +87,51 @@ class Partida
             return false;
         }
     }
+    public function insertarColocacion($idRecinto, $idDinosaurio)
+    {
+        # Creamos la consulta
+        $query = 'INSERT INTO Colocacion(idRecinto,idDinosaurio) values (:idRecinto,:idDinosaurio);';
+        # Preparamos la consulta
+        $stmt = $this->conn->prepare($query);
+        # Reemplazamos las etiquetas :idRecinto y :idDinosaurio
+        $stmt->bindParam(":idRecinto", $idRecinto, PDO::PARAM_INT);
+        $stmt->bindParam(":idDinosaurio", $idDinosaurio, PDO::PARAM_INT);
+
+        if ($stmt->execute()) {
+            return true;
+        }
+        return false;
+    }
+    public function cambiarEstadoPuntosPartida($idPartida, $puntaje)
+    {
+        # Crear la consulta sql
+        $query = 'UPDATE Partida 
+              SET estado = TRUE, puntaje_final = :puntaje 
+              WHERE id_partida = :id_partida';
+        # Preparamos la consulta
+        $stmt = $this->conn->prepare($query);
+        # Reemplazamos las etiquetas 
+        $stmt->bindParam(":id_partida", $idPartida, PDO::PARAM_INT);
+        $stmt->bindParam(":puntaje", $puntaje, PDO::PARAM_INT);
+        # Ejecutamos la consulta
+        if ($stmt->execute()) {
+            return true;
+        }
+        return false;
+    }
+
+  
+
+    public function obtenerRecintosPorTablero($idTablero)
+    {
+        $query = 'SELECT id_recinto, nombre FROM Recinto WHERE id_tablero = :id_tablero ORDER BY id_recinto';
+
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(":id_tablero", $idTablero, PDO::PARAM_INT);
+
+        if ($stmt->execute()) {
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        }
+        return false;
+    }
 }

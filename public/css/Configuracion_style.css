@@ -1,89 +1,34 @@
-:root {
-  --fondo: rgba(103, 131, 153, 0.836);
-  --fondo-alternativo: rgba(242, 240, 255, 0.41);
-  --contraste: rgb(205, 213, 50);
-  --fuente-oficial: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
-  --fuente-etiquetas: Verdana, Geneva, Tahoma, sans-serif;
-}
-
-h1 {
-  color: rgb(8, 34, 56);
-}
-
 body {
-  background-color: rgba(205, 213, 219, 0.795);
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-/* h1 {
-  font-family: var(--fuente-oficial);
-  color: var(--contraste);
-  font-size: 3rem; */
-/* } */
-.contenedor {
-  background-color: var(--fondo);
-  padding: 1rem;
-  margin: 1rem;
-  width: 50dvw;
-  height: auto;
-  font-family: var(--fuente-etiquetas);
-  text-align: left;
-  outline: 2px solid rgb(54, 123, 179);
-  box-shadow: 1px 1px 7px rgba(46, 46, 46, 0.5);
-  border-radius: 10px;
-}
-.form-select {
-  background: var(--fondo-alternativo);
-  border: none;
-}
-.content {
-  position: relative;
-  background-color: var(--fondo-alternativo);
-  padding: 1rem;
-  margin: 1rem 0;
-  border-radius: 15px;
+  height: 100%;
 }
 
-select {
-  height: auto;
-  width: auto;
-  font-family: var(--fuente-etiquetas);
-  font-size: 1rem;
-  padding: 0.3rem;
-  border-radius: 15px;
+#fondo {
+  position: fixed; /* Asegura que cubra toda la pantalla */
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  background-image: url("../images/dino_fondo_index.webp");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  z-index: -1; /* Detrás del contenido */
+  filter: blur(5px);
 }
-#guardad {
-  font-family: var(--fuente-etiquetas);
-  padding: 0.5rem;
-  font-size: 1.2rem;
-  background-color: var(--fondo);
-  color: white;
-  border-radius: 15px;
-  border: none;
-  outline: 1.5px green solid;
-  position: relative;
-  left: 50%;
-  transform: translateX(-50%);
-  margin: 1rem 0;
+.salir {
+  margin: 20px;
 }
-#guardad:hover {
-  cursor: pointer;
+
+@media (width < 655px) {
+  #fondo {
+    background-image: url("../images/dion_fondo_celular.avif");
+  }
 }
-#guardad:active {
-  background-color: var(--contraste);
-  color: black;
-}
-label {
-  color: white;
-}
-.cosete {
-  display: flex;
-  justify-content: space-between;
-}
-@media (width < 830px) {
-  .contenedor {
-    width: 20rem;
+@media (width > 930px) {
+  #fondo {
+    background-image: url("../images/dino_fondo_grande.jpeg");
   }
 }

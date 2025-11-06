@@ -29,6 +29,8 @@
   z-index: 0; /* Detrás del contenido */
 }
 
+
+
 @media (width < 655px) {
   #fondo {
     background-image: url("../images/dion_fondo_celular.avif");
