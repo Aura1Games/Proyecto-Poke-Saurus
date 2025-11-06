@@ -13,7 +13,7 @@ window.addEventListener("DOMContentLoaded", () => {
     window.location.href = "./pages/ranking.html";
   });
   creditos.addEventListener("click", () => {
-    alert("Funcion en desarrollo...");
+    window.location.href = "./pages/creditos.html";
   });
   reglas.addEventListener("click", () => {
     window.location.href = "./pages/Reglas.html";
