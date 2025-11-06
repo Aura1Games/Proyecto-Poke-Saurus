@@ -28,7 +28,7 @@ CREATE TABLE Partida(
     cant_jugadores INT NOT NULL,
     puntaje_final INT,
     ganador INT,
-    estado bool default false,
+    estado boolean default false,
     FOREIGN KEY (ganador) REFERENCES Usuario(id_usuario)
 );
 
