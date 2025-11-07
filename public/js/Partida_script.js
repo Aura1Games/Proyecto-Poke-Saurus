@@ -89,7 +89,12 @@ class Partida {
 
     if (typeof idUsuario !== "number" || typeof idPartida !== "number") {
       console.error("Error: Valores no numéricos en generarRelacionJuega");
-      console.warn("Intentando parsear a Number los idUsuario" + idUsuario + " y idPartida" + idPartida);
+      console.warn(
+        "Intentando parsear a Number los idUsuario" +
+          idUsuario +
+          " y idPartida" +
+          idPartida
+      );
       idPartida = Number(idPartida);
       idUsuario = Number(idUsuario);
       // return null;
@@ -294,6 +299,7 @@ class Partida {
       etiquetaPuntos.style.color = "blue";
     }
     etiquetaPuntos.innerText = auxiliarPuntos;
+    document.getElementById("etqPuntos").innerText = auxiliarPuntos;
   }
   async #actualizarEstadoPuntosPartida(idPartida, puntos) {
     if (typeof puntos != "number" || typeof idPartida != "number") {
@@ -495,22 +501,27 @@ class Partida {
         console.log("Calculando los puntos de isla solitaria");
         let esUnico = true;
         var auxiliarTablero = this.obtenerLocaStorage("Tablero");
-
-        auxiliarTablero.some((recintos) => {
-          recintos.some((dinos) => {
-            if (
-              auxiliarTablero[5][0].dino === dinos.dino &&
-              dinos.recinto !== "islaSolitaria"
-            ) {
-              esUnico = false;
-              console.log(
-                "DINOSAURIO " + auxiliarTablero[5][0].dino + " REPETIDO !!!"
-              );
-              return;
-            }
+        if (
+          auxiliarTablero !== undefined &&
+          auxiliarTablero !== null &&
+          Array.isArray(auxiliarTablero) &&
+          auxiliarTablero[5][0]
+        ) {
+          auxiliarTablero.some((recintos) => {
+            recintos.some((dinos) => {
+              if (
+                auxiliarTablero[5][0].dino === dinos.dino &&
+                dinos.recinto !== "islaSolitaria"
+              ) {
+                esUnico = false;
+                console.log(
+                  "DINOSAURIO " + auxiliarTablero[5][0].dino + " REPETIDO !!!"
+                );
+                return;
+              }
+            });
           });
-        });
-
+        }
         this.puntajes[5] = esUnico ? { puntos: 7 } : { puntos: 0 };
         break;
     }
@@ -625,9 +636,6 @@ class Tablero {
         alert("🦖 Fin de la partida");
         Partida.terminarPartida();
       }
-      // document.getElementById(
-      //   "etqPuntos"
-      // ).innerText = `${partida.calcularPuntosEnColocacion()}`;
     });
   }
 
@@ -925,9 +933,7 @@ window.addEventListener("DOMContentLoaded", () => {
   const jugador = jugadores[0] || "invitado1";
   elementoNombreJugador.innerText = `${jugador}`;
   turno.innerText = `${jugador}`;
-  // document.getElementById(
-  //   "etqPuntos"
-  // ).innerText = `${partida.calcularPuntosEnColocacion()}`;
+
   tablero.recuperarMovimientosLocalStorage();
   partida.levantarPartida(tablero);
   if (tablero.evaluarFinPartida()) {
