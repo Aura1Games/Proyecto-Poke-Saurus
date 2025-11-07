@@ -89,7 +89,10 @@ class Partida {
 
     if (typeof idUsuario !== "number" || typeof idPartida !== "number") {
       console.error("Error: Valores no numéricos en generarRelacionJuega");
-      return null;
+      console.warn("Intentando parsear a Number los idUsuario" + idUsuario + " y idPartida" + idPartida);
+      idPartida = Number(idPartida);
+      idUsuario = Number(idUsuario);
+      // return null;
     }
 
     try {
