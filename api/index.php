@@ -118,9 +118,6 @@ switch ($method) {
                 cambiarEstadoPuntosPartida($partida, $data);
                 break;
 
-            case "obtener_recintos_por_tablero":
-                funcionObtenerRecintosPorTablero($partida, $data);
-                break;
 
             default:
                 http_response_code(400);
@@ -637,51 +634,6 @@ function funcionGetRanking($ranking)
         echo json_encode([
             "exito" => false,
             "mensaje" => "Error al obtener ranking",
-            "error" => $e->getMessage()
-        ]);
-    }
-}
-
-
-function funcionObtenerRecintosPorTablero($partida, $data)
-{
-    if ($data === null) {
-        http_response_code(400);
-        echo json_encode(["mensaje" => "Formato JSON inválido"]);
-        return;
-    }
-
-    if (!isset($data["id_tablero"])) {
-        http_response_code(400);
-        echo json_encode(["mensaje" => "id_tablero requerido"]);
-        return;
-    }
-
-    if (!is_numeric($data["id_tablero"])) {
-        http_response_code(400);
-        echo json_encode(["mensaje" => "id_tablero debe ser numérico"]);
-        return;
-    }
-
-    $idTablero = intval($data["id_tablero"]);
-
-    try {
-        $recintos = $partida->obtenerRecintosPorTablero($idTablero);
-        if ($recintos !== false) {
-            http_response_code(200);
-            echo json_encode([
-                "exito" => true,
-                "recintos" => $recintos
-            ]);
-        } else {
-            http_response_code(500);
-            echo json_encode(["exito" => false, "mensaje" => "Error al obtener recintos"]);
-        }
-    } catch (Exception $e) {
-        http_response_code(500);
-        echo json_encode([
-            "exito" => false,
-            "mensaje" => "Error interno del servidor",
             "error" => $e->getMessage()
         ]);
     }

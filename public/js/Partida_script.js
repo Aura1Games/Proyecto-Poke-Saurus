@@ -8,7 +8,6 @@ class Partida {
     this.btn_colocar_dinosaurios = document.getElementById(
       "btn-colocar-dinosaurios"
     );
-    this.btn_terminar_turno = document.getElementById("btn-terminar-turno");
     this.btn_resultados_partida = document.getElementById(
       "btn-resultados-partida"
     );
@@ -64,7 +63,7 @@ class Partida {
       })
       .then((data) => {
         if (data.mensaje) {
-          alert(`${data.mensaje}`);
+          // alert(`${data.mensaje}`);
         } else {
           return null;
         }
@@ -172,7 +171,7 @@ class Partida {
         resultados.push(resultado);
       }
 
-      alert("✅ Todas las relaciones fueron creadas exitosamente en orden");
+      // alert("✅ Todas las relaciones fueron creadas exitosamente en orden");
       return resultados;
     } catch (error) {
       console.error("Error al procesar las relaciones:", error);
@@ -327,12 +326,21 @@ class Partida {
     }
   }
 
+  // calcularPuntosEnColocacion() {
+  //   let puntos = 0;
+  //   for (let index = 0; index < 7; index++) {
+  //     puntos += this.puntajes[index].puntos || 0;
+  //   }
+  //   return puntos;
+  // }
+
   finzaliarPartida() {
     let a = document.getElementById("btn_terminar_partida");
 
     let puntos = 0;
     for (let index = 0; index < 7; index++) {
       puntos += this.puntajes[index].puntos || 0;
+      console.log("=== puntos: " + puntos);
     }
 
     a.addEventListener("click", async () => {
@@ -347,7 +355,6 @@ class Partida {
   }
   ejecutarFinPartida() {
     this.btn_colocar_dinosaurios.style.display = "none";
-    this.btn_terminar_turno.style.display = "none";
     this.btn_ver_dinosaurios.style.display = "none";
     this.btn_resultados_partida.style.display = "block";
     document.getElementById("cartel_partida").innerText = "Partida finalizada";
@@ -379,7 +386,6 @@ class Partida {
     instancia.ejecutarFinPartida();
   }
 
-  static calcularPuntosFueraDePartida() {}
   // calculo de puntos relativo al tablero, no dependen de el ingreso de dinosaurios
 
   cacularPuntos(recinto) {
@@ -596,7 +602,7 @@ class Tablero {
    * @param {array} paqueteSelects - Arreglo con objetos DOM select de dinosaurios y select recintos
    */
 
-  colocar_dinosaurio(paqueteSelects) {
+  colocar_dinosaurio(paqueteSelects, partida) {
     paqueteSelects[2].addEventListener("click", () => {
       if (
         paqueteSelects[0].value == "none" ||
@@ -616,6 +622,9 @@ class Tablero {
         alert("🦖 Fin de la partida");
         Partida.terminarPartida();
       }
+      // document.getElementById(
+      //   "etqPuntos"
+      // ).innerText = `${partida.calcularPuntosEnColocacion()}`;
     });
   }
 
@@ -913,7 +922,9 @@ window.addEventListener("DOMContentLoaded", () => {
   const jugador = jugadores[0] || "invitado1";
   elementoNombreJugador.innerText = `${jugador}`;
   turno.innerText = `${jugador}`;
-
+  // document.getElementById(
+  //   "etqPuntos"
+  // ).innerText = `${partida.calcularPuntosEnColocacion()}`;
   tablero.recuperarMovimientosLocalStorage();
   partida.levantarPartida(tablero);
   if (tablero.evaluarFinPartida()) {

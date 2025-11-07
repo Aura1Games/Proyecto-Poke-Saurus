@@ -157,6 +157,8 @@ window.addEventListener("DOMContentLoaded", () => {
           console.log("Usuario registrado:", data);
           document.getElementById("formRegistro").reset();
           zonaErrores.appendChild(usuarioSucces());
+          alert("✅ Usuario registrado con éxtio 🦖");
+          window.location.href = "./Ajustes_de_partida.html";
         }
       })
       .catch((error) => {

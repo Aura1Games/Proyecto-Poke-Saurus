@@ -119,19 +119,4 @@ class Partida
         }
         return false;
     }
-
-  
-
-    public function obtenerRecintosPorTablero($idTablero)
-    {
-        $query = 'SELECT id_recinto, nombre FROM Recinto WHERE id_tablero = :id_tablero ORDER BY id_recinto';
-
-        $stmt = $this->conn->prepare($query);
-        $stmt->bindParam(":id_tablero", $idTablero, PDO::PARAM_INT);
-
-        if ($stmt->execute()) {
-            return $stmt->fetchAll(PDO::FETCH_ASSOC);
-        }
-        return false;
-    }
 }

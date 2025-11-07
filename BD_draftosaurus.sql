@@ -28,7 +28,7 @@ CREATE TABLE Partida(
     cant_jugadores INT NOT NULL,
     puntaje_final INT,
     ganador INT,
-    estado bool default false,
+    estado boolean default false,
     FOREIGN KEY (ganador) REFERENCES Usuario(id_usuario)
 );
 
@@ -102,20 +102,41 @@ SELECT * FROM Juega;
 
 
 # Consultar de ranking
-#SELECT  
-#    u.nombre AS Nombre,
-#    u.edad AS Edad,
-#    p.puntaje_final AS Puntos,
-#    CASE 
-#        WHEN p.estado = 1 THEN 'Completada'
-#        WHEN p.estado = 0 THEN 'Incompleta'
-#        ELSE 'Desconocido'
-#    END AS Estado
-#FROM Partida p
-#JOIN Usuario u ON p.ganador = u.id_usuario
-#WHERE p.puntaje_final IS NOT NULL and Estado is not FALSE
-#ORDER BY p.puntaje_final DESC LIMIT 7;
-
+# Ranking 1: versión con columnas repetidas en caso de un usuario ganar mas de una vez
+-- SELECT  
+--     u.nombre AS Nombre,
+--     u.edad AS Edad,
+--     p.puntaje_final AS Puntos,
+-- 	CASE 
+--         WHEN p.estado = 1 THEN 'Completada'
+--         WHEN p.estado = 0 THEN 'Incompleta'
+--         ELSE 'Desconocido'
+--     END AS Estado
+-- FROM Partida p
+-- JOIN Usuario u ON p.ganador = u.id_usuario
+-- WHERE p.puntaje_final IS NOT NULL and Estado is not FALSE
+-- ORDER BY p.puntaje_final DESC LIMIT 7;
+# Ranking 2: versión con la vez que el usuario ganó por mas puntos una partida
+-- WITH ranking AS (
+--     SELECT
+--         u.nombre AS Nombre,
+--         u.edad AS Edad,
+--         p.puntaje_final AS Puntos,
+--         CASE 
+--             WHEN p.estado = 1 THEN 'Completada'
+--             WHEN p.estado = 0 THEN 'Incompleta'
+--             ELSE 'Desconocido'
+--         END AS Estado,
+--         ROW_NUMBER() OVER (PARTITION BY p.ganador ORDER BY p.puntaje_final DESC) AS rn
+--     FROM Partida p
+--     JOIN Usuario u ON p.ganador = u.id_usuario
+--     WHERE p.puntaje_final IS NOT NULL AND p.estado IS TRUE
+-- )
+-- SELECT Nombre, Edad, Puntos, Estado
+-- FROM ranking
+-- WHERE rn = 1 
+-- ORDER BY Puntos DESC
+-- LIMIT 7;
 
 
 
